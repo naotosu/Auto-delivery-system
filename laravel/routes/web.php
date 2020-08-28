@@ -13,10 +13,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/*Route::get('/', function () {
+    return view('top');
+});*/
+
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/test', function () {
+    return view('test');
 });
 
 Route::get('/archives/{category}/',function($category) {
     return view('archives.category',['category'=>$category]);
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
