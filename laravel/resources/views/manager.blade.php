@@ -1,25 +1,30 @@
-@extends('layouts.app')
+@extends('common')
+
 @section('title','管理者画面')
+@section('description','ディスクリプション')
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
+<body>
+    @include('header')
+    <div class="main">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">{{ __('Dashboard') }}</div>
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
+                        <div class="card-body">
+                            @if (session('status'))
+                                <div class="alert alert-success" role="alert">
+                                    {{ session('status') }}
+                                </div>
+                            @endif
+
+                            {{ __('You are logged in!') }}
                         </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
+                        管理者画面（予定）
+                    </div>
                 </div>
-                管理者画面（予定）
             </div>
         </div>
     </div>
-</div>
-@endsection
+</body>

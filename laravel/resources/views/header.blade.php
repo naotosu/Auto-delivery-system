@@ -37,12 +37,28 @@
           </ul>
         </div>
         <div class="header-right">
+
+
+              @guest                            
+              @else                        
+                <div class="icon">
+                    <a href="{{ route('logout') }}"
+                       onclick="event.preventDefault();
+                                     document.getElementById('logout-form').submit();">
+                        {{ __('ログアウト') }}
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+
+                </div>
+              @endguest
             
               @if (Route::has('login'))
                 
                     @auth
                       <div class="icon">
-                        <a href="{{ url('/home') }}">{{ Auth::user()->name }}</a>
+                        <a href="{{ url('/home') }}">ユーザー：{{ Auth::user()->name }}</a>
                       </div>
                     @else
                       <div class="icon">
