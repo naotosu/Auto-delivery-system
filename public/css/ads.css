@@ -1,0 +1,112 @@
+@import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
+
+header {
+
+
+}
+
+li {
+  list-style: none;
+}
+
+a:link { color: white; }
+a:visited { color: white; }
+a:hover { color: white; }
+a:active { color: white; }
+
+body {
+  font-family: "Nunito", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.6;
+  /*font-family: "ヒラギノ角ゴ ProN", "メイリオ", sans-serif;
+  font-family: "游ゴシック", Helvetica , sans-serif;*/
+}
+
+.header {
+  background: linear-gradient(#fff, #C0C0C0);
+  opacity: 0.9;
+  /*background-image: url(images/header.jpg);*/
+  color: #fff;
+  height: 90px;
+  width: 100%;
+  top: 0px;
+  z-index:10;
+  position:fixed;
+  font-feature-settings: "palt" 1;
+  letter-spacing: 0.20em;
+}
+
+.header-menus {
+  float: left;
+}
+
+.header-right {
+  margin: 15px 20px;
+  float: right;
+}
+
+.icon {
+  background-color: #000088 ;
+  opacity: 0.6;
+  padding: 15px 20px;
+  margin: 0px 10px;
+  float: left;
+}
+
+.icon:hover {
+  opacity: 1;
+}
+
+.icon li {
+  opacity: 1;
+}
+
+.main {
+  margin-top: 90px;
+  padding: 50px 40px;
+  /*background: linear-gradient(#FFFFFC, #EEEEEE);*/
+  opacity: 0.8;
+  background-size: cover;
+  background-image: url(/image/main.jpg);
+  background-color:rgba(200,200,200,0.8);
+  background-blend-mode:lighten;
+  width: 100%;
+  font-feature-settings: "palt" 1;
+  letter-spacing: 0.06em;
+}
+
+.main h2 {
+  margin-left: 30px;
+}
+
+.main h3 {
+  margin-left: 50px;
+}
+
+.main p {
+  margin-left: 90px;
+}
+
+.main li {
+  margin-left: 50px;
+}
+
+.main2{
+  font-feature-settings: "palt" 1;
+  letter-spacing: 0.06em;
+}
+
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    flex-shrink: 0;
+
+
+    <main style="flex-grow: 1;">
+        ...
+    </main>
+    <footer style="flex-shrink: 0;">
+        ...
+    </footer>
+</div>

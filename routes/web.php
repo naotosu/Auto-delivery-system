@@ -13,7 +13,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', 'TopController@index')->name('top');
+
+Route::get('/incoming', 'StockController@incoming')->name('incoming');
+
+Route::get('/order', 'StockController@order')->name('order');
+
+Route::get('/compulsion', 'StockController@compulsion')->name('compulsion');
+
+Route::get('/extraordinary', 'StockController@extraordinary')->name('extraordinary');
+
+Route::get('/stock', 'StockController@stock')->name('stock');
+
+Route::get('/manager', 'UserController@manager')->name('manager');
+
+Route::get('/welcome', function () {
     return view('welcome');
 });
 
@@ -26,4 +40,4 @@ Route::get('/archives/{category}/',function($category) {
 });
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'UserController@index')->name('home');
