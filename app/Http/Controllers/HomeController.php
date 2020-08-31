@@ -4,17 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class TopController extends Controller
+class HomeController extends Controller
 {
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    /*public function __construct()
+    public function __construct()
     {
         $this->middleware('auth');
-    }*/
+    }
 
     /**
      * Show the application dashboard.
@@ -23,6 +23,6 @@ class TopController extends Controller
      */
     public function index()
     {
-        return view('top');
+        return view('home');
     }
 }

@@ -53,6 +53,7 @@ body {
   padding: 15px 15px;
   margin: 0px 7px;
   float: left;
+  display:inline-flex
 }
 
 .icon:hover {
