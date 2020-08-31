@@ -1,10 +1,8 @@
-@extends('common')
+@extends('common') <!-- <= 絶対パス　laravel/resources/views/commonを使いたい
+　　　　　　　　　　　　　　　　ここのディレクトリは laravel/resources/views/auth/passwords/reset.blade.php -->
 
-@section('title','PASSリセット')
-@section('description','ディスクリプション')
-
-<body>
-    @include('header')
+@section('content')
+@include('header') 
     <div class="main">
         <div class="container">
             <div class="row justify-content-center">
@@ -67,5 +65,6 @@
                 </div>
             </div>
         </div>
+        @include('footer')
     </div>
-</body>
+@endsection

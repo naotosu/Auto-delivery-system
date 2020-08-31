@@ -1,10 +1,7 @@
 @extends('common')
 
-@section('title','ADS入荷品登録')
-@section('description','ディスクリプション')
-
-  <body>
-      @include('header')   
+@section('content')
+@include('header')
     <div class="main">
        <H1>入荷品登録</H1>
        <h2>テスト</h2>
@@ -33,12 +30,7 @@
           <li>テスト</li>
           <li>テスト</li>
         </ul>
-
     </div>
-
-        
-    </div> 
-    
-  </body>
-</html>
+@include('footer')
+@endsection
 

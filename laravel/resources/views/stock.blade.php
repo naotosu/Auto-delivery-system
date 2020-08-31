@@ -1,10 +1,7 @@
 @extends('common')
 
-@section('title','ADS在庫一覧・出荷実績')
-@section('description','ディスクリプション')
-
-  <body>
-      @include('header')  
+@section('content')
+@include('header')  
     <div class="main">
        <H1>在庫一覧・出荷実績</H1>
        <h2>テスト</h2>
@@ -33,12 +30,7 @@
           <li>テスト</li>
           <li>テスト</li>
         </ul>
-
     </div>
-
-        
-    </div> 
-    <!--　<%= yield %>　-->
-  </body>
-</html>
+@include('footer')
+@endsection
 

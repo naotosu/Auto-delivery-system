@@ -1,10 +1,7 @@
 @extends('common')
 
-@section('title','ログイン情報')
-@section('description','ディスクリプション')
-
-<body>
-    @include('header')
+@section('content')
+@include('header')  
     <div class="main">
         <div class="container">
             <div class="row justify-content-center">
@@ -27,6 +24,6 @@
                 </div>
             </div>
         </div>
-        
+        @include('footer')
     </div>
-</body>
+@endsection

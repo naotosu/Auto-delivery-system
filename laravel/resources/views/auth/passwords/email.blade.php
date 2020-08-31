@@ -1,10 +1,8 @@
 @extends('common')
 
-@section('title','PASSリセット')
-@section('description','ディスクリプション')
-
-<body>
-    @include('header')
+@section('content')
+@include('header')
+    <div class="main">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-8">
@@ -48,5 +46,6 @@
                 </div>
             </div>
         </div>
+        @include('footer')
     </div>
-</body>
+@endsection
