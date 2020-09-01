@@ -11,27 +11,27 @@
             </div>
             <div class="icon">
             <li>
-              <a href="incoming">入荷品登録</a>
+              <a href="/incoming">入荷品登録</a>
             </li>
             </div>
             <div class="icon">
             <li>            
-              <a href="order">注文書登録</a>
+              <a href="/order">注文書登録</a>
             </li>
             </div>
             <div class="icon">
             <li>
-              <a href="compulsion">出荷指示強制編集</a>
+              <a href="/compulsion">出荷指示強制編集</a>
             </li>
             </div>
             <div class="icon">
             <li>
-              <a href="extraordinary">臨時出荷指示出力</a>
+              <a href="/extraordinary">臨時出荷指示出力</a>
             </li>
             </div>
             <div class="icon"> 
             <li>
-              <a href="stock">在庫一覧・出荷実績</a>
+              <a href="/stock">在庫一覧・出荷実績</a>
             </li>
             </div>
           </ul>

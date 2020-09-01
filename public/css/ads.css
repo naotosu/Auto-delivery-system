@@ -5043,7 +5043,7 @@ input[type=button].btn-block {
 .navbar-dark .navbar-text a:focus {
   color: #fff;
 }
-
+*/
 .card {
   position: relative;
   display: flex;
@@ -5054,6 +5054,7 @@ input[type=button].btn-block {
   background-clip: border-box;
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem;
+  width: 500px;
 }
 
 .card > hr {
@@ -5286,6 +5287,8 @@ input[type=button].btn-block {
   border-radius: 0;
   margin-bottom: -1px;
 }
+
+/*
 
 .breadcrumb {
   display: flex;
