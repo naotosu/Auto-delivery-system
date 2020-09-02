@@ -17,18 +17,13 @@
          <li>テスト</li>
        </ul>
     <div class="main2">
-        <h3>制作技術</h3>
+        <h3>出荷予定</h3>
+
         <ul>
-          <li>PHP Laravel</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
-          <li>テスト</li>
+          <li>アイテムID 　　　  納入日　　　　数量</li>
+          @foreach ($orders as $order)
+          <li>{{ $order->item_id }}　 {{$order->delivery_date}} 　{{ $order->quantity }}</li>
+          @endforeach
         </ul>
     </div>
 @include('footer')

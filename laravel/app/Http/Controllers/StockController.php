@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Order;
 
 class StockController extends Controller
 {
@@ -13,7 +14,9 @@ class StockController extends Controller
 
     public function order()
     {
-        return view('order');
+        $orders = order::all();
+        $data = ['orders' => $orders];
+        return view('order', $data);
     }
 
     public function compulsion()
@@ -26,10 +29,8 @@ class StockController extends Controller
         return view('extraordinary');
     }
 
-    public function stock()
-    {
-        return view('stock');
-    }
+
+
 
 
 }
