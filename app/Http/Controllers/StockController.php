@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\order;
+
+/*use Illuminate\Support\Facades\DB;*/
 
 class StockController extends Controller
 {
@@ -14,8 +16,8 @@ class StockController extends Controller
 
     public function order()
     {
-        $orders = DB::select('select * from orders');
-        $data = ['msg' => '在庫一覧', 'orders' => $orders];
+        $orders = order::all();
+        $data = ['orders' => $orders];
         return view('order', $data);
     }
 

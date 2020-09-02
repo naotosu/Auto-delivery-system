@@ -18,7 +18,7 @@
        </ul>
     <div class="main2">
         <h3>出荷予定</h3>
-        
+
         <ul>
           <li>アイテムID 　　　  納入日　　　　数量</li>
           @foreach ($orders as $order)
