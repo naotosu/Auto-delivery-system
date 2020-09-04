@@ -14,22 +14,20 @@ class StockController extends Controller
 
     public function order()
     {
-        $orders = order::all();
-        $data = ['orders' => $orders];
-        return view('order', $data);
+        
+        return view('order');
     }
 
-    public function ordersindex(Request $request)
+    public function order_index(Request $request)
     {
-        $item_id = $request->input('item_id');
-        $order_start = $request->input('order_start');
-        // $order_end = $request->input('order_end'); 
+        $params = $request->orderIndex();
 
-        $item_id = order::where('item_id','like','%'.$item_id.'%')->first();
-        $order_start = order::where('date','like','%'.$order_start.'%')->first();
-        // $order_end = order::where('date','like','%'.$order_end.'%')
+        $order_indexs = Order::serch($params)->get();
 
-        return view('ordersindex', ['item_ids'=>$item_id,'order_starts'=>$order_start]);
+        return view('orders')->with([
+            'order_indexs' => $order_indexs,
+            'params' => $params,
+        ]);
     }
 
     public function compulsion()

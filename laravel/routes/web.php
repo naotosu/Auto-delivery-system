@@ -19,9 +19,7 @@ Route::get('/incoming', 'StockController@incoming')->name('incoming');
 
 Route::get('/order', 'StockController@order')->name('order');
 
-Route::get('/order', 'StockController@order')->name('order');
-
-Route::get('/ordersindex', 'StockController@order')->name('ordersindex');
+Route::get('/orders', 'StockController@order')->name('order_index');
 
 Route::get('/compulsion', 'StockController@compulsion')->name('compulsion');
 
