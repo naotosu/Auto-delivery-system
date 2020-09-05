@@ -22,11 +22,9 @@ class StockController extends Controller
     {
         $item_id = $request->input('item_id');
 
-        dd($item_id);
+        $order_indexes = Order::orderIndex($item_id)->get();
 
-        $order_indexes = App\Order::orderIndex($item_id)->get();
-
-        return view('orders', $order_indexes);
+        return view('order', compact('order_indexes'));
             
     }
 

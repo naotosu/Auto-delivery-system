@@ -24,7 +24,7 @@
         
         </form>
 
-        @if(!empty($orders))
+        @if(!empty($order_indexes))
          
         <table border="1">
             <tr>
@@ -35,7 +35,7 @@
             @foreach ($order_indexes as $order)
             <tr>
                 <td>{{$order->item_id}}</td>
-                <td>{{$delivery_date}}</td>
+                <td>{{$order->delivery_date}}</td>
                 <td>{{$order->quantity}}</td>
             </tr>
             @endforeach
