@@ -20,11 +20,13 @@ class StockController extends Controller
 
     public function order_index(Request $request)
     {
-        //$params = $request->orderIndex();
+        $item_id = $request->input('item_id');
 
-        $order_indexs = App\Order::orderIndex('item_id')->get();
+        dd($item_id);
 
-        return view('orders', $order_indexs);
+        $order_indexes = App\Order::orderIndex($item_id)->get();
+
+        return view('orders', $order_indexes);
             
     }
 
