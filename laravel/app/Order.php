@@ -12,7 +12,7 @@ class Order extends Model
 
     public function scopeOrderIndex($query, $item_id)
     {
-      	return $order_index
+      	return $query
     		->where('item_id', $item_id);
     		//->andwhereColumn('order_start', $params['order_start'] ,'<＝', 'delivery_date' ,'<＝','order_end',$params['order_end']);
     }
