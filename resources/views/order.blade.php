@@ -3,13 +3,9 @@
 @section('content')
 @include('header')  
     <div class="main">
-       <H1>注文書登録ページ</H1>
-       <h2>CSV登録メニュー</h2>
-       <h3>設定</h3>
+       <h3>CSV注文書登路</h3>
        <ul>
-         <li>テスト</li>
-         <li>テスト</li>
-   
+         <li>登録メニュー設置予定</li>   
        </ul>
     <div class="main2">
         <h3>出荷予定</h3>
@@ -20,7 +16,7 @@
             </label></p>
 
             <p><label for="order_date">表示する納入日を選んで下さい。
-                    <input type="date" name="order_start" min="2020-08-01" max="2020-10-01" value="{{ $params['order_start'] ?? null }}">〜
+                    <input type="date" name="order_start" min="2020-08-01" max="2020-10-01" value="{{ $params['order_start'] ?? null }}"> 〜 
                     <input type="date" name="order_end" min="2020-08-01" max="2020-10-01" value="{{ $params['order_end'] ?? null }}">
             </label></p>
 
