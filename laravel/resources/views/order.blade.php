@@ -25,14 +25,14 @@
         </form>
 
         @if(!empty($orders))
- 
+         
         <table border="1">
             <tr>
                 <th>アイテムコード</th>
                 <th>納入日</th>
                 <th>数量</th>
             </tr>
-            @foreach ($order_indexs as $order)
+            @foreach ($order_indexes as $order)
             <tr>
                 <td>{{$order->item_id}}</td>
                 <td>{{$delivery_date}}</td>

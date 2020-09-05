@@ -10,10 +10,10 @@ class Order extends Model
     protected $primaryKey = 'id';
     public $timestamps = false;
 
-    public function scopeOrderIndex($order_index)
+    public function scopeOrderIndex($query, $item_id)
     {
       	return $order_index
-    		->where('item_id', '=' ,$params['item_id'])
-    		->andwhereColumn('order_start', $params['order_start'] ,'<＝', 'delivery_date' ,'<＝','order_end',$params['order_end']);
+    		->where('item_id', $item_id);
+    		//->andwhereColumn('order_start', $params['order_start'] ,'<＝', 'delivery_date' ,'<＝','order_end',$params['order_end']);
     }
 }
