@@ -20,14 +20,12 @@ class StockController extends Controller
 
     public function order_index(Request $request)
     {
-        $params = $request->orderIndex();
+        //$params = $request->orderIndex();
 
-        $order_indexs = Order::serch($params)->get();
+        $order_indexs = App\Order::orderIndex('item_id')->get();
 
-        return view('orders')->with([
-            'order_indexs' => $order_indexs,
-            'params' => $params,
-        ]);
+        return view('orders', $order_indexs);
+            
     }
 
     public function compulsion()
