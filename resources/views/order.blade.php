@@ -1,7 +1,9 @@
 @extends('common')
 
 @section('content')
-@include('header')  
+@include('header')
+@use Carbon\Carbon;
+@$now = new Carbon::now();
     <div class="main">
        <h3>CSV注文書登路</h3>
        <ul>
@@ -12,12 +14,13 @@
 
         <form action="{{url('/orders')}}" method="GET">
             <p><label for="item_id">アイテムコードを入力して下さい。
-                <input type="text" name="item_id" value="{{ $params['item_id'] ?? null }}">
+                <input type="text" name="item_id" value="item_id">
             </label></p>
 
             <p><label for="order_date">表示する納入日を選んで下さい。
-                    <input type="date" name="order_start" min="2020-08-01" max="2020-10-01" value="{{ $params['order_start'] ?? null }}"> 〜 
-                    <input type="date" name="order_end" min="2020-08-01" max="2020-10-01" value="{{ $params['order_end'] ?? null }}">
+
+                    <input type="date" name="order_start" min="{{$now->subMonths()}}" max="{{$now->addMonths()}}" value="{{ $params['order_start'] ?? null }}"> 〜 
+                    <input type="date" name="order_end" min="{{$now->subMonths()}}" max="{{$now->addMonths()}}" value="{{ $params['order_end'] ?? null }}">
             </label></p>
 
             <p><input type="submit" value="検索"></p>
