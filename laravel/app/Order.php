@@ -14,6 +14,6 @@ class Order extends Model
     {
       	return $query
     		->where('item_id', $item_id)
-    		->andwhereColumn($order_start, '<＝', 'delivery_date' ,'<＝', $order_end);
+    		->whereBetween('delivery_date', [$order_start, $order_end]);
     }
 }
