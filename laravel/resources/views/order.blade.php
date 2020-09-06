@@ -1,30 +1,55 @@
 @extends('common')
 
 @section('content')
-@include('header')  
+@include('header')
+
     <div class="main">
-       <H1>注文書登録ページ</H1>
-       <h2>テスト</h2>
-       <h3>設定</h3>
+       <h3>CSV注文書登路</h3>
        <ul>
-         <li>テスト</li>
-         <li>テスト</li>
-         <li>テスト</li>
-         <li>テスト</li>
-         <li>テスト</li>
-         <li>テスト</li>
-         <li>テスト</li>
-         <li>テスト</li>
+         <li>登録メニュー設置予定</li>   
        </ul>
     <div class="main2">
         <h3>出荷予定</h3>
 
-        <ul>
-          <li>アイテムID 　　　  納入日　　　　数量</li>
-          @foreach ($orders as $order)
-          <li>{{ $order->item_id }}　 {{$order->delivery_date}} 　{{ $order->quantity }}</li>
-          @endforeach
-        </ul>
+        <form action="{{url('/orders')}}" method="GET">
+            <p><label for="item_id">アイテムコードを入力して下さい。
+                <input type="text" name="item_id" value="{{ $item_id ?? null }}">
+            </label></p>
+
+            <p><label for="order_date">表示する納入日を選んで下さい。
+
+                    <input type="date" name="order_start" min="{{$now->subMonths(1)}}" max="{{$now->addMonths(1)}}" value="{{ $order_start ?? null }}"> 〜 
+                    <input type="date" name="order_end" min="{{$now->subMonths(1)}}" max="{{$now->addMonths(1)}}" value="{{ $order_end ?? null }}">
+            </label></p>
+
+            <p><input type="submit" value="検索"></p>
+        
+        </form>
+
+        @if(!empty($order_indexes))
+
+        <p>現在日時は{{$now}}</p>
+        <p>一ヶ月前は{{$now->subMonths(1)}}</p>
+        <p>一ヶ月後は{{$now->addMonths(1)}}</p>
+         
+        <table border="1">
+            <tr>
+                <th>アイテムコード</th>
+                <th>納入日</th>
+                <th>数量</th>
+            </tr>
+            @foreach ($order_indexes as $order)
+            <tr>
+                <td>{{$order->item_id}}</td>
+                <td>{{$order->delivery_date}}</td>
+                <td>{{$order->quantity}}</td>
+            </tr>
+            @endforeach
+        </table>
+         
+        @else
+        <p>見つかりませんでした。</p>
+        @endif
     </div>
 @include('footer')
 @endsection
