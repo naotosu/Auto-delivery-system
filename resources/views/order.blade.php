@@ -2,8 +2,7 @@
 
 @section('content')
 @include('header')
-@use Carbon\Carbon;
-@$now = new Carbon::now();
+
     <div class="main">
        <h3>CSV注文書登路</h3>
        <ul>
@@ -14,13 +13,13 @@
 
         <form action="{{url('/orders')}}" method="GET">
             <p><label for="item_id">アイテムコードを入力して下さい。
-                <input type="text" name="item_id" value="item_id">
+                <input type="text" name="item_id" value="{{ $item_id ?? null }}">
             </label></p>
 
             <p><label for="order_date">表示する納入日を選んで下さい。
 
-                    <input type="date" name="order_start" min="{{$now->subMonths()}}" max="{{$now->addMonths()}}" value="{{ $params['order_start'] ?? null }}"> 〜 
-                    <input type="date" name="order_end" min="{{$now->subMonths()}}" max="{{$now->addMonths()}}" value="{{ $params['order_end'] ?? null }}">
+                    <input type="date" name="order_start" min="{{$now->subMonths(1)}}" max="{{$now->addMonths(1)}}" value="{{ $order_start ?? null }}"> 〜 
+                    <input type="date" name="order_end" min="{{$now->subMonths(1)}}" max="{{$now->addMonths(1)}}" value="{{ $order_end ?? null }}">
             </label></p>
 
             <p><input type="submit" value="検索"></p>
@@ -28,6 +27,10 @@
         </form>
 
         @if(!empty($order_indexes))
+
+        <p>現在日時は{{$now}}</p>
+        <p>一ヶ月前は{{$now->subMonths(1)}}</p>
+        <p>一ヶ月後は{{$now->addMonths(1)}}</p>
          
         <table border="1">
             <tr>

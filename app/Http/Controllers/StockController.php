@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Order;
+use Carbon\Carbon;
 
 class StockController extends Controller
 {
@@ -14,19 +15,20 @@ class StockController extends Controller
 
     public function order()
     {
-        
-        return view('order');
+        $now = Carbon::now();
+        return view('order', compact('now'));
     }
 
     public function order_index(Request $request)
     {
+        $now = Carbon::now();
         $item_id = $request->input('item_id');
         $order_start = $request->input('order_start');
         $order_end = $request->input('order_end');
 
         $order_indexes = Order::orderIndex($item_id,$order_start,$order_end)->get();
 
-        return view('order', compact('order_indexes'));
+        return view('order', compact('order_indexes','now','item_id','order_start','order_end'));
             
     }
 
