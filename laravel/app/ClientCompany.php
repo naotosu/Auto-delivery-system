@@ -10,9 +10,14 @@ class ClientCompany extends Model
     protected $primaryKey = 'id';
     public $timestamps = false;
 
-    public function Items()
+    public function items()
     {
-    	return $this->belognsToMany('Item::class', 'items', 'end_user_id', 'id')
-                $this->belognsToMany('Item::class', 'items', 'client_user_id', 'id');
+    	return $this->hasMany('App\Item', 'id', 'end_user_id');
+                $this->gasMany('App\Item', 'id', 'client_user_id');
+    }
+
+    public function orders()
+    {
+    	return $this->hasMany('App\Order', 'id', 'delivery_user_id');
     }
 }

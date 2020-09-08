@@ -16,6 +16,10 @@
                 <input type="text" name="item_id" value="{{ $item_id ?? null }}">
             </label></p>
 
+            <p><label for="delivery_user_id">納品先IDを入力して下さい。
+                <input type="text" name="delivery_user_id" value="{{ $delivery_user_id ?? null }}">
+            </label></p>
+
             <p><label for="order_date">表示する納入日を選んで下さい。
 
                     <input type="date" name="order_start" min="{{$now->subMonths(1)}}" max="{{$now->addMonths(1)}}" value="{{ $order_start ?? null }}"> 〜 
@@ -46,7 +50,7 @@
                 <td>{{$order->delivery_date}}</td>
                 <td>{{$order->quantity}}</td>
                 <td>{{$order->delivery_user_id}}</td>
-                <td>{{$order->transportompany->name}}</td>
+                <td>{{$order->clientcompany->name}}</td>
             </tr>
             @endforeach
         </table>

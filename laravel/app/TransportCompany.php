@@ -12,6 +12,6 @@ class TransportCompany extends Model
 
     public function orders() 
     {
-    	return $this->hasMany('Order::class', 'id','transport_id');
+    	return $this->hasMany('App\Order', 'id','transport_id');
     }
 }
