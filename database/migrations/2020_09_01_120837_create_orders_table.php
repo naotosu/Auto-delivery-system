@@ -18,6 +18,7 @@ class CreateOrdersTable extends Migration
             $table->bigInteger('item_id');
             $table->date('delivery_date');
             $table->Integer('quantity');
+            $table->Integer('delivery_user_id');
             $table->Integer('update_user_id');
             $table->timestamps(); 
         });

@@ -23,6 +23,7 @@ class CreateItemsTable extends Migration
             $table->bigInteger('end_user_id');
             $table->bigInteger('client_user_id');
             $table->bigInteger('delivery_user_id');
+            $table->bigInteger('transport_id');
             $table->timestamps();
         });
     }
