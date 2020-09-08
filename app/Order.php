@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Item;
 
 class Order extends Model
 {
@@ -11,9 +10,28 @@ class Order extends Model
     protected $primaryKey = 'id';
     public $timestamps = false;
 
-    public function scopeOrderIndex($query, $item_id, $order_start, $order_end)
+    public function scopeOrderIndex($query, $item_id, $delivery_user_id, $order_start, $order_end)
     {
-      	if(!empty($item_id) and !empty($order_start) and !empty($order_end)) {
+      	if (!empty($item_id) and !empty($delivery_user_id) and !empty($order_start) and !empty($order_end)) {
+
+	      	return $query
+	    		->where('item_id', $item_id)
+	    		->where('delivery_user_id', $delivery_user_id)
+	    		->whereBetween('orders.delivery_date', [$order_start, $order_end]);
+
+	    } elseif (!empty($item_id) and !empty($delivery_user_id)) {
+
+	      	return $query
+	    		->where('item_id', $item_id)
+	    		->where('delivery_user_id', $delivery_user_id);
+
+	    } elseif (!empty($delivery_user_id) and !empty($order_start) and !empty($order_end)) {
+
+	      	return $query
+	    		->where('delivery_user_id', $delivery_user_id)
+	    		->whereBetween('orders.delivery_date', [$order_start, $order_end]);
+
+	    } elseif (!empty($item_id) and !empty($order_start) and !empty($order_end)) {
 
 	      	return $query
 	    		->where('item_id', $item_id)
@@ -23,6 +41,11 @@ class Order extends Model
 
 	   		 return $query
 	   		 	->where('orders.item_id', $item_id);
+
+	   	} elseif (!empty($delivery_user_id)){
+
+	   		 return $query
+	   		 	->where('delivery_user_id', $delivery_user_id);
 	    		
 	    } else {
 	    	return $query
@@ -32,11 +55,11 @@ class Order extends Model
 
     public function item()
     {
-    	return $this->belongsTo('Item::class', 'item_id', 'item_id');
+    	return $this->belongsTo('App\Item', 'item_id', 'item_id');
     }
 
-    public function transport_company() 
+    public function clientCompany() 
     {
-    	return $this->belongsTo('TransportCompany::class', 'transport_id','id');
+    	return $this->belongsTo('App\ClientCompany', 'delivery_user_id','id');
     }
 }

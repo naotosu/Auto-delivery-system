@@ -12,13 +12,13 @@ class Item extends Model
 
     public function orders()
     {
-    	return $this->hasMany('Order::class', 'item_id', 'item_id');
+    	return $this->hasMany('App\Order', 'item_id', 'item_id');
     }
 
     public function client_company()
     {
-    	return $this->belognsToMany('ClientCompany::class', 'client_companies','end_user_id','id')
-                $this->belognsToMany('ClientCompany::class', 'client_companies','client_user_id','id');
+    	return $this->belongsTo('App\ClientCompany', 'end_user_id','id');
+                $this->belongsTo('App\ClientCompany', 'client_user_id','id');
     }
 
 }
