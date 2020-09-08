@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
 
-class ClientCompanyTableSeeder extends Seeder
+class ClientCompaniesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,7 +12,7 @@ class ClientCompanyTableSeeder extends Seeder
      */
     public function run()
     {
-    	DB::table('client_companys')->insert([[
+    	DB::table('client_companies')->insert([[
         	'id' => '1',
             'name' => 'H自動車',
             'created_at' => new DateTime(),

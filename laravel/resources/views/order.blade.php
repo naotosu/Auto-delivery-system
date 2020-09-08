@@ -29,20 +29,24 @@
         @if(!empty($order_indexes))
 
         <p>現在日時は{{$now}}</p>
-        <p>一ヶ月前は{{$now->subMonths(1)}}</p>
-        <p>一ヶ月後は{{$now->addMonths(1)}}</p>
          
         <table border="1">
             <tr>
                 <th>アイテムコード</th>
+                <th>アイテム名</th>
                 <th>納入日</th>
                 <th>数量</th>
+                <th>納入先ID</th>
+                <th>納入先名</th>
             </tr>
             @foreach ($order_indexes as $order)
             <tr>
                 <td>{{$order->item_id}}</td>
+                <td>{{$order->item->name}}</td>
                 <td>{{$order->delivery_date}}</td>
                 <td>{{$order->quantity}}</td>
+                <td>{{$order->delivery_user_id}}</td>
+                <td>{{$order->transportompany->name}}</td>
             </tr>
             @endforeach
         </table>

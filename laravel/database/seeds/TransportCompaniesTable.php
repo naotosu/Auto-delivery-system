@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
 
-class TransportCompanyTableSeeder extends Seeder
+class TransportCompaniesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,7 +12,7 @@ class TransportCompanyTableSeeder extends Seeder
      */
     public function run()
     {
-    	DB::table('transport_companys')->insert([[
+    	DB::table('transport_companies')->insert([[
         	'id' => '1',
             'name' => 'M運送　知多センター',
             'stuff_name' => 'S',
