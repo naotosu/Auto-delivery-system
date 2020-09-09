@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Order;
-use App\Item;
 use Carbon\Carbon;
 
 class StockController extends Controller
