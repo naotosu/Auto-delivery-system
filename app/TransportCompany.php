@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class TransportCompany extends Model
 {
     protected $table = 'transport_companies';
-    protected $primaryKey = 'id';
-    public $timestamps = false;
 
     public function orders() 
     {

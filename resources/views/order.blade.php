@@ -40,6 +40,8 @@
                 <th>アイテム名</th>
                 <th>納入日</th>
                 <th>数量</th>
+                <th>ENDユーザー</th>
+                <th>ユーザー</th>
                 <th>納入先ID</th>
                 <th>納入先名</th>
             </tr>
@@ -49,6 +51,8 @@
                 <td>{{$order->item->name}}</td>
                 <td>{{$order->delivery_date}}</td>
                 <td>{{$order->quantity}}</td>
+                <td>{{$order->name}}（仮）</td>
+                <td>{{$order->name}}（仮）</td>
                 <td>{{$order->delivery_user_id}}</td>
                 <td>{{$order->clientcompany->name}}</td>
             </tr>
