@@ -1,7 +1,7 @@
 @extends('common')
 
 @section('content')
-@include('header')  
+@include('header') 
    <div class="main">
        <h3>在庫一覧・出荷実績照会</h3>
        <ul>
@@ -46,7 +46,7 @@
 
         @if(!empty($stock_indexes))
 
-        <p>現在日時は{{$now}}</p>
+        <p>現在時刻は{{ \Carbon\Carbon::now() }}</p>
          
         <table border="1">
             <tr>
@@ -94,7 +94,7 @@
         </table>
          
         @else
-        <p>見つかりませんでした。</p>
+        <p>検索条件を入力して下さい。</p>
         @endif
     </div>
 @include('footer')

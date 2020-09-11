@@ -6,7 +6,7 @@ use App\Model;
 use Faker\Generator as Faker;
 use App\Item;
 
-$factory->define(App\Inventorie::class, function (Faker $faker) {
+$factory->define(App\Inventory::class, function (Faker $faker) {
     return [
             'order_number' => Str::random(7),
             'charge_number' => Str::random(4),

@@ -20,7 +20,7 @@
                 <input type="text" name="delivery_user_id" value="{{ $delivery_user_id ?? null }}">
             </label></p>
 
-            <p><label for="order_date">表示する納入日を選んで下さい。
+            <p><label for="order_date">表示する納入日を選んで下さい。{{ $now = \Carbon\Carbon::now() }}
 
                     <input type="date" name="order_start" min="{{$now->subMonths(1)}}" max="{{$now->addMonths(1)}}" value="{{ $order_start ?? null }}"> 〜 
                     <input type="date" name="order_end" min="{{$now->subMonths(1)}}" max="{{$now->addMonths(1)}}" value="{{ $order_end ?? null }}">
@@ -32,7 +32,7 @@
 
         @if(!empty($order_indexes))
 
-        <p>現在日時は{{$now}}</p>
+        <p>現在日時は{{ \Carbon\Carbon::now() }}</p>
          
         <table border="1">
             <tr>
@@ -60,7 +60,7 @@
         </table>
          
         @else
-        <p>見つかりませんでした。</p>
+        <p>検索条件を入力してください</p>
         @endif
     </div>
 @include('footer')
