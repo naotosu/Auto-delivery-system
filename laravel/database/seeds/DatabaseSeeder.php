@@ -16,6 +16,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ClientCompaniesTableSeeder::class);
         $this->call(TransportCompaniesTableSeeder::class);
         $this->call(ItemsTableSeeder::class);
-        factory('App\Inventorie', 200)->create();
+        $this->call(InventoriesTableSeeder::class);
     }
 }

@@ -11,6 +11,6 @@ class InventoriesTableSeeder extends Seeder
      */
     public function run()
     {
-        
+		factory('App\Inventory', 200)->create();
     }
 }
