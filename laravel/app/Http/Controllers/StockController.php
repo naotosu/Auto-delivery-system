@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Order;
+use App\Inventorie;
 use Carbon\Carbon;
 
 class StockController extends Controller
@@ -45,9 +46,19 @@ class StockController extends Controller
 
     public function stock()
     {
-        return view('stock');
+        $now = Carbon::now();
+        return view('stock', compact('now'));
     }
 
+    public function stock_index(Request $request)
+    {
+        $now = Carbon::now();
+        $item_id = $request->input('item_id');
+        $delivery_user_id = $request->input('delivery_user_id');
+        $status = $request->input('status');
 
+        $stock_indexes = Inventorie::stockIndex($item_id,$delivery_user_id,$status)->get();
 
+        return view('stock', compact('stock_indexes','now','item_id','delivery_user_id','status'));
+    }
 }

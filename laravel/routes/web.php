@@ -27,6 +27,8 @@ Route::get('/extraordinary', 'StockController@extraordinary')->name('extraordina
 
 Route::get('/stock', 'StockController@stock')->name('stock');
 
+Route::get('/stocks', 'StockController@stock_index')->name('stock');
+
 Route::get('/manager', 'UserController@manager')->name('manager');
 
 Route::get('/welcome', function () {
