@@ -8,8 +8,10 @@ class Inventory extends Model
 {
 	public function scopeStockIndex($query, $item_code, $delivery_user_id, $status)
 	{
+		$query->join('orders', 'inventories.item_code', '=', 'orders.item_code');
+
 		if (isset($item_code)) {
-			$query->where('item_code', $item_code);
+			$query->where('inventories.item_code', $item_code);
 		}
 
 		if (isset($delivery_user_id)) {
