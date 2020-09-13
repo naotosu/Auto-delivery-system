@@ -10,6 +10,9 @@ class OrderItem extends Model
 
 	public function scopeOrderIndex($query, $item_code, $delivery_user_id, $order_start, $order_end)
 	{
+		$query->join('orders', 'order_items.order_id', '=', 'orders.id')
+				->join('client_companies', 'delivery_user_id', '=', 'client_companies.id');
+
 		if (isset($item_code)) {
 			$query->where('item_code', $item_code);
 		}
@@ -29,11 +32,12 @@ class OrderItem extends Model
 
 	public function order()
 	{
-	return $this->belongsTo('App\Order');
+		return $this->belongsTo('App\Order');
 	}
 	
 	public function item()
 	{
-	return $this->belongsTo('App\Item', 'item_code', 'item_code');
+		return $this->belongsTo('App\Item', 'item_code', 'item_code');
 	}
+
 }
