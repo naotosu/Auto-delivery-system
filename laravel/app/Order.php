@@ -28,7 +28,7 @@ class Order extends Model
 
     public function clientCompanyDeliveryUser() 
     {
-        return $this->belongsTo('App\ClientCompany', 'delivery_user_id');
+        return $this->belongsTo('App\ClientCompany', 'delivery_user_id', 'id');
     }
 
 }

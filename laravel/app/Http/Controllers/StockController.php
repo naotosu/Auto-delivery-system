@@ -30,7 +30,6 @@ class StockController extends Controller
         $order_indexes = OrderItem::orderIndex($item_code, $delivery_user_id, $order_start, $order_end)->get();
 
         return view('order', compact('order_indexes', 'item_code', 'delivery_user_id', 'order_start', 'order_end'));
-            
     }
 
     public function compulsion()

@@ -58,7 +58,7 @@
                 <td>{{$order->name}}（仮）</td>
                 <td>{{$order->name}}（仮）</td>
                 <td>{{$order->order->delivery_user_id}}</td>
-                <td>{{$order->clientcompanydeliveryuser->name}}</td>
+                <td>{{var_dump($order->clientCompanyDeliveryUser)}}</td>
             </tr>
             @endforeach
         </table>
