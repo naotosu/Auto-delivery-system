@@ -10,20 +10,19 @@ class Order extends Model
     protected $primaryKey = 'id';
     public $timestamps = false;
 
-    public function orderItem()
+    public function orderItems()
     {
         return $this->hasMany('App\Order', 'order_id');
     }
-//以下後ほど確認
 
     public function clientCompanyEndUsers()
     {
-        return $this->belongsTo('App\ClientCompany', 'end_user_id','id');
+        return $this->belongsTo('App\ClientCompany', 'end_user_id', 'id');
     }
 
     public function clientCompanyClientUsers()
     {
-        return $this->belongsTo('App\ClientCompany', 'client_user_id','id');
+        return $this->belongsTo('App\ClientCompany', 'client_user_id', 'id');
     }
 
     public function clientCompanyDeliveryUser() 
