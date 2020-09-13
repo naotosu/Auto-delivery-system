@@ -11,8 +11,8 @@
         <h3>出荷予定</h3>
 
         <form action="{{url('/stocks')}}" method="GET">
-            <p><label for="item_id">アイテムコードを入力して下さい。
-                <input type="text" name="item_id" value="{{ $item_id ?? null }}">
+            <p><label for="item_code">アイテムコードを入力して下さい。
+                <input type="text" name="item_code" value="{{ $item_code ?? null }}">
             </label></p>
 
             <p><label for="delivery_user_id">納品先IDを入力して下さい。
@@ -71,12 +71,11 @@
             </tr>
             @foreach ($stock_indexes as $stock)
             <tr>
-                <td>{{$stock->item_id}}</td>
-                <td>{{$stock->item->name}}</td>
-                
-                <th>{{$stock->order_number}}</th>
-                <th>{{$stock->charge_number}}</th>
-                <th>{{$stock->manufacturing_number}}</th>
+                <td>{{$stock->item_code}}</td>
+                <td>{{$stock->item->name}}</td>                
+                <th>{{$stock->order_code}}</th>
+                <th>{{$stock->charge_code}}</th>
+                <th>{{$stock->manufacturing_code}}</th>
                 <th>{{$stock->bundle_number}}</th>
                 <td>{{$stock->quantity}}</td>
                 <td>{{$stock->weight}}</td>
@@ -85,10 +84,10 @@
                 <td>{{$stock->factory_warehousing_date}}</td>
                 <td>{{$stock->warehouse_receipt_date}}</td>
                 <td>{{$stock->ship_date}}</td>
-                <td>（仮）</td>
-                <td>（仮）</td>
-                <td>{{$stock->item->delivery_user_id}}</td>
-                <td>（仮）</td>
+                <td>{{$stock->order->clientCompanyEndUsers->name}}</td>
+                <td>{{$stock->order->clientCompanyClientUsers->name}}</td>
+                <td>{{$stock->order->delivery_user_id}}</td>
+                <td>{{$stock->order->clientCompanyDeliveryUser->name}}</td>
             </tr>
             @endforeach
         </table>

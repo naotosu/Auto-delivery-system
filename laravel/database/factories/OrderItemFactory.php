@@ -1,0 +1,19 @@
+<?php
+
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+
+use App\Model;
+use Faker\Generator as Faker;
+use App\Item;
+
+$factory->define(App\OrderItem::class, function (Faker $faker) {
+    return [
+    	'order_id' => $faker->numberBetween($min = 1, $max = 3),
+    	'ship_date' => $faker->dateTimeBetween('2020-09-15', '2020-10-30'),
+		'quantity' => $faker->numberBetween($min = 2000, $max = 20000),
+		'update_user_id' => "1",
+        'item_code' => function() {
+    	return Item::all()->random()->item_code;
+    	},
+    ];
+});
