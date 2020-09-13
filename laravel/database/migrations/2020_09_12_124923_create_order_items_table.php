@@ -3,8 +3,9 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Carbon\Carbon;
 
-class CreateOrdersTable extends Migration
+class CreateOrderItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +14,14 @@ class CreateOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('order_items', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->Integer('order_id');
             $table->bigInteger('item_code');
-            $table->bigInteger('end_user_id');
-            $table->bigInteger('client_user_id');
-            $table->bigInteger('delivery_user_id');
-            $table->bigInteger('transport_id');
+            $table->date('ship_date');
+            $table->Integer('quantity');
             $table->Integer('update_user_id');
-            $table->timestamps(); 
+            $table->timestamps();
         });
     }
 
@@ -32,6 +32,6 @@ class CreateOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('order_items');
     }
 }
