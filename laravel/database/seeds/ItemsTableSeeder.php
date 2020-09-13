@@ -14,7 +14,7 @@ class ItemsTableSeeder extends Seeder
     {
     	DB::table('items')->insert([[
     		'id' => '1',
-    		'item_code' => "22111111150",
+    		'item_code' => "BB111111150",
 	        'name' => 'S45C炭素鋼',
 	        'size' => '50',
 	        'shape' => 'φ',
@@ -24,7 +24,7 @@ class ItemsTableSeeder extends Seeder
 	        ],
             [
             'id' => '2',
-            'item_code' => "22111111255",
+            'item_code' => "BB111111255",
 	        'name' => 'SCR肌焼鋼',
 	        'size' => '55',
 	        'shape' => 'φ',
@@ -34,7 +34,7 @@ class ItemsTableSeeder extends Seeder
 	        ],
             [
             'id' => '3',
-            'item_code' => "22111111363",
+            'item_code' => "BB111111363",
 	        'name' => 'SCM強靭鋼',
 	        'size' => '63',
 	        'shape' => 'φ',

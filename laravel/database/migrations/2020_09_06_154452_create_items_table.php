@@ -15,11 +15,11 @@ class CreateItemsTable extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('item_code');
-            $table->string('name',20);
+            $table->string('item_code', 11);
+            $table->string('name', 20);
             $table->Integer('size');
-            $table->string('shape',2);
-            $table->string('spec',2);
+            $table->string('shape', 2);
+            $table->string('spec', 2);
             $table->timestamps();
         });
     }

@@ -84,10 +84,10 @@
                 <td>{{$stock->factory_warehousing_date}}</td>
                 <td>{{$stock->warehouse_receipt_date}}</td>
                 <td>{{$stock->ship_date}}</td>
-                <td>（仮）</td>
-                <td>（仮）</td>
+                <td>{{$stock->order->clientCompanyEndUsers->name}}</td>
+                <td>{{$stock->order->clientCompanyClientUsers->name}}</td>
                 <td>{{$stock->order->delivery_user_id}}</td>
-                <td>（仮）</td>
+                <td>{{$stock->order->clientCompanyDeliveryUser->name}}</td>
             </tr>
             @endforeach
         </table>

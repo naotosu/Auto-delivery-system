@@ -14,7 +14,7 @@ class OrderItem extends Model
 				->join('client_companies', 'delivery_user_id', '=', 'client_companies.id');
 
 		if (isset($item_code)) {
-			$query->where('item_code', $item_code);
+			$query->where('orders.item_code', $item_code);
 		}
 
 		if (isset($delivery_user_id)) {

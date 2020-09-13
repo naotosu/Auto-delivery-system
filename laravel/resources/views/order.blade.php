@@ -31,12 +31,10 @@
             <p><input type="submit" value="検索"></p>
         
         </form>
-
-        <P>現在日時は </P>
-
+        
         @if(!empty($order_indexes))
 
-        <p>{{ \Carbon\Carbon::now() }}</p>
+        <p>現在日時は{{ \Carbon\Carbon::now() }}</p>
          
         <table border="1">
             <tr>
@@ -58,7 +56,7 @@
                 <td>{{$order->name}}（仮）</td>
                 <td>{{$order->name}}（仮）</td>
                 <td>{{$order->order->delivery_user_id}}</td>
-                <td>{{var_dump($order->clientCompanyDeliveryUser)}}</td>
+                <td>{{$order->order->clientCompanyDeliveryUser->name}}</td>
             </tr>
             @endforeach
         </table>
