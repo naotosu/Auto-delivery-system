@@ -10,11 +10,6 @@ class Order extends Model
     protected $primaryKey = 'id';
     public $timestamps = false;
 
-    public function orderItems()
-    {
-        return $this->hasMany('App\Order', 'order_id');
-    }
-
     public function clientCompanyEndUsers()
     {
         return $this->belongsTo('App\ClientCompany', 'end_user_id', 'id');

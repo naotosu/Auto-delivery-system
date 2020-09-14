@@ -26,7 +26,7 @@
             </div>
             <div class="icon">
             <li>
-              <a href="/extraordinary">臨時出荷指示出力</a>
+              <a href="/temporary">臨時出荷指示出力</a>
             </li>
             </div>
             <div class="icon"> 
