@@ -38,19 +38,20 @@ class StockController extends Controller
         return view('compulsion');
     }
 
-    public function temporary()
+    public function temporary(Request $request)
     {
-        return view('temporary');
-    }
+        if (isset($request)) {
 
-    public function temporary_index(Request $request)
-    {
         $item_code = $request->input('item_code');
         $delivery_user_id = $request->input('delivery_user_id');
 
         $temporary_indexes = Inventory::temporaryIndex($item_code,$delivery_user_id)->get();
 
         return view('temporary', compact('temporary_indexes', 'item_code'));
+
+        }
+
+        return view('temporary');
     }
 
     public function stock()

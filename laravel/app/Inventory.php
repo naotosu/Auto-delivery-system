@@ -33,8 +33,11 @@ class Inventory extends Model
 			->join('items', 'inventories.item_code', '=', 'items.item_code')
 			->join('client_companies', 'orders.end_user_id', 'client_companies.id');
 
-		$query->where('inventories.status', '2')
-			->orwhere('inventories.status', '3');
+		$factory_stock = 2;
+		$warehouse_stock = 3;
+
+		$query->where('inventories.status', $factory_stock)
+			->orwhere('inventories.status', $warehouse_stock);
 
 		if (isset($item_code)) {
 			$query->where('inventories.item_code', $item_code);
