@@ -25,8 +25,6 @@ Route::get('/compulsion', 'StockController@compulsion')->name('compulsion');
 
 Route::get('/temporary', 'StockController@temporary')->name('temporary');
 
-Route::get('/temporarys', 'StockController@temporary_index')->name('temporary');
-
 Route::get('/stock', 'StockController@stock')->name('stock');
 
 Route::get('/stocks', 'StockController@stock_index')->name('stock');

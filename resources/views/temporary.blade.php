@@ -10,7 +10,7 @@
     <div class="main2">
         <h3>臨時出荷指示検索　（在庫ピンポイント指定）</h3>
 
-        <form action="{{url('/temporarys')}}" method="GET">
+        <form action="{{url('/temporary')}}" method="GET">
             <p><label for="item_code">アイテムコードを入力して下さい。
                 <input type="text" name="item_code" value="{{ $item_code ?? null }}">
             </label></p>
