@@ -20,6 +20,7 @@ class CreateOrderItemsTable extends Migration
             $table->string('item_code', 11);
             $table->date('ship_date');
             $table->Integer('quantity');
+            $table->boolean('temporary_flag');
             $table->Integer('update_user_id');
             $table->timestamps();
         });
