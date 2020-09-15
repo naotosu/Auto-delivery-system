@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Order;
 use App\Inventory;
 use App\OrderItem;
+use App\Temporary;
 use Carbon\Carbon;
 
 class StockController extends Controller
@@ -37,12 +38,23 @@ class StockController extends Controller
         return view('compulsion');
     }
 
-    public function extraordinary()
+    public function temporary(Request $request)
     {
-        return view('extraordinary');
+        $item_code = $request->input('item_code');
+        $delivery_user_id = $request->input('delivery_user_id');
+
+        if (isset($item_code) or ($delivery_user_id)) {
+
+            $temporary_indexes = Inventory::temporaryIndex($item_code,$delivery_user_id)->get();
+
+            return view('temporary', compact('temporary_indexes', 'item_code', 'delivery_user_id'));
+
+        }
+
+        return view('temporary');
     }
 
-    public function stock()
+    public function stock(Request $request)
     {
         return view('stock');
     }
