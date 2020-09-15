@@ -33,8 +33,8 @@ class Inventory extends Model
 			->join('items', 'inventories.item_code', '=', 'items.item_code')
 			->join('client_companies', 'orders.end_user_id', 'client_companies.id');
 
-		$factory_stock = 2;
-		$warehouse_stock = 3;
+		$factory_stock = \Config::get('const.Temporaries.factory_stock');
+		$warehouse_stock = \Config::get('const.Temporaries.warehouse_stock');
 
 		$query->where('inventories.status', $factory_stock)
 			->orwhere('inventories.status', $warehouse_stock);
@@ -48,7 +48,7 @@ class Inventory extends Model
 			$query->where('orders.delivery_user_id', $delivery_user_id);
 		}
 
-		$query->oldest('warehouse_receipt_date');
+		$query->oldest('charge_code');
 
 		$query->select('inventories.id', 'inventories.item_code', 'items.name', 'inventories.order_code', 'inventories.charge_code', 'inventories.manufacturing_code', 'inventories.bundle_number', 'inventories.quantity', 'inventories.weight', 'inventories.status', 'inventories.production_date', 'inventories.factory_warehousing_date', 'inventories.warehouse_receipt_date', 'inventories.destination_id', 'orders.delivery_user_id');
 

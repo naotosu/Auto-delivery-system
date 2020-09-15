@@ -94,12 +94,12 @@ body {
   margin-left: 50px;
 }
 
-.main2{
+.main2 {
   font-feature-settings: "palt" 1;
   letter-spacing: 0.06em;
 }
 
-.change span {
+.attention {
   color: red;
   font-weight: bolder;
 }

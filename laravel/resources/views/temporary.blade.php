@@ -10,7 +10,7 @@
     <div class="main2">
         <h3>臨時出荷指示検索　（在庫ピンポイント指定）</h3>
 
-        <form action="{{url('/temporary')}}" method="GET">
+        <form action="{{url('/temporaries')}}" method="GET">
             <p><label for="item_code">アイテムコードを入力して下さい。
                 <input type="text" name="item_code" value="{{ $item_code ?? null }}">
             </label></p>
@@ -29,7 +29,7 @@
         <p>臨時出荷　納入日<input type="text" name="ship_date"></p>
 
         <form action="{{url('/temporary_ships')}}" method="POST">
-        <p><label for="checkbox"><span class="change">注意！</span></label>
+        <p><label for="checkbox"><span class="attention">注意！</span></label>
           向け先変更が必要な場合はチェック=>
           <input class="form-check-input" type="checkbox" id="change" name="change" value="change">
           <label class="form-check-label" for="checkbox"></label>
@@ -37,6 +37,7 @@
           <input type="text" name="change_id"></p>
 
            <P>臨時出荷を行うロットを選択し、出荷指示をクリック　<input type="submit" value="出荷指示"></P>
+           <div class= 'attention'><p>※チャージNoが古い順で表示。理由が無い限り一番上から使用下さい。</p></div>
 
         <table border="1">
             <tr>
