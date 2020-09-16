@@ -54,6 +54,60 @@ class StockController extends Controller
         return view('temporary');
     }
 
+    public function temporary_ship(Request $request)
+    {
+        $ship_date = $request->input('ship_date');
+        $change = $request->input('change');
+        $change_id = $request->input('change_id');
+        $item_ids[] = $request->input('item_ids[]');
+
+        return response()->streamDownload(
+            function () {
+                // 出力バッファをopen
+                $stream = fopen('php://output', 'w');
+                // 文字コードをShift-JISに変換
+                stream_filter_prepend($stream,'convert.iconv.utf-8/cp932//TRANSLIT');
+                // ヘッダー
+                fputcsv($stream, [
+                    '納品先コード',
+                    '納品先',
+                    'オーダーNo',
+                    '鋼種',
+                    'サイズ',
+                    '単位',
+                    '仕様',
+                    '納入日',
+                    '製造No',
+                    '結番',
+                    '重量',
+                    '本数',
+                ]);
+                // データ
+                foreach (Inventory::TemporaryIndex() as $temporary) {
+                    fputcsv($stream, [
+                        $temporary->order->delivery_user_id,
+                        $temporary->order->clientCompanyDeliveryUser->name, 
+                        $temporary->order_code,
+                        $temporary->item->name,
+                        $temporary->item->size, 
+                        $temporary->item->shape, 
+                        $temporary->item->spec,
+                        $ship_date,
+                        $temporary->manufacturing_code,
+                        $temporary->bundle_number,
+                        $temporary->weight,
+                        $temporary->quantity,
+                    ]);
+                }
+                fclose($stream);
+            }, 
+            'customers.csv',
+            [
+                'Content-Type' => 'application/octet-stream',
+            ]
+        );
+    }
+
     public function stock(Request $request)
     {
         return view('stock');
