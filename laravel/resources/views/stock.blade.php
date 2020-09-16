@@ -52,7 +52,9 @@
             <tr>
                 <th>アイテムコード</th>
                 <th>アイテム名</th>
-                
+                <th>寸法</th>
+                <th>単位</th>
+                <th>仕様</th>
                 <th>オーダーNo</th>
                 <th>チャージNo</th>
                 <th>製造No</th>
@@ -73,6 +75,9 @@
             <tr>
                 <td>{{$stock->item_code}}</td>
                 <td>{{$stock->item->name}}</td>                
+                <td>{{$stock->item->size}}</td> 
+                <td>{{$stock->item->shape}}</td> 
+                <td>{{$stock->item->spec}}</td>
                 <th>{{$stock->order_code}}</th>
                 <th>{{$stock->charge_code}}</th>
                 <th>{{$stock->manufacturing_code}}</th>

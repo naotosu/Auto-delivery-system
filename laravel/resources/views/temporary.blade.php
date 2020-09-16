@@ -26,9 +26,9 @@
         @if(!empty($temporary_indexes))
 
         <p>現在時刻は{{ \Carbon\Carbon::now() }}</p>
-        <p>臨時出荷　納入日<input type="text" name="ship_date"></p>
-
         <form action="{{url('/temporary_ships')}}" method="POST">
+            @csrf
+        <p>臨時出荷　納入日<input type="date" name="ship_date"></p>
         <p><label for="checkbox"><span class="attention">注意！</span></label>
           向け先変更が必要な場合はチェック=>
           <input class="form-check-input" type="checkbox" id="change" name="change" value="change">
@@ -43,7 +43,10 @@
             <tr>
                 <th>選択</th>
                 <th>アイテムコード</th>
-                <th>アイテム名</th>                
+                <th>アイテム名</th>
+                <th>寸法</th>
+                <th>単位</th>
+                <th>仕様</th>             
                 <th>オーダーNo</th>
                 <th>チャージNo</th>
                 <th>製造No</th>
@@ -62,11 +65,14 @@
             @foreach ($temporary_indexes as $temporary)
             <tr>
                 <td>
-                  <input class="form-check-input" type="checkbox" id="{{$temporary->id}}" name="{{$temporary->id}}" value="{{$temporary->id}}">
+                  <input class="form-check-input" type="checkbox" id="{{$temporary->id}}" name="item_ids[]" value="{{$temporary->id}}">
                   <label class="form-check-label" for="checkbox">{{$temporary->id}}</label>
                 </td>
                 <td>{{$temporary->item_code}}</td>
-                <td>{{$temporary->item->name}}</td>           
+                <td>{{$temporary->item->name}}</td> 
+                <td>{{$temporary->item->size}}</td> 
+                <td>{{$temporary->item->shape}}</td> 
+                <td>{{$temporary->item->spec}}</td>          
                 <th>{{$temporary->order_code}}</th>
                 <th>{{$temporary->charge_code}}</th>
                 <th>{{$temporary->manufacturing_code}}</th>
@@ -84,6 +90,9 @@
             </tr>
             @endforeach
         </table>
+        var_dump($_POST['check']);
+
+        </form>
          
         @else
         <p>検索条件を入力して下さい。</p>

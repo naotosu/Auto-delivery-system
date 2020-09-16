@@ -25,6 +25,8 @@ Route::get('/compulsion', 'StockController@compulsion')->name('compulsion');
 
 Route::get('/temporaries', 'StockController@temporary')->name('temporary');
 
+Route::post('/temporary_ships', 'StockController@temporary_ship')->name('temporary');
+
 Route::get('/stock', 'StockController@stock')->name('stock');
 
 Route::get('/stocks', 'StockController@stock_index')->name('stock');
