@@ -77,7 +77,7 @@ class StockController extends Controller
             [
                 'Content-Type' => 'application/octet-stream',
             ]
-        , view('temporary'));
+        );
     }
 
     public function stock(Request $request)
