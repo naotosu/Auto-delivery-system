@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class TemporaryService extends Model
 {
     protected static function getFacadeAccessor() {
-    	returm 'TemporaryService';
+    	return 'TemporaryService';
     }
 }
