@@ -1,11 +1,13 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Inventory extends Model
 {
+	protected $table = 'inventories';
+
 	public function scopeStockIndex($query, $item_code, $delivery_user_id, $status)
 	{
 		$query->join('orders', 'inventories.item_code', '=', 'orders.item_code');
@@ -18,7 +20,7 @@ class Inventory extends Model
 			$query->where('orders.delivery_user_id', $delivery_user_id);
 		}
 		if (isset($status)) {
-			$query->where('status', $status);
+			$query->where('inventories.status', $status);
 		}
 
 		$query->oldest('warehouse_receipt_date');
@@ -55,18 +57,31 @@ class Inventory extends Model
 		return $query;
 	}
 
+	public function scopeTemporaryShip($query, $ship_date, $change, $change_id, $item_ids)
+	{
+		if (isset($change)) {
+			// return ; （order_id変更メソッドを後程作成
+		}
+
+		$query->where('id', $item_ids[]);
+		
+		$query->oldest('order_code');
+
+		return $query;
+	}
+
 	public function item()
 	{
-		return $this->belongsTo('App\Item', 'item_code', 'item_code');
+		return $this->belongsTo('App\Models\Item', 'item_code', 'item_code');
 	}
 	
 	public function order()
 	{
-		return $this->belongsTo('App\Order', 'item_code', 'item_code');
+		return $this->belongsTo('App\Models\Order', 'item_code', 'item_code');
 	}
 
 	public function clientCompany() 
 	{
-		return $this->belongsTo('App\ClientCompany', 'delivery_user_id', 'id');
+		return $this->belongsTo('App\Models\ClientCompany', 'delivery_user_id', 'id');
 	}
 }
