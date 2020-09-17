@@ -4,7 +4,7 @@
 
 use App\Model;
 use Faker\Generator as Faker;
-use App\Item;
+use App\Models\Item;
 
 $factory->define(App\Inventory::class, function (Faker $faker) {
     return [

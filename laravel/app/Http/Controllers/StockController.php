@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Order;
-use App\Inventory;
-use App\OrderItem;
-use App\Temporary;
+use App\Models\Order;
+use App\Models\Inventory;
+use App\Models\OrderItem;
+use App\Models\Temporary;
 use Carbon\Carbon;
 
 class StockController extends Controller
@@ -68,44 +68,16 @@ class StockController extends Controller
                 // 文字コードをShift-JISに変換
                 stream_filter_prepend($stream,'convert.iconv.utf-8/cp932//TRANSLIT');
                 // ヘッダー
-                fputcsv($stream, [
-                    '納品先コード',
-                    '納品先',
-                    'オーダーNo',
-                    '鋼種',
-                    'サイズ',
-                    '単位',
-                    '仕様',
-                    '納入日',
-                    '製造No',
-                    '結番',
-                    '重量',
-                    '本数',
-                ]);
+                Services\TemporaryService::TemporaryHeader();
                 // データ
-                foreach (Inventory::TemporaryIndex() as $temporary) {
-                    fputcsv($stream, [
-                        $temporary->order->delivery_user_id,
-                        $temporary->order->clientCompanyDeliveryUser->name, 
-                        $temporary->order_code,
-                        $temporary->item->name,
-                        $temporary->item->size, 
-                        $temporary->item->shape, 
-                        $temporary->item->spec,
-                        $ship_date,
-                        $temporary->manufacturing_code,
-                        $temporary->bundle_number,
-                        $temporary->weight,
-                        $temporary->quantity,
-                    ]);
-                }
+                Services\TemporaryService::TemporaryIndex($ship_date, $change, $change_id, $item_ids[]);
                 fclose($stream);
             }, 
-            'customers.csv',
+            'ship'.date('Y-m-d H:m:s').'.csv',
             [
                 'Content-Type' => 'application/octet-stream',
             ]
-        );
+        , view('temporary'));
     }
 
     public function stock(Request $request)
@@ -119,7 +91,7 @@ class StockController extends Controller
         $delivery_user_id = $request->input('delivery_user_id');
         $status = $request->input('status');
 
-        $stock_indexes = Inventory::stockIndex($item_code,$delivery_user_id,$status)->get();
+        $stock_indexes = Inventory::stockIndex($item_code, $delivery_user_id, $status)->get();
 
         return view('stock', compact('stock_indexes', 'item_code', 'delivery_user_id', 'status'));
     }

@@ -26,7 +26,7 @@
         @if(!empty($temporary_indexes))
 
         <p>現在時刻は{{ \Carbon\Carbon::now() }}</p>
-        <form action="{{url('/temporary_ships')}}" method="POST">
+        <form action="{{url('/temporary_ships')}}" method="GET">
             @csrf
         <p>臨時出荷　納入日<input type="date" name="ship_date"></p>
         <p><label for="checkbox"><span class="attention">注意！</span></label>
@@ -90,7 +90,6 @@
             </tr>
             @endforeach
         </table>
-        var_dump($_POST['check']);
 
         </form>
          
