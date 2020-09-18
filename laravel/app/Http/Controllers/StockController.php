@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Order;
-use App\Inventory;
-use App\OrderItem;
-use App\Temporary;
+use App\Models\Order;
+use App\Models\Inventory;
+use App\Models\OrderItem;
+use App\Models\Temporary;
 use Carbon\Carbon;
 
 class StockController extends Controller
@@ -54,6 +54,32 @@ class StockController extends Controller
         return view('temporary');
     }
 
+    public function temporary_ship(Request $request)
+    {
+        $ship_date = $request->input('ship_date');
+        $change = $request->input('change');
+        $change_id = $request->input('change_id');
+        $item_ids[] = $request->input('item_ids[]');
+
+        return response()->streamDownload(
+            function () {
+                // 出力バッファをopen
+                $stream = fopen('php://output', 'w');
+                // 文字コードをShift-JISに変換
+                stream_filter_prepend($stream,'convert.iconv.utf-8/cp932//TRANSLIT');
+                // ヘッダー
+                Services\TemporaryService::TemporaryHeader();
+                // データ
+                Services\TemporaryService::TemporaryIndex($ship_date, $change, $change_id, $item_ids[]);
+                fclose($stream);
+            }, 
+            'ship'.date('Y-m-d H:m:s').'.csv',
+            [
+                'Content-Type' => 'application/octet-stream',
+            ]
+        );
+    }
+
     public function stock(Request $request)
     {
         return view('stock');
@@ -65,7 +91,7 @@ class StockController extends Controller
         $delivery_user_id = $request->input('delivery_user_id');
         $status = $request->input('status');
 
-        $stock_indexes = Inventory::stockIndex($item_code,$delivery_user_id,$status)->get();
+        $stock_indexes = Inventory::stockIndex($item_code, $delivery_user_id, $status)->get();
 
         return view('stock', compact('stock_indexes', 'item_code', 'delivery_user_id', 'status'));
     }

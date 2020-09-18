@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,6 +10,6 @@ class TransportCompany extends Model
 
     public function orders() 
     {
-    	return $this->hasMany('App\Order', 'id','transport_id');
+    	return $this->hasMany('App\Models\Order', 'id','transport_id');
     }
 }
