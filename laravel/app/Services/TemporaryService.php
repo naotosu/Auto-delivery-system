@@ -9,14 +9,7 @@ class TemporaryService extends Model
 {
 	public static function TemporaryIndex(/*$ship_date, $change, $change_id, $item_ids*/) {
 
-	    return response()->streamDownload(
-            function () {
-		    	// 出力バッファをopen
-	            $stream = fopen('php://output', 'w');
-	            // 文字コードをShift-JISに変換
-	            stream_filter_prepend($stream,'convert.iconv.utf-8/cp932//TRANSLIT');
-	            // ヘッダー
-	            fputcsv($stream, [
+	    return fputcsv($stream, [
 	                '配送業者ID',
 	                '配送業者',
 	                '担当',
@@ -57,12 +50,6 @@ class TemporaryService extends Model
 		            ]);
 		        }
 
-		        fclose($stream);
-	    	},
-		    'ship'.date('Y-m-d H:m:s').'.csv',
-	        [
-	            'Content-Type' => 'application/octet-stream',
-	        ]
-	    );
+		        
     }
 }
