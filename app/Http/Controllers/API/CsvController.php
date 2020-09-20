@@ -21,8 +21,8 @@ class CsvController extends Controller
         $item_ids = [$request->input('item_ids')];
 
         //デバック用
-        $temporary_ships = Inventory::TemporaryShip($item_ids)->get();
-        dd($temporary_ships);
+        //$temporary_ships = Inventory::TemporaryShip($item_ids)->get();
+        //dd($temporary_ships);
 
         return response()->streamDownload(
             function () {
