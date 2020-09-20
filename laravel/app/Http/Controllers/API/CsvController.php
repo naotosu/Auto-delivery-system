@@ -26,8 +26,11 @@ class CsvController extends Controller
                 $stream = fopen('php://output', 'w');
                 // 文字コードをShift-JISに変換
                 stream_filter_prepend($stream,'convert.iconv.utf-8/cp932//TRANSLIT');
-                // fputcsvで、ヘッダーとデータを書き込み
-                TemporaryService::TemporaryIndex();
+                // ヘッダー
+                TemporaryService::TemporaryHeader($stream);
+                // データ
+                $temporary_ships = Inventory::TemporaryShip()->get();
+                TemporaryService::TemporaryIndex($stream, $temporary_ships);
 
                 fclose($stream);
             },
