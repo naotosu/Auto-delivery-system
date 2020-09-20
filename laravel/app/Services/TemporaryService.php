@@ -10,7 +10,7 @@ class TemporaryService extends Model
 	public static function TemporaryIndex(/*$ship_date, $change, $change_id, $item_ids*/) {
 
 	    return response()->streamDownload(
-	    	function () {
+            function () {
 		    	// 出力バッファをopen
 	            $stream = fopen('php://output', 'w');
 	            // 文字コードをShift-JISに変換
