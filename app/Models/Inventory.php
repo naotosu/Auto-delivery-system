@@ -57,7 +57,8 @@ class Inventory extends Model
 		return $query;
 	}
 
-	public function scopeTemporaryShip($query/*, $item_ids, $ship_date, $change, $change_id*/)
+	//public function scopeTemporaryShip($query, $item_ids, $ship_date, $change, $change_id)
+	public function scopeTemporaryShip($query)
 	{
 
 		if (isset($change)) {

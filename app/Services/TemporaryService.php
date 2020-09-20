@@ -7,7 +7,7 @@ use App\Models\Inventory;
 
 class TemporaryService extends Model
 {
-	public static function TemporaryIndex(/*$ship_date, $change, $change_id, $item_ids*/) {
+	public static function TemporaryHeader($stream) {
 
 	    return fputcsv($stream, [
 	                '配送業者ID',
@@ -25,12 +25,13 @@ class TemporaryService extends Model
 	                '結番',
 	                '重量',
 	                '本数',
-	            ]);
+	    ]);
+	}
 
-	            // データ
-	            $temporary_ships = Inventory::TemporaryShip(/*$item_ids*/)->get();
+    //public static function TemporaryIndex($stream,$ship_date, $change, $change_id, $item_ids)
+	public static function TemporaryIndex($stream, $temporary_ships) {
 
-	            foreach ($temporary_ships as $temporary){
+	    return foreach ($temporary_ships as $temporary){
 		            fputcsv($stream, [
 		                $temporary->order->transport_id,
 		                $temporary->order->transportCompany->name,
@@ -48,8 +49,7 @@ class TemporaryService extends Model
 		                $temporary->weight,
 		                $temporary->quantity,
 		            ]);
-		        }
-
+		}
 		        
     }
 }
