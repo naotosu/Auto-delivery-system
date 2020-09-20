@@ -7,31 +7,9 @@ use App\Models\Inventory;
 
 class TemporaryService extends Model
 {
-	/*public static function TemporaryHeader($stream) {
-
-	    return fputcsv($stream, [
-	                '配送業者ID',
-	                '配送業者',
-	                '担当',
-	                '納品先コード',
-	                '納品先',
-	                'オーダーNo',
-	                '鋼種',
-	                'サイズ',
-	                '単位',
-	                '仕様',
-	                '納入日',
-	                '製造No',
-	                '結番',
-	                '重量',
-	                '本数',
-	    ]);
-	}*/
-
     //public static function TemporaryIndex($stream,$ship_date, $change, $change_id, $item_ids)
 	public static function TemporaryIndex($stream, $temporary_ships) {
-
-	    return fputcsv($stream, [
+	    fputcsv($stream, [
 	                '配送業者ID',
 	                '配送業者',
 	                '担当',
