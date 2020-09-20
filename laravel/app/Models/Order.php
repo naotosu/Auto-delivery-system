@@ -10,12 +10,12 @@ class Order extends Model
     protected $primaryKey = 'id';
     public $timestamps = false;
 
-    public function clientCompanyEndUsers()
+    public function clientCompanyEndUser()
     {
         return $this->belongsTo('App\Models\ClientCompany', 'end_user_id', 'id');
     }
 
-    public function clientCompanyClientUsers()
+    public function clientCompanyClientUser()
     {
         return $this->belongsTo('App\Models\ClientCompany', 'client_user_id', 'id');
     }
@@ -23,6 +23,11 @@ class Order extends Model
     public function clientCompanyDeliveryUser() 
     {
         return $this->belongsTo('App\Models\ClientCompany', 'delivery_user_id', 'id');
+    }
+
+    public function transportCompany() 
+    {
+        return $this->belongsTo('App\Models\transportCompany', 'transport_id', 'id');
     }
 
 }
