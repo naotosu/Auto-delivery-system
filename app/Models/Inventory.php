@@ -57,15 +57,19 @@ class Inventory extends Model
 		return $query;
 	}
 
-	public function scopeTemporaryShip($query, $ship_date, $change, $change_id, $item_ids)
+	public function scopeTemporaryShip($query/*, $item_ids, $ship_date, $change, $change_id*/)
 	{
+
 		if (isset($change)) {
 			// return ; （order_id変更メソッドを後程作成
 		}
 
-		$query->where('id', $item_ids[]);
+		/*foreach ($item_ids as $item_id ){
+
+			$query->where('id', $item_id);
+		}
 		
-		$query->oldest('order_code');
+		$query->oldest('order_code');*/
 
 		return $query;
 	}

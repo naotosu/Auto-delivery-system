@@ -26,7 +26,7 @@
         @if(!empty($temporary_indexes))
 
         <p>現在時刻は{{ \Carbon\Carbon::now() }}</p>
-        <form action="{{url('/temporary_ships')}}" method="GET">
+        <form action="{{url('/api/temporary_ships')}}" method="GET">
             @csrf
         <p>臨時出荷　納入日<input type="date" name="ship_date"></p>
         <p><label for="checkbox"><span class="attention">注意！</span></label>
@@ -83,8 +83,8 @@
                 <td>{{$temporary->production_date}}</td>
                 <td>{{$temporary->factory_warehousing_date}}</td>
                 <td>{{$temporary->warehouse_receipt_date}}</td>
-                <td>{{$temporary->order->clientCompanyEndUsers->name}}</td>
-                <td>{{$temporary->order->clientCompanyClientUsers->name}}</td>
+                <td>{{$temporary->order->clientCompanyEndUser->name}}</td>
+                <td>{{$temporary->order->clientCompanyClientUser->name}}</td>
                 <td>{{$temporary->order->delivery_user_id}}</td>
                 <td>{{$temporary->order->clientCompanyDeliveryUser->name}}</td>
             </tr>
