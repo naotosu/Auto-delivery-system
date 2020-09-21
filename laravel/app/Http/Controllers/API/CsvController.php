@@ -20,6 +20,16 @@ class CsvController extends Controller
         //$change_id = $request->input('change_id');
         $item_ids = [$request->input('item_ids')];
 
+        $item_ids_get = function () use ($item_ids) {
+            return $item_ids;
+        };
+
+        $temporary_ships = Inventory::TemporaryShip($item_ids)->get();
+
+        $temporary_ships_get = function () use ($temporary_ships) {
+                    return $temporary_ships;
+        };
+
         //デバック用
         //$temporary_ships = Inventory::TemporaryShip($item_ids)->get();
         //dd($temporary_ships);
@@ -31,7 +41,7 @@ class CsvController extends Controller
                 // 文字コードをShift-JISに変換
                 stream_filter_prepend($stream,'convert.iconv.utf-8/cp932//TRANSLIT');
                 // ヘッダー&データ
-                $temporary_ships = Inventory::TemporaryShip($item_ids)->get();
+
                 TemporaryService::TemporaryIndex($stream, $temporary_ships);
 
                 fclose($stream);
