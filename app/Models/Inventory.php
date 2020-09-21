@@ -65,16 +65,15 @@ class Inventory extends Model
 			return ; （order_id変更メソッドを後程作成
 		}*/
 
-		$query->whereIn('inventories.id', $item_ids);
-
-		//dd($query);
-
-		/*foreach ($item_ids as $item_id ){
-
+		foreach ($item_ids as $item_id) {
 			$query->whereIn('inventories.id', $item_id);
-		}*/
-		
-		//$query->oldest('order_code');
+		}
+
+		$query->oldest('item_code')
+			->oldest('order_code')
+			->oldest('charge_code')
+			->oldest('manufacturing_code')
+			->oldest('bundle_number');
 
 		return $query;
 	}

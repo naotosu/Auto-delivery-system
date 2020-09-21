@@ -21,6 +21,7 @@ class TemporaryService extends Model
 	                '単位',
 	                '仕様',
 	                '納入日',
+	                'チャージ',
 	                '製造No',
 	                '結番',
 	                '重量',
@@ -29,7 +30,7 @@ class TemporaryService extends Model
 
 		foreach ($temporary_ships as $temporary){
 		            fputcsv($stream, [
-		                /*$temporary->order->transport_id,
+		                $temporary->order->transport_id,
 		                $temporary->order->transportCompany->name,
 		                $temporary->order->transportCompany->stuff_name,
 		                $temporary->order->delivery_user_id,
@@ -40,8 +41,9 @@ class TemporaryService extends Model
 		                $temporary->item->shape, 
 		                $temporary->item->spec,
 		                $temporary->ship_date,
+		                $temporary->charge_code,
 		                $temporary->manufacturing_code,
-		                $temporary->bundle_number,*/
+		                $temporary->bundle_number,
 		                $temporary->weight,
 		                $temporary->quantity,
 		            ]);
