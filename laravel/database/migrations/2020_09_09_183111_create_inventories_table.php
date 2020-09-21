@@ -30,7 +30,7 @@ class CreateInventoriesTable extends Migration
             $table->Integer('destination_id')->nullable();
             $table->bigInteger('input_user_id');
             $table->bigInteger('output_user_id')->nullable();
-            $table->timestamps(); 
+            $table->timestamps();
         });
     }
 
