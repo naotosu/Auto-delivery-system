@@ -20,22 +20,10 @@ class CsvController extends Controller
         //$change_id = $request->input('change_id');
         $item_ids = [$request->input('item_ids')];
 
-        $item_ids_get = function () use ($item_ids) {
-            return $item_ids;
-        };
-
         $temporary_ships = Inventory::TemporaryShip($item_ids)->get();
 
-        $temporary_ships_get = function () use ($temporary_ships) {
-                    return $temporary_ships;
-        };
-
-        //デバック用
-        //$temporary_ships = Inventory::TemporaryShip($item_ids)->get();
-        //dd($temporary_ships);
-
         return response()->streamDownload(
-            function () {
+            function () use ($temporary_ships) {
                 // 出力バッファをopen
                 $stream = fopen('php://output', 'w');
                 // 文字コードをShift-JISに変換
