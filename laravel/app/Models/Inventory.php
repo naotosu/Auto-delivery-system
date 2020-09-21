@@ -9,14 +9,14 @@ class Inventory extends Model
 	protected $table = 'inventories';
 
 	protected $fillable = [
-        	‘item_code’,
-            ‘order_code’,
-            ‘charge_code’,
-            ‘manufacturing_code’,
-            ‘bundle_number’,
-            ‘weight’,
-            ‘quantity’,
-            ‘status’
+        	'item_code',
+            'order_code',
+            'charge_code',
+            'manufacturing_code',
+            'bundle_number',
+            'weight',
+            'quantity',
+            'status'
             ];
 
 	public function scopeStockIndex($query, $item_code, $delivery_user_id, $status)

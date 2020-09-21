@@ -51,7 +51,7 @@ class CsvController extends Controller
     public function inventory_csv_import(Request $request)
     {
         //全件削除　？？
-        Inventory::truncate();
+        //Inventory::truncate();
      
         // ロケールを設定(日本語に設定)
         setlocale(LC_ALL, 'ja_JP.UTF-8');
@@ -61,13 +61,13 @@ class CsvController extends Controller
         $uploaded_file = $request->file('csv_file');
      
         // アップロードしたファイルの絶対パスを取得
-        $file_path = $request->file('csv_file')->path($uploaded_file);
+        $file_path = $request->file('csv_file');
 
         //SplFileObjectを生成
         $file = new SplFileObject($file_path);
-     
+
         //SplFileObject::READ_CSV が最速らしい
-        $file->setFlags(SplFileObject::READ_CSV); 
+        $file->setFlags(SplFileObject::READ_CSV);
        
         $row_count = 1;
 
@@ -81,15 +81,34 @@ class CsvController extends Controller
             if ($row_count > 1)
             {
                 // CSVの文字コードがSJISなのでUTF-8に変更
-                $id = mb_convert_encoding($row[0], 'UTF-8', 'SJIS');
-                $item_code = mb_convert_encoding($row[1], 'UTF-8', 'SJIS');
-                //$checkin_date = mb_convert_encoding($row[2], 'UTF-8', 'SJIS');
-                //$total_price = mb_convert_encoding($row[3], 'UTF-8', 'SJIS');*/
+                $item_code = mb_convert_encoding($row[0], 'UTF-8', 'SJIS');
+                $order_code = mb_convert_encoding($row[1], 'UTF-8', 'SJIS');
+                $charge_code = mb_convert_encoding($row[2], 'UTF-8', 'SJIS');
+                $manufacturing_code = mb_convert_encoding($row[3], 'UTF-8', 'SJIS');
+                $bundle_number = mb_convert_encoding($row[4], 'UTF-8', 'SJIS');
+                $weight = mb_convert_encoding($row[5], 'UTF-8', 'SJIS');
+                $quantity = mb_convert_encoding($row[6], 'UTF-8', 'SJIS');
+                $status = mb_convert_encoding($row[7], 'UTF-8', 'SJIS');
+                $production_date = mb_convert_encoding($row[8], 'UTF-8', 'SJIS');
+                $factory_warehousing_date = mb_convert_encoding($row[9], 'UTF-8', 'SJIS');
+                $warehouse_receipt_date = mb_convert_encoding($row[10], 'UTF-8', 'SJIS');
+                $input_user_id = mb_convert_encoding($row[11], 'UTF-8', 'SJIS');
                 
                 //1件ずつインポート
                     Inventory::insert(array(
-                        ‘id’ => $id,
-                        ‘item_code’ => $row[1],
+                        'item_code' => $row[0],
+                        'order_code' => $row[1],
+                        'charge_code' => $row[2],
+                        'manufacturing_code' => $row[3],
+                        'bundle_number' => $row[4],
+                        'weight' => $row[5],
+                        'quantity' => $row[6],
+                        'status' => $row[7],
+                        'production_date' => $row[8],
+                        'factory_warehousing_date' => $row[9],
+                        'warehouse_receipt_date' => $row[10],
+                        'input_user_id' => $row[11],
+
                     ));
             }
             $row_count++;
@@ -97,25 +116,5 @@ class CsvController extends Controller
         
         return view('/incoming');
      
-    }
-            /*$data = [
-                ‘id’ => $line[0],
-                ‘item_code’ => $line[1],
-                /*‘order_code’ => $line[2],
-                ‘charge_code’ => $line[3],
-                ‘manufacturing_code’ => $line[4],
-                ‘bundle_number’ => $line[5],
-                ‘weight’ => $line[6],
-                ‘quantity’ => $line[7],
-                ‘status’ => $line[8],
-                ‘production_date’ => $line[9],
-                ‘factory_warehousing_date’ => $line[10],
-                ‘warehouse_receipt_date’ => $line[11],
-                ‘ship_date’ => $line[12],
-                ‘destination_id’ => $line[13],
-                ‘input_user_id’ => $line[14],
-                ‘output_user_id’ => $line[15],
-            ];*/
-        
-    
+    }    
 }
