@@ -27,7 +27,7 @@ class TemporaryService extends Model
 	                '本数',
 	    ]);
 
-		/*foreach ($temporary_ships as $temporary){
+		foreach ($temporary_ships as $temporary){
 		            fputcsv($stream, [
 		                /*$temporary->order->transport_id,
 		                $temporary->order->transportCompany->name,
@@ -41,11 +41,11 @@ class TemporaryService extends Model
 		                $temporary->item->spec,
 		                $temporary->ship_date,
 		                $temporary->manufacturing_code,
-		                $temporary->bundle_number,
+		                $temporary->bundle_number,*/
 		                $temporary->weight,
 		                $temporary->quantity,
 		            ]);
-		}*/
+		}
 		        
     }
 }
