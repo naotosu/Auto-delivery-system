@@ -18,10 +18,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-/*Route::middleware('auth:api')->group(function() {
-    Route::get('/api/temporary_ships', 'API\CsvController@Temporary_ship');
-});*/
-
 Route::group(['middleware' => ['api']],function(){
 	Route::get('temporary_ships', 'API\CsvController@temporary_ship');
 });
