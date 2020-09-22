@@ -6,10 +6,10 @@ use App\Model;
 use Faker\Generator as Faker;
 use App\Models\Item;
 
-$factory->define(App\Inventory::class, function (Faker $faker) {
+$factory->define(App\Models\Inventory::class, function (Faker $faker) {
     return [
             'order_code' => Str::random(7),
-            'charge_code' => Str::random(4),
+            'charge_code' => Str::random(5),
             'manufacturing_code' => Str::random(8),
             'bundle_number' => "01",
             'weight' => "2000",
