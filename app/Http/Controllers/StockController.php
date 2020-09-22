@@ -8,6 +8,7 @@ use App\Models\Inventory;
 use App\Models\OrderItem;
 use App\Models\Temporary;
 use Carbon\Carbon;
+use App\Services\InventoryCsvImportService;
 
 class StockController extends Controller
 {
@@ -70,4 +71,20 @@ class StockController extends Controller
 
         return view('stock', compact('stock_indexes', 'item_code', 'delivery_user_id', 'status'));
     }
+
+    public function inventory_csv_import(Request $request)
+    {
+        try { 
+    
+            InventoryCsvImportService::inventoryCsvImport($request);
+        
+        } catch (\Exception $e) {
+            session()->flash('flash_message', 'CSVのデータのアップロード中断しました　製番＆束番に重複がある可能性があります');
+            return redirect('/incoming');
+        }
+
+        session()->flash('flash_message', 'CSVのデータをアップロードしました');
+        return redirect('/incoming');
+     
+    } 
 }

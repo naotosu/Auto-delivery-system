@@ -14,6 +14,8 @@ class CreateInventoriesTable extends Migration
     public function up()
     {
         Schema::create('inventories', function (Blueprint $table) {
+            $table->unique(['manufacturing_code', 'bundle_number'],    // []内にunique制約を付けたいカラム名を並べる
+                       'manufacturing_codebundle_number');
             $table->bigIncrements('id');
             $table->string('item_code', 11);
             $table->string('order_code',7);
