@@ -22,6 +22,6 @@ Route::group(['middleware' => ['api']],function(){
 	Route::get('temporary_ships', 'API\CsvController@temporary_ship');
 });
 
-Route::group(['middleware' => ['api']],function(){
+/*Route::group(['middleware' => ['api']],function(){
 	Route::post('inventory_imports', 'API\CsvController@inventory_csv_import');
-});
+});*/	

@@ -17,6 +17,8 @@ Route::get('/', 'TopController@index')->name('top');
 
 Route::get('/incoming', 'StockController@incoming')->name('incoming');
 
+Route::post('/inventory_imports', 'API\CsvController@inventory_csv_import')->name('incoming');
+
 Route::get('/order', 'StockController@order')->name('order');
 
 Route::get('/orders', 'StockController@order_index')->name('order');
