@@ -74,17 +74,14 @@ class StockController extends Controller
 
     public function inventory_csv_import(Request $request)
     {
-        try { 
-    
+        try {   
             InventoryCsvImportService::inventoryCsvImport($request);
-        
         } catch (\Exception $e) {
+            report($e);
             session()->flash('flash_message', 'CSVのデータのアップロード中断しました　製番＆束番に重複がある可能性があります');
             return redirect('/incoming');
         }
-
         session()->flash('flash_message', 'CSVのデータをアップロードしました');
         return redirect('/incoming');
-     
     } 
 }

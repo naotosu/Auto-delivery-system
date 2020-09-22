@@ -12,12 +12,7 @@ use App\Services\InventoryCsvImportService;
 class CsvController extends Controller
 {
     protected $csvimport = null;
- 
-    /*public function __construct(CSVimport $csvimport)
-    {
-        $this->csvimport = $csvimport;
-    }*/
-
+    
     public function temporary_ship(Request $request)
     {
         //$ship_date = $request->input('ship_date');
