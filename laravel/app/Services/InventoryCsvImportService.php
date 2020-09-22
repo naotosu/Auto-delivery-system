@@ -85,8 +85,6 @@ class InventoryCsvImportService extends Model
                     ));
             }
             $row_count++;
-        }
-        
-    }
-    
+        }       
+    }  
 }

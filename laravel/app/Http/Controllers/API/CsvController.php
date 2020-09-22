@@ -8,7 +8,6 @@ use App\Models\Inventory;
 use App\Services\TemporaryService;
 use Carbon\Carbon;
 use App\Services\InventoryCsvImportService;
-use SplFileObject;
 
 class CsvController extends Controller
 {
@@ -46,13 +45,5 @@ class CsvController extends Controller
             ]
         );
 
-    }
-
-    public function inventory_csv_import(Request $request)
-    {
-        InventoryCsvImportService::inventoryCsvImport($request);
-        session()->flash('flash_message', 'CSVのデータをアップロードしました');
-        return redirect('/incoming');
-     
-    }    
+    }  
 }
