@@ -11,7 +11,6 @@ use App\Services\InventoryCsvImportService;
 
 class CsvController extends Controller
 {
-    protected $csvimport = null;
     
     public function temporary_ship(Request $request)
     {
