@@ -10,22 +10,19 @@ use SplFileObject;
 
 class InventoryCsvImportService extends Model
 {
-	protected $fillable = [
-        	'item_code',
-            'order_code',
-            'charge_code',
-            'manufacturing_code',
-            'bundle_number',
-            'weight',
-            'quantity',
-            'status'
-            ];
+    protected $fillable = [
+        'item_code',
+        'order_code',
+        'charge_code',
+        'manufacturing_code',
+        'bundle_number',
+        'weight',
+        'quantity',
+        'status'
+        ];
 
-	public static function inventoryCsvImport($request)
-    {
-        //全件削除　？？
-        //Inventory::truncate();
-     
+    public static function inventoryCsvImport($request)
+    {     
         // ロケールを設定(日本語に設定)
         setlocale(LC_ALL, 'ja_JP.UTF-8');
      
