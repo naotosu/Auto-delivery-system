@@ -104,6 +104,12 @@ body {
   font-weight: bolder;
 }
 
+.flash_message {
+  /*color: white;*/
+  font-size: 25px;
+  text-align: center;
+  background-color: #FFCC00;
+}
 
 
 /*下記CSSは、Laravel初期設定のため、一部だけ利用するためにここに残す

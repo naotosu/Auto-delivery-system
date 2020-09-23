@@ -20,6 +20,6 @@ class OrderItemsTableSeeder extends Seeder
             'update_user_id' => '1',
             ]]);
 
-        factory('App\OrderItem', 500)->create();
+        factory('App\Models\OrderItem', 500)->create();
     }
 }

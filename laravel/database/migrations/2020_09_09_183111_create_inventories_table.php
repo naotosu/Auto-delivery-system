@@ -14,10 +14,12 @@ class CreateInventoriesTable extends Migration
     public function up()
     {
         Schema::create('inventories', function (Blueprint $table) {
+            $table->unique(['manufacturing_code', 'bundle_number'],    // []内にunique制約を付けたいカラム名を並べる
+                       'manufacturing_codebundle_number');
             $table->bigIncrements('id');
             $table->string('item_code', 11);
             $table->string('order_code',7);
-            $table->string('charge_code',4);
+            $table->string('charge_code',5);
             $table->string('manufacturing_code',8);
             $table->Integer('bundle_number');
             $table->Integer('weight');
@@ -30,7 +32,7 @@ class CreateInventoriesTable extends Migration
             $table->Integer('destination_id')->nullable();
             $table->bigInteger('input_user_id');
             $table->bigInteger('output_user_id')->nullable();
-            $table->timestamps(); 
+            $table->timestamps();
         });
     }
 
