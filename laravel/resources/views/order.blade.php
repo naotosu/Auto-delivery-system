@@ -46,6 +46,7 @@
                 <th>ユーザー</th>
                 <th>納入先ID</th>
                 <th>納入先名</th>
+                <th>即時フラグ</th>
             </tr>
             @foreach ($order_indexes as $order)
             <tr>
@@ -57,6 +58,7 @@
                 <td>{{$order->name}}（仮）</td>
                 <td>{{$order->order->delivery_user_id}}</td>
                 <td>{{$order->order->clientCompanyDeliveryUser->name}}</td>
+                <td>{{$order->temporary_flag}}</td>
             </tr>
             @endforeach
         </table>
