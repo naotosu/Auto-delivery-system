@@ -78,7 +78,6 @@ class InventoryCsvImportService extends Model
                         'factory_warehousing_date' => $row[9],
                         'warehouse_receipt_date' => $row[10],
                         'input_user_id' => $row[11],
-
                     ));
             }
             $row_count++;
