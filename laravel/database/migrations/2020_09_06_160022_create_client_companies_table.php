@@ -14,7 +14,7 @@ class CreateClientCompaniesTable extends Migration
     public function up()
     {
         Schema::create('client_companies', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->string('name',20);
             $table->timestamps();
         });
