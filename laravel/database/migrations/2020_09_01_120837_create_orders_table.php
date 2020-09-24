@@ -16,11 +16,11 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('item_code', 11);
-            $table->bigInteger('end_user_id');
-            $table->bigInteger('client_user_id');
-            $table->bigInteger('delivery_user_id');
-            $table->bigInteger('transport_id');
-            $table->Integer('update_user_id');
+            $table->bigInteger('end_user_id')->unsigned();
+            $table->bigInteger('client_user_id')->unsigned();
+            $table->bigInteger('delivery_user_id')->unsigned();
+            $table->bigInteger('transport_id')->unsigned();
+            $table->bigInteger('update_user_id')->unsigned();
             $table->timestamps(); 
         });
     }
