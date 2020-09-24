@@ -14,7 +14,7 @@ class CreateTransportCompaniesTable extends Migration
     public function up()
     {
         Schema::create('transport_companies', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->string('name',20);
             $table->string('stuff_name',20);
             $table->timestamps();

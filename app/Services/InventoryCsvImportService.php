@@ -26,10 +26,6 @@ class InventoryCsvImportService extends Model
         // ロケールを設定(日本語に設定)
         setlocale(LC_ALL, 'ja_JP.UTF-8');
      
-        // アップロードしたファイルを取得
-        // 'csv_file' はビューの inputタグのname属性
-        $uploaded_file = $request->file('csv_file');
-     
         // アップロードしたファイルの絶対パスを取得
         $file_path = $request->file('csv_file');
 
