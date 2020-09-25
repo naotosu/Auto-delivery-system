@@ -29,7 +29,7 @@ Route::get('/shipment/cancels', 'ShipmentCancelController@shipment_cancel')->nam
 
 Route::get('/shipment/cancels/checks', 'ShipmentCancelController@shipment_cancel_check')->name('cancel');
 
-Route::post('/shipment/cancels', 'ShipmentCancelController@shipment_cancel_go')->name('cancel');
+Route::post('/shipment/cancels', 'ShipmentCancelController@shipment_cancel_execute')->name('cancel');
 
 Route::get('/temporaries', 'StockController@temporary')->name('temporary');
 

@@ -111,6 +111,11 @@ body {
   background-color: #FFCC00;
 }
 
+.check_date {
+  width: 30px;
+  background-color: #FFFFFC;
+}
+
 
 /*下記CSSは、Laravel初期設定のため、一部だけ利用するためにここに残す
 

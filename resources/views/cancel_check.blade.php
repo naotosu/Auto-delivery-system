@@ -14,8 +14,8 @@
         @if(!empty($stock_indexes))
         <form action="{{url('/shipment/cancels')}}" method="POST" name="status_edit" value="{{ $status_edit ?? null }}">
             @csrf
-            <input name="status_edit" value="{{ $status_edit ?? null }}">
-           <P>出荷取消手配　確定　<input type="submit" value="出荷取消"></P>        
+          <p>どこまで戻すか　<input class="check_date" name="status_edit" value="{{ $status_edit ?? null }}" readonly>
+          <P>出荷取消手配　確定　<input type="submit" value="出荷取消"></P>        
         <table border="1">
             <tr>
               <th>デバック用</th>
@@ -43,8 +43,7 @@
             @foreach ($stock_indexes as $stock)
             <tr>
               <td>
-                <input id="{{$stock->id}}" name="item_ids[]" value="{{$stock->id}}">
-                <label class="form-check-label">{{$stock->id}}</label>
+                <input class="check_date" id="{{$stock->id}}" name="item_ids[]" value="{{$stock->id}}" readonly>
               </td>
               <td>{{$stock->item_code}}</td>
               <td>{{$stock->item->name}}</td>                
