@@ -12,7 +12,7 @@
        <h2><span class="attention">注意</span>　出荷取り消す際は必ず輸送会社の許可を得て行って下さい</h2>
 
         @if(!empty($stock_indexes))
-        <form action="{{url('/edit_goes')}}" method="POST" name="status_edit" value="{{ $status_edit ?? null }}">
+        <form action="{{url('/shipment/cancels')}}" method="POST" name="status_edit" value="{{ $status_edit ?? null }}">
             @csrf
             <input name="status_edit" value="{{ $status_edit ?? null }}">
            <P>出荷取消手配　確定　<input type="submit" value="出荷取消"></P>        

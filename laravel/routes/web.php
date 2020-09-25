@@ -25,11 +25,11 @@ Route::get('/order', 'StockController@order')->name('order');
 
 Route::get('/orders', 'StockController@order_index')->name('order');
 
-Route::get('/edits', 'StockController@edit')->name('edit');
+Route::get('/shipment/cancels', 'ShipmentCancelController@shipment_cancel')->name('cancel');
 
-Route::get('/edit_checks', 'StockController@edit_check')->name('edit');
+Route::get('/shipment/cancels/checks', 'ShipmentCancelController@shipment_cancel_check')->name('cancel');
 
-Route::post('/edit_goes', 'StockController@edit_go')->name('edit');
+Route::post('/shipment/cancels', 'ShipmentCancelController@shipment_cancel_go')->name('cancel');
 
 Route::get('/temporaries', 'StockController@temporary')->name('temporary');
 
