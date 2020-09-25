@@ -89,6 +89,71 @@ class Inventory extends Model
         return $query;
     }
 
+    public function scopeEditIndex($query, $item_code, $delivery_user_id, $status, $ship_date)
+    {
+        
+        $query->join('orders', 'inventories.item_code', '=', 'orders.item_code')
+            ->join('items', 'inventories.item_code', '=', 'items.item_code')
+            ->join('client_companies', 'orders.end_user_id', 'client_companies.id');
+
+        $ship_arranged = \Config::get('const.Temporaries.ship_arranged');
+        $shipped = \Config::get('const.Temporaries.shipped');
+
+        $query->where('inventories.status', $ship_arranged)
+            ->orwhere('inventories.status', $shipped);
+
+        if (isset($status)) {
+            $query->where('inventories.status', $status);
+        }
+
+        if (isset($item_code)) {
+            $query->where('inventories.item_code', $item_code);
+        }
+
+        if (isset($delivery_user_id)) {
+            $query->where('orders.delivery_user_id', $delivery_user_id);
+        }
+
+        if (isset($ship_date)) {
+            $query->where('inventories.ship_date', $ship_date);
+        }
+
+        $query->oldest('charge_code');
+
+        $query->select('inventories.id', 'inventories.item_code', 'items.name', 'inventories.order_code', 'inventories.charge_code', 'inventories.manufacturing_code', 'inventories.bundle_number', 'inventories.quantity', 'inventories.weight', 'inventories.status', 'inventories.production_date', 'inventories.factory_warehousing_date', 'inventories.warehouse_receipt_date', 'inventories.destination_id', 'orders.delivery_user_id');
+
+        return $query;
+    }
+
+    public function scopeEditCheck($query, $item_ids)
+    {
+        $query->join('orders', 'inventories.item_code', '=', 'orders.item_code')
+            ->join('items', 'inventories.item_code', '=', 'items.item_code')
+            ->join('client_companies', 'orders.end_user_id', 'client_companies.id');
+
+        if (isset($item_ids)) {
+            foreach ($item_ids as $item_id) {
+                $query->whereIn('inventories.id', $item_id);
+            }
+        }
+
+        $query->oldest('charge_code');
+
+        $query->select('inventories.id', 'inventories.item_code', 'items.name', 'inventories.order_code', 'inventories.charge_code', 'inventories.manufacturing_code', 'inventories.bundle_number', 'inventories.quantity', 'inventories.weight', 'inventories.status', 'inventories.production_date', 'inventories.factory_warehousing_date', 'inventories.warehouse_receipt_date', 'inventories.destination_id', 'orders.delivery_user_id');
+
+        return $query;
+    }
+
+    public function scopeinventoryEdit($query, $item_ids, $status_edit) 
+    {
+        foreach ($item_ids as $item_id) {
+
+            $query->whereIn('id', $item_id)->update(['status' => $status_edit]);
+        }
+
+        return $query;
+    }
+
     public function item()
     {
         return $this->belongsTo('App\Models\Item', 'item_code', 'item_code');

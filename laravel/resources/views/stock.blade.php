@@ -19,7 +19,7 @@
                 <input type="text" name="delivery_user_id" value="{{ $delivery_user_id ?? null }}">
             </label></p>
 
-            <p>在庫状態を選んで下さい。
+            <p>在庫進捗状態を選んで下さい。
               <label for="status">
                     　<input type="radio" name="status" value="1"<?php if( isset($status)){ if( $status ===  "1"){ echo 'checked'; }}?>>1製造中　
               </label>

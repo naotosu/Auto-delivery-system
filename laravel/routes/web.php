@@ -25,7 +25,11 @@ Route::get('/order', 'StockController@order')->name('order');
 
 Route::get('/orders', 'StockController@order_index')->name('order');
 
-Route::get('/compulsion', 'StockController@compulsion')->name('compulsion');
+Route::get('/shipment/cancels', 'ShipmentCancelController@shipment_cancel')->name('cancel');
+
+Route::get('/shipment/cancels/checks', 'ShipmentCancelController@shipment_cancel_check')->name('cancel');
+
+Route::post('/shipment/cancels', 'ShipmentCancelController@shipment_cancel_execute')->name('cancel');
 
 Route::get('/temporaries', 'StockController@temporary')->name('temporary');
 

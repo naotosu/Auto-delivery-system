@@ -31,7 +31,7 @@
             </div>
             <div class="icon">
             <li>
-              <a href="/compulsion">出荷指示強制編集</a>
+              <a href="/shipment/cancels">出荷指示強制取消</a>
             </li>
             </div>
           </ul>
