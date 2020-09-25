@@ -25,7 +25,11 @@ Route::get('/order', 'StockController@order')->name('order');
 
 Route::get('/orders', 'StockController@order_index')->name('order');
 
-Route::get('/compulsion', 'StockController@compulsion')->name('compulsion');
+Route::get('/edits', 'StockController@edit')->name('edit');
+
+Route::get('/edit_checks', 'StockController@edit_check')->name('edit');
+
+Route::post('/edit_goes', 'StockController@edit_go')->name('edit');
 
 Route::get('/temporaries', 'StockController@temporary')->name('temporary');
 
