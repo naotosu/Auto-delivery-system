@@ -39,7 +39,7 @@ class ShipmentCancelController extends Controller
         return view('cancel_check', compact('stock_indexes', 'item_ids', 'status_edit'));
     } 
 
-    public function shipment_cancel_go(Request $request)
+    public function shipment_cancel_execute(Request $request)
     {
         $item_ids = [$request->input('item_ids')];
         $status_edit = $request->input('status_edit');
