@@ -23,7 +23,6 @@
             {{ $now = \Carbon\Carbon::now() }}
 
             <p><label for="order_date">表示する納入日を選んで下さい。
-
                     <input type="date" name="order_start" min="{{$now->subMonths(1)}}" max="{{$now->addMonths(1)}}" value="{{ $order_start ?? null }}"> 〜 
                     <input type="date" name="order_end" min="{{$now->subMonths(1)}}" max="{{$now->addMonths(1)}}" value="{{ $order_end ?? null }}">
             </label></p>
