@@ -19,7 +19,7 @@ class Inventory extends Model
         'status'
         ];
 
-    public function scopeStockIndex($query, $item_code, $delivery_user_id, $status, $ship_date)
+    public function scopeStockIndex($query, $item_code, $delivery_user_id, $status)
     {
         $query->join('orders', 'inventories.item_code', '=', 'orders.item_code');
 
@@ -29,10 +29,6 @@ class Inventory extends Model
 
         if (isset($delivery_user_id)) {
             $query->where('orders.delivery_user_id', $delivery_user_id);
-        }
-
-        if (isset($ship_date)) {
-            $query->where('inventories.ship_date', $ship_date);
         }
 
         if (isset($status)) {
@@ -101,14 +97,17 @@ class Inventory extends Model
             ->join('items', 'inventories.item_code', '=', 'items.item_code')
             ->join('client_companies', 'orders.end_user_id', 'client_companies.id');
 
-        $ship_arranged = \Config::get('const.Temporaries.ship_arranged');
-        $shipped = \Config::get('const.Temporaries.shipped');
-
-        $query->where('inventories.status', $ship_arranged)
-            ->orwhere('inventories.status', $shipped);
-
         if (isset($status)) {
             $query->where('inventories.status', $status);
+
+        } else {
+            $ship_arranged = \Config::get('const.Temporaries.ship_arranged');
+            $shipped = \Config::get('const.Temporaries.shipped');
+
+            $query->where (function($query) use ($ship_arranged, $shipped) {
+                $query->where('inventories.status', $ship_arranged)
+                    ->orwhere('inventories.status', $shipped);
+            });
         }
 
         if (isset($item_code)) {
@@ -149,7 +148,7 @@ class Inventory extends Model
         return $query;
     }
 
-    public function scopeinventoryEdit($query, $item_ids, $status_edit) 
+    public function scopeInventoryEdit($query, $item_ids, $status_edit) 
     {
         foreach ($item_ids as $item_id) {
 
