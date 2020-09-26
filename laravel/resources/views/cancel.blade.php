@@ -18,7 +18,7 @@
                 <input type="text" name="delivery_user_id" value="{{ $delivery_user_id ?? null }}">
             </label></p>
             <p><label for="order_date">表示する納入日を選んで下さい。
-                <p>納入日<input type="date" name="ship_date"></p>
+                <p>納入日<input type="date" name="ship_date" value="{{ $ship_date ?? null }}"></p>
             </label></p>
             <p>進捗進捗状態を選んで下さい。
               <label for="status">
@@ -70,7 +70,7 @@
             @foreach ($stock_indexes as $stock)
             <tr>
               <td>
-                <input class="form-check-input" type="checkbox" id="{{$stock->id}}" name="item_ids[]" value="{{$stock->id}}">
+                <input class="form-check-input" type="checkbox" id="{{$stock->id}}" name="item_ids[]" value="{{$stock->id}}" <?php $stock->id === (int)old("item_ids") ? "checked" : '' ?>>
                 <label class="form-check-label" for="checkbox">{{$stock->id}}</label>
               </td>
                 <td>{{$stock->item_code}}</td>
@@ -96,6 +96,9 @@
             </tr>
             @endforeach
         </table>
+            <input type="text" name="item_code" value="{{ $item_code ?? null }}" readonly>
+            <input type="text" name="delivery_user_id" value="{{ $delivery_user_id ?? null }}" readonly>
+            <input type="date" name="ship_date" value="{{ $ship_date ?? null }}" readonly>
       </form>
          
         @else
