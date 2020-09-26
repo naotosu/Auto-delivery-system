@@ -136,9 +136,9 @@ class Inventory extends Model
             ->join('client_companies', 'orders.end_user_id', 'client_companies.id');
 
         if (isset($item_ids)) {
-            foreach ($item_ids as $item_id) {
-                $query->whereIn('inventories.id', $item_id);
-            }
+            
+            $query->whereIn('inventories.id', $item_ids);
+            
         }
 
         $query->oldest('charge_code');
@@ -150,10 +150,7 @@ class Inventory extends Model
 
     public function scopeInventoryEdit($query, $item_ids, $status_edit) 
     {
-        foreach ($item_ids as $item_id) {
-
-            $query->whereIn('id', $item_id)->update(['status' => $status_edit]);
-        }
+        $query->whereIn('id', $item_ids)->update(['status' => $status_edit]);
 
         return $query;
     }
