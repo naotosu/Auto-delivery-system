@@ -36,53 +36,6 @@ class StockController extends Controller
         return view('order', compact('order_indexes', 'item_code', 'delivery_user_id', 'order_start', 'order_end'));
     }
 
-    public function edit(Request $request)
-    {
-        $item_code = $request->input('item_code');
-        $delivery_user_id = $request->input('delivery_user_id');
-        $status = $request->input('status');
-        $ship_date = $request->input('ship_date');
-
-        if (isset($item_code) or ($delivery_user_id) or ($status) or ($ship_date)) {
-
-            $stock_indexes = Inventory::editIndex($item_code, $delivery_user_id, $status, $ship_date)->get();
-
-        return view('edit', compact('stock_indexes', 'item_code', 'delivery_user_id', 'status', 'ship_date'));
-        }
-
-        return view('edit');
-    }
-
-    public function edit_check(Request $request)
-    {
-        $item_ids = [$request->input('item_ids')];
-        $status_edit = $request->input('status_edit');
-        $stock_indexes = Inventory::editCheck($item_ids)->get();
-
-        if (empty($status_edit)) {
-            session()->flash('flash_message', 'どこまで進捗を戻すか？は入力必須です');
-            return redirect('edits');
-        }
-
-        return view('edit_check', compact('stock_indexes', 'item_ids', 'status_edit'));
-    } 
-
-    public function edit_go(Request $request)
-    {
-        $item_ids = [$request->input('item_ids')];
-        $status_edit = $request->input('status_edit');
-
-        try {   
-            Inventory::inventoryEdit($item_ids, $status_edit);
-        } catch (\Exception $e) {
-            report($e);
-            session()->flash('flash_message', '注文データの取消を中断しました');
-            return redirect('edits');
-        }
-        session()->flash('flash_message', '出荷指示の取消を実行しました。必ず輸送会社へ連絡をして下さい');
-        return redirect('edits');
-    } 
-
     public function temporary(Request $request)
     {
         $item_code = $request->input('item_code');
