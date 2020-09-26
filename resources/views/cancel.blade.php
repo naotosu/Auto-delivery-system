@@ -1,7 +1,7 @@
 @extends('common')
 
 @section('content')
-@include('header')  
+@include('header')
     <div class="main">
       @if (session('flash_message'))
           <div class="flash_message">
@@ -70,7 +70,7 @@
             @foreach ($stock_indexes as $stock)
             <tr>
               <td>
-                <input class="form-check-input" type="checkbox" id="{{$stock->id}}" name="item_ids[]" value="{{$stock->id}}" <?php $stock->id === (int)old("item_ids") ? "checked" : '' ?>>
+                <input class="form-check-input" type="checkbox" id="{{$stock->id}}" name="item_ids[]" value="{{$stock->id}}" <?php if (isset($item_ids)) { $key = in_array($stock->id, $item_ids); if ($key) {"checked"; }} ?>>
                 <label class="form-check-label" for="checkbox">{{$stock->id}}</label>
               </td>
                 <td>{{$stock->item_code}}</td>
