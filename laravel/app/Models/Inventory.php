@@ -19,7 +19,7 @@ class Inventory extends Model
         'status'
         ];
 
-    public function scopeStockIndex($query, $item_code, $delivery_user_id, $status)
+    public function scopeStockIndex($query, $item_code, $delivery_user_id, $status, $ship_date)
     {
         $query->join('orders', 'inventories.item_code', '=', 'orders.item_code');
 
@@ -30,6 +30,11 @@ class Inventory extends Model
         if (isset($delivery_user_id)) {
             $query->where('orders.delivery_user_id', $delivery_user_id);
         }
+
+        if (isset($ship_date)) {
+            $query->where('inventories.ship_date', $ship_date);
+        }
+
         if (isset($status)) {
             $query->where('inventories.status', $status);
         }

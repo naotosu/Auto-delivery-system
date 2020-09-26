@@ -32,7 +32,7 @@ class ShipmentCancelController extends Controller
         $status = $request->input('status');
         $ship_date = $request->input('ship_date');
 
-        $item_ids = [$request->input('item_ids')];
+        $item_ids = $request->input('item_ids');
         $status_edit = $request->input('status_edit');
 
         if (empty($status_edit)) {
