@@ -37,6 +37,13 @@ class OrderItem extends Model
         return $query;
     }
 
+    public function scopeAutoDeliveryIndex($query, $ship_date)
+    {
+        $query->where('ship_date', $ship_date);
+
+        return $query;
+    }
+
     public function order()
     {
         return $this->belongsTo('App\Models\Order');
