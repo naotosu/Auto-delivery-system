@@ -76,7 +76,7 @@ class AutoDeliveryCommand extends Command
             'valueInputOption' => $valueInputOption,
             'data' => $data
         ));
-        $result = $sheets->spreadsheets_values->batchUpdate($spreadsheetId, $body);
+        $result = $sheets->spreadsheets_values->batchUpdate($sheet_id, $body);
 
 
             /*$params = ['valueInputOption' => 'USER_ENTERED'];
