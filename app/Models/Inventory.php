@@ -148,6 +148,29 @@ class Inventory extends Model
         return $query;
     }
 
+    public function scopeShipmentList($query, $shipment_list)
+    {        
+        $query->join('orders', 'inventories.item_code', '=', 'orders.item_code')
+            ->join('items', 'inventories.item_code', '=', 'items.item_code')
+            ->join('client_companies', 'orders.end_user_id', 'client_companies.id');
+
+        $factory_stock = \Config::get('const.Temporaries.factory_stock');
+        $warehouse_stock = \Config::get('const.Temporaries.warehouse_stock');
+
+        $query->where('inventories.status', $factory_stock)
+            ->orwhere('inventories.status', $warehouse_stock);
+
+        $query->oldest('charge_code');
+
+
+
+
+
+        $query->select('inventories.id', 'inventories.item_code', 'items.name', 'inventories.order_code', 'inventories.charge_code', 'inventories.manufacturing_code', 'inventories.bundle_number', 'inventories.quantity', 'inventories.weight', 'inventories.status', 'inventories.production_date', 'inventories.factory_warehousing_date', 'inventories.warehouse_receipt_date', 'inventories.destination_id', 'orders.delivery_user_id');
+
+        return $query;
+    }
+
     public function scopeInventoryEdit($query, $item_ids, $status_edit) 
     {
         $query->whereIn('id', $item_ids)->update(['status' => $status_edit]);
@@ -158,6 +181,11 @@ class Inventory extends Model
     public function item()
     {
         return $this->belongsTo('App\Models\Item', 'item_code', 'item_code');
+    }
+
+    public function orderItem()
+    {
+        return $this->belongsTo('App\Models\OrderItem', 'order_item_id', 'id');
     }
     
     public function order()
