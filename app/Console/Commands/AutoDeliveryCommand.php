@@ -43,13 +43,16 @@ class AutoDeliveryCommand extends Command
         $sheets = GoogleSheet::OrderItem();
 
         $sheet_id = '1DRe3JKouPvmXoosZXlhXcNOGnALHO61J39QTItwAMHc';
-        $ship_date = '2020-09-30';
+        $ship_date = '2020-09-29';
         $order_indexes = OrderItem::AutoDeliveryIndex($ship_date);
 
-        $order_items = array(
-            foreach ($order_indexes as $order) {
-            
-                $order->item_code,/* ←テスト書き込み
+        $order_items = array();
+
+        foreach ( $order_indexes as $order) {
+
+            array_push($order_items, $order->item_code);
+        
+                /*$order->item_code,
                 <td>{{$order->item->name}}</td>
                 <td>{{$order->ship_date}}</td>
                 <td>{{$order->quantity}}</td>
@@ -57,9 +60,11 @@ class AutoDeliveryCommand extends Command
                 <td>{{$order->name}}（仮）</td>
                 <td>{{$order->order->delivery_user_id}}</td>
                 <td>{{$order->order->clientCompanyDeliveryUser->name}}</td>
-                <td>{{$order->temporary_flag]*/                
-            }
-        );
+                <td>{{$order->temporary_flag]*/
+        }
+
+        dd($order_items);
+        
 
         $values = new \Google_Service_Sheets_ValueRange();
         $values->setValues([

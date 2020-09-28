@@ -39,7 +39,7 @@ class OrderItem extends Model
 
     public function scopeAutoDeliveryIndex($query, $ship_date)
     {
-        $query->where('ship_date', $ship_date);
+        //$query->where('ship_date', $ship_date);
 
         return $query;
     }
