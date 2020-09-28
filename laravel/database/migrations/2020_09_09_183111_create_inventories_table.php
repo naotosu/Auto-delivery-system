@@ -28,6 +28,7 @@ class CreateInventoriesTable extends Migration
             $table->date('production_date')->nullable();
             $table->date('factory_warehousing_date')->nullable();
             $table->date('warehouse_receipt_date')->nullable();
+            $table->bigInteger('order_item_id')->nullable();
             $table->date('ship_date')->nullable();
             $table->Integer('destination_id')->nullable();
             $table->bigInteger('input_user_id')->unsigned();
