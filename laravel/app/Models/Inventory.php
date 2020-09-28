@@ -148,7 +148,7 @@ class Inventory extends Model
         return $query;
     }
 
-    public function scopeShipmentList($query, $shipment_list)
+    public function scopeShipmentList($query, $order_indexes)
     {        
         $query->join('orders', 'inventories.item_code', '=', 'orders.item_code')
             ->join('items', 'inventories.item_code', '=', 'items.item_code')
@@ -161,6 +161,21 @@ class Inventory extends Model
             ->orwhere('inventories.status', $warehouse_stock);
 
         $query->oldest('charge_code');
+
+        //dd($order_indexes);
+
+        foreach ($order_indexes as $order) {
+            if ($order->quantity > 
+                $query->select('weight')
+                    ->where($order->order_item_id)) {
+
+                    //ここでDB値編集
+
+            }
+                
+        }
+             
+
 
 
 

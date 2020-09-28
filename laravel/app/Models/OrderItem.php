@@ -56,7 +56,7 @@ class OrderItem extends Model
 
     public function inventories()
     {
-        return $this->hasMany('App\Models\Inventory', 'order_item_id', 'id');
+        return $this->hasMany('App\Models\Inventory', 'inventory_id', 'id');
     }
 
 }
