@@ -13,7 +13,7 @@ class OrderItemsTableSeeder extends Seeder
     {
         DB::table('order_items')->insert([[
             'order_id' => '3',
-            'item_code' => '22111111363',
+            'item_code' => 'BB111111363',
             'ship_date' => '2020-10-15',
             'quantity' => '4000',
             'temporary_flag' => '1',

@@ -153,9 +153,12 @@ class Inventory extends Model
         $factory_stock = \Config::get('const.Temporaries.factory_stock');
         $warehouse_stock = \Config::get('const.Temporaries.warehouse_stock');
 
-        $query->where('inventories.status', $factory_stock)
-            ->orwhere('inventories.status', $warehouse_stock)
-            ->oldest('inventories.charge_code');
+        $query->where('inventories.item_code', $order->item_code)
+            ->where(function($query) use ($factory_stock, $warehouse_stock){
+                        $query->where('inventories.status', $factory_stock)
+                            ->orwhere('inventories.status', $warehouse_stock);
+                    })
+            ->oldest('inventories.charge_code');      
 
         /*ループを止める処理は後ほど実装
         $shipment_sum = 0;
