@@ -48,7 +48,7 @@ class AutoDeliveryCommand extends Command
 
         $sheet_id = '1DRe3JKouPvmXoosZXlhXcNOGnALHO61J39QTItwAMHc';
         $valueInputOption = "USER_ENTERED";
-        $ship_date = '2020-09-15';
+        $ship_date = '2020-09-28';
         $range = 'A2';
         
         $order_indexes = OrderItem::AutoDeliveryIndex($ship_date)->get();
