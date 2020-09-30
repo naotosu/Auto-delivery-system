@@ -48,16 +48,22 @@ class AutoDeliveryCommand extends Command
 
         $sheet_id = '1DRe3JKouPvmXoosZXlhXcNOGnALHO61J39QTItwAMHc';
         $valueInputOption = "USER_ENTERED";
-        $ship_date = '2020-09-19';
+        $ship_date = '2020-09-15';
         $range = 'A2';
         
         $order_indexes = OrderItem::AutoDeliveryIndex($ship_date)->get();
 
         foreach ($order_indexes as $order) {
 
-            Inventory::ShipmentList($order)->post();
+            $inventory = Inventory::ShipmentList($order)->first();
 
-            dd($order); //テストのため、ここで処理を止める
+            $ship_arranged = \Config::get('const.Temporaries.ship_arranged');
+            $inventory->order_item_id = $order->id;
+            $inventory->ship_date = $order->ship_date;
+            $inventory->status = $ship_arranged;
+            $inventory->save();
+
+            dd($inventory); //テストのため、ここで処理を止める
 
         }
 

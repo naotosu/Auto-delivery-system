@@ -150,31 +150,23 @@ class Inventory extends Model
 
     public function scopeShipmentList($query, $order)
     {
-        $query->join('order_items', 'inventories.item_code', '=', 'order_items.item_code');
-
         $factory_stock = \Config::get('const.Temporaries.factory_stock');
         $warehouse_stock = \Config::get('const.Temporaries.warehouse_stock');
-        $ship_arranged = \Config::get('const.Temporaries.ship_arranged');
 
         $query->where('inventories.status', $factory_stock)
-            ->orwhere('inventories.status', $warehouse_stock);
+            ->orwhere('inventories.status', $warehouse_stock)
+            ->oldest('inventories.charge_code');
 
+        /*ループを止める処理は後ほど実装
         $shipment_sum = 0;
 
-        //while ($shipment_sum <= $order->quantity) {
+        while ($shipment_sum <= $order->quantity) {
 
-            $query->where('inventories.item_code', 'order_items.item_code')
-                ->oldest('inventories.charge_code')
-                ->first()
-                ->update(['inventories.order_item_id' => $order->id], ['inventories.ship_date' => $order->ship_date], ['inventories.status' => $ship_arranged]);
-
-                dd($order); //テストのため、ここで処理を止める
-
-            /*$shipment_sum = Inventory::where('inventories.order_item_id', $order->order_item_id)
+            $shipment_sum = Inventory::where('inventories.order_item_id', $order->order_item_id)
                 ->where('inventories.ship_date', $order->ship_date)
-                ->sum('inventories.weight');*/
+                ->sum('inventories.weight');
                 
-        //}
+        }*/
 
         return $query;
     }
