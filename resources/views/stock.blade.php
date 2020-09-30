@@ -65,6 +65,7 @@
                 <th>製造日</th>
                 <th>工場入庫日</th>
                 <th>倉庫入庫日</th>
+                <th>注文ID</th>
                 <th>出荷日</th>
                 <th>ENDユーザー</th>
                 <th>ユーザー</th>
@@ -88,6 +89,7 @@
                 <td>{{$stock->production_date}}</td>
                 <td>{{$stock->factory_warehousing_date}}</td>
                 <td>{{$stock->warehouse_receipt_date}}</td>
+                <td>{{$stock->order_item_id}}</td>
                 <td>{{$stock->ship_date}}</td>
                 <td>{{$stock->order->clientCompanyEndUser->name}}</td>
                 <td>{{$stock->order->clientCompanyClientUser->name}}</td>
