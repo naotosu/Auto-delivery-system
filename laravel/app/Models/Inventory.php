@@ -148,40 +148,33 @@ class Inventory extends Model
         return $query;
     }
 
-    public function scopeShipmentList($query, $order_indexes)
-    {        
-        $query->join('orders', 'inventories.item_code', '=', 'orders.item_code')
-            ->join('items', 'inventories.item_code', '=', 'items.item_code')
-            ->join('client_companies', 'orders.end_user_id', 'client_companies.id');
+    public function scopeShipmentList($query, $order)
+    {
+        $query->join('order_items', 'inventories.item_code', '=', 'order_items.item_code');
 
         $factory_stock = \Config::get('const.Temporaries.factory_stock');
         $warehouse_stock = \Config::get('const.Temporaries.warehouse_stock');
+        $ship_arranged = \Config::get('const.Temporaries.ship_arranged');
 
         $query->where('inventories.status', $factory_stock)
             ->orwhere('inventories.status', $warehouse_stock);
 
-        $query->oldest('charge_code');
+        $shipment_sum = 0;
 
-        //dd($order_indexes);
+        //while ($shipment_sum <= $order->quantity) {
 
-        foreach ($order_indexes as $order) {
-            if ($order->quantity > 
-                $query->select('weight')
-                    ->where($order->order_item_id)) {
+            $query->where('inventories.item_code', 'order_items.item_code')
+                ->oldest('inventories.charge_code')
+                ->first()
+                ->update(['inventories.order_item_id' => $order->id], ['inventories.ship_date' => $order->ship_date], ['inventories.status' => $ship_arranged]);
 
-                    //ここでDB値編集
+                dd($order); //テストのため、ここで処理を止める
 
-            }
+            /*$shipment_sum = Inventory::where('inventories.order_item_id', $order->order_item_id)
+                ->where('inventories.ship_date', $order->ship_date)
+                ->sum('inventories.weight');*/
                 
-        }
-             
-
-
-
-
-
-
-        $query->select('inventories.id', 'inventories.item_code', 'items.name', 'inventories.order_code', 'inventories.charge_code', 'inventories.manufacturing_code', 'inventories.bundle_number', 'inventories.quantity', 'inventories.weight', 'inventories.status', 'inventories.production_date', 'inventories.factory_warehousing_date', 'inventories.warehouse_receipt_date', 'inventories.destination_id', 'orders.delivery_user_id');
+        //}
 
         return $query;
     }

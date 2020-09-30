@@ -48,13 +48,23 @@ class AutoDeliveryCommand extends Command
 
         $sheet_id = '1DRe3JKouPvmXoosZXlhXcNOGnALHO61J39QTItwAMHc';
         $valueInputOption = "USER_ENTERED";
-        $ship_date = '2020-09-30';
+        $ship_date = '2020-09-19';
+        $range = 'A2';
+        
         $order_indexes = OrderItem::AutoDeliveryIndex($ship_date)->get();
-        $range = 'B2:M200';
 
-        //$shipment_lists = Inventory::ShipmentList($order_indexes)->post();
+        foreach ($order_indexes as $order) {
 
-        $order_items = array();
+            Inventory::ShipmentList($order)->post();
+
+            dd($order); //テストのため、ここで処理を止める
+
+        }
+
+            //下記のエクスポートは別途実装
+
+
+        /*$order_items = array();
      
         foreach ( $order_indexes as $order) {
 
@@ -66,25 +76,18 @@ class AutoDeliveryCommand extends Command
                 $order->order->clientCompanyDeliveryUser->name
                 ]);
         }
-        $data = new \Google_Service_Sheets_ValueRange();
-        $data->setValues([
-                'range' => $range, 
-                'values' => $order_items
-            ]);
+
+        $data = [];
+        $data[] = new \Google_Service_Sheets_ValueRange(array(
+            'range' => $range,
+            'values' => $order_items
+        ));
 
         $body = new \Google_Service_Sheets_BatchUpdateValuesRequest(array(
             'valueInputOption' => $valueInputOption,
             'data' => $data
         ));
-        $result = $sheets->spreadsheets_values->batchUpdate($sheet_id, $body);
+        $result = $sheets->spreadsheets_values->batchUpdate($sheet_id, $body);*/
 
-
-            /*$params = ['valueInputOption' => 'USER_ENTERED'];
-            $sheets->spreadsheets_values->batchUpdate(
-                $sheet_id,
-                'A2',
-                $values,
-                $params
-            );*/
     }
 }
