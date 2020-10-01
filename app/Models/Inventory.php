@@ -148,7 +148,7 @@ class Inventory extends Model
         return $query;
     }
 
-    public function scopeAutoDeliverySearchByStock($query, $order)
+    public function scopeSearchByShipDate($query, $order)
     {
         $factory_stock = \Config::get('const.Temporaries.factory_stock');
         $warehouse_stock = \Config::get('const.Temporaries.warehouse_stock');

@@ -48,11 +48,11 @@ class AutoDeliveryCommand extends Command
         $ship_date = '2020-09-28';
         $range = 'A2';
         
-        $order_indexes = OrderItem::AutoDeliverySearchByOrder($ship_date)->get();
+        $order_indexes = OrderItem::SearchByShipDate($ship_date)->get();
 
         foreach ($order_indexes as $order) {
 
-            $inventory = Inventory::AutoDeliverySearchByStock($order)->first();
+            $inventory = Inventory::SearchByShipDate($order)->first();
 
             $ship_arranged = \Config::get('const.Temporaries.ship_arranged');
             $inventory->order_item_id = $order->id;
