@@ -43,40 +43,43 @@ class AutoDeliveryCommand extends Command
     {
         $sheets = GoogleSheet::OrderItem();
 
-        $sheet_id = \Config::get('const.Account.spread_sheet_id');
-        //$sheet_id = '1DRe3JKouPvmXoosZXlhXcNOGnALHO61J39QTItwAMHc';
+        $sheet_id = \Config::get('const.Constant.spread_sheet_id');
+        $sheet_id = '1DRe3JKouPvmXoosZXlhXcNOGnALHO61J39QTItwAMHc';
         $valueInputOption = "USER_ENTERED";
-        $ship_date = '2020-09-16';
+        $ship_date = '2020-10-22';
         $range = 'A2';
-
-        //dd($sheet_id);
         
         $order_indexes = OrderItem::SearchByShipDate($ship_date)->get();
 
         foreach ($order_indexes as $order) {
 
-            $shipment_sum = 0;
+            $shipment_sum = Inventory::where('inventories.order_item_id', $order->id)
+                        ->where('inventories.ship_date', $order->ship_date)
+                        ->sum('inventories.weight');
 
-            while ($shipment_sum <= $order->quantity) {
+            if($shipment_sum <= $order->quantity) {
 
-                $inventory = Inventory::SearchByShipDate($order)->first();
+                while ($shipment_sum <= $order->quantity) {
 
-                    //$inventory nullの場合はブレイクにする
-                    if (empty($inventory)) {
-                        dd($shipment_sum);//テスト段階では仮で0であることを返す
-                        return ;//"在庫が不足していおります。注文を減らすか、在庫を増やして下さい」と通知したい"
-                        
-                    }
+                    $inventory = Inventory::SearchByShipDate($order)->first();
 
-                $ship_arranged = \Config::get('const.Temporaries.ship_arranged');
-                $inventory->order_item_id = $order->id;
-                $inventory->ship_date = $order->ship_date;
-                $inventory->status = $ship_arranged;
-                $inventory->save();
+                        //$inventory nullの場合はブレイクにする
+                        if (empty($inventory)) {
+                            dd($shipment_sum);//テスト段階では仮で0であることを返す
+                            return ;//"在庫が不足していおります。注文を減らすか、在庫を増やして下さい」と通知したい"
+                            
+                        }
 
-                $shipment_sum = Inventory::where('inventories.order_item_id', $order->id)
-                    ->where('inventories.ship_date', $order->ship_date)
-                    ->sum('inventories.weight');
+                    $ship_arranged = \Config::get('const.Constant.ship_arranged');
+                    $inventory->order_item_id = $order->id;
+                    $inventory->ship_date = $order->ship_date;
+                    $inventory->status = $ship_arranged;
+                    $inventory->save();
+
+                    $shipment_sum = Inventory::where('inventories.order_item_id', $order->id)
+                        ->where('inventories.ship_date', $order->ship_date)
+                        ->sum('inventories.weight');
+                }
             }
 
         }
