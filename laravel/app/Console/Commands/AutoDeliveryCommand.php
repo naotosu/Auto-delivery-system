@@ -43,19 +43,16 @@ class AutoDeliveryCommand extends Command
     {
         $sheets = GoogleSheet::OrderItem();
 
-        //$service = new \Google_Service_Sheets($client);
-
-
-        $sheet_id = '1DRe3JKouPvmXoosZXlhXcNOGnALHO61J39QTItwAMHc';
+        $sheet_id = \Config::get('account.spread_sheet_id');
         $valueInputOption = "USER_ENTERED";
         $ship_date = '2020-09-28';
         $range = 'A2';
         
-        $order_indexes = OrderItem::AutoDeliveryIndex($ship_date)->get();
+        $order_indexes = OrderItem::AutoDeliverySearchByOrder($ship_date)->get();
 
         foreach ($order_indexes as $order) {
 
-            $inventory = Inventory::ShipmentList($order)->first();
+            $inventory = Inventory::AutoDeliverySearchByStock($order)->first();
 
             $ship_arranged = \Config::get('const.Temporaries.ship_arranged');
             $inventory->order_item_id = $order->id;

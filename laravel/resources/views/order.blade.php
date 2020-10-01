@@ -37,6 +37,7 @@
          
         <table border="1">
             <tr>
+                <th>デバッグ用ID</th>
                 <th>アイテムコード</th>
                 <th>アイテム名</th>
                 <th>納入日</th>
@@ -49,12 +50,13 @@
             </tr>
             @foreach ($order_indexes as $order)
             <tr>
+                <td>{{$order->id}}</td>
                 <td>{{$order->item_code}}</td>
                 <td>{{$order->item->name}}</td>
                 <td>{{$order->ship_date}}</td>
                 <td>{{$order->quantity}}</td>
-                <td>{{$order->name}}（仮）</td>
-                <td>{{$order->name}}（仮）</td>
+                <td>{{$order->order->clientCompanyEndUser->name}}</td>
+                <td>{{$order->order->clientCompanyClientUser->name}}</td>
                 <td>{{$order->order->delivery_user_id}}</td>
                 <td>{{$order->order->clientCompanyDeliveryUser->name}}</td>
                 <td>{{$order->temporary_flag}}</td>

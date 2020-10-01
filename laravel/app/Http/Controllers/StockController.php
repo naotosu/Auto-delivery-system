@@ -31,7 +31,7 @@ class StockController extends Controller
         $order_start = $request->input('order_start');
         $order_end = $request->input('order_end');
 
-        $order_indexes = OrderItem::orderIndex($item_code, $delivery_user_id, $order_start, $order_end)->get();
+        $order_indexes = OrderItem::SearchByOrder($item_code, $delivery_user_id, $order_start, $order_end)->get();
 
         return view('order', compact('order_indexes', 'item_code', 'delivery_user_id', 'order_start', 'order_end'));
     }
@@ -43,7 +43,7 @@ class StockController extends Controller
 
         if (isset($item_code) or ($delivery_user_id)) {
 
-            $temporary_indexes = Inventory::temporaryIndex($item_code,$delivery_user_id)->get();
+            $temporary_indexes = Inventory::TemporarySearchByStock($item_code,$delivery_user_id)->get();
 
             return view('temporary', compact('temporary_indexes', 'item_code', 'delivery_user_id'));
 
@@ -64,7 +64,7 @@ class StockController extends Controller
         $delivery_user_id = $request->input('delivery_user_id');
         $status = $request->input('status');
 
-        $stock_indexes = Inventory::stockIndex($item_code, $delivery_user_id, $status)->get();
+        $stock_indexes = Inventory::SearchByStock($item_code, $delivery_user_id, $status)->get();
 
         return view('stock', compact('stock_indexes', 'item_code', 'delivery_user_id', 'status'));
     }
