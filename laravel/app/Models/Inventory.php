@@ -47,8 +47,8 @@ class Inventory extends Model
             ->join('items', 'inventories.item_code', '=', 'items.item_code')
             ->join('client_companies', 'orders.end_user_id', 'client_companies.id');
 
-        $factory_stock = \Config::get('const.Temporaries.factory_stock');
-        $warehouse_stock = \Config::get('const.Temporaries.warehouse_stock');
+        $factory_stock = \Config::get('const.Constant.factory_stock');
+        $warehouse_stock = \Config::get('const.Constant.warehouse_stock');
 
         $query->where('inventories.status', $factory_stock)
             ->orwhere('inventories.status', $warehouse_stock);
@@ -101,8 +101,8 @@ class Inventory extends Model
             $query->where('inventories.status', $status);
 
         } else {
-            $ship_arranged = \Config::get('const.Temporaries.ship_arranged');
-            $shipped = \Config::get('const.Temporaries.shipped');
+            $ship_arranged = \Config::get('const.Constant.ship_arranged');
+            $shipped = \Config::get('const.Constant.shipped');
 
             $query->where (function($query) use ($ship_arranged, $shipped) {
                 $query->where('inventories.status', $ship_arranged)
@@ -150,8 +150,8 @@ class Inventory extends Model
 
     public function scopeSearchByShipDate($query, $order)
     {
-        $factory_stock = \Config::get('const.Temporaries.factory_stock');
-        $warehouse_stock = \Config::get('const.Temporaries.warehouse_stock');
+        $factory_stock = \Config::get('const.Constant.factory_stock');
+        $warehouse_stock = \Config::get('const.Constant.warehouse_stock');
 
         $query->where('inventories.item_code', $order->item_code)
             ->where(function($query) use ($factory_stock, $warehouse_stock){
@@ -165,11 +165,14 @@ class Inventory extends Model
 
     public function scopeSearchByShipArrangedList($query, $ship_date)
     {
-        $ship_arranged = \Config::get('const.Temporaries.ship_arranged');
+        $ship_arranged = \Config::get('const.Constant.ship_arranged');
 
         $query->where('inventories.status', $ship_arranged)
             ->where('inventories.ship_date', $ship_date)
-            ->oldest('inventories.charge_code');
+            ->oldest('inventories.item_code')
+            ->oldest('inventories.order_code')
+            ->oldest('inventories.manufacturing_code')
+            ->oldest('inventories.bundle_number');
 
         return $query;
 
