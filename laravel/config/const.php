@@ -11,7 +11,7 @@ return [
 ];
 
 return [
-    'account' => [
+    'Account' => [
         'spread_sheet_id' => '1DRe3JKouPvmXoosZXlhXcNOGnALHO61J39QTItwAMHc',
     ],
 ];
