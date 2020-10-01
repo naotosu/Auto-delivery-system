@@ -158,20 +158,21 @@ class Inventory extends Model
                         $query->where('inventories.status', $factory_stock)
                             ->orwhere('inventories.status', $warehouse_stock);
                     })
-            ->oldest('inventories.charge_code');      
-
-        /*ループを止める処理は後ほど実装
-        $shipment_sum = 0;
-
-        while ($shipment_sum <= $order->quantity) {
-
-            $shipment_sum = Inventory::where('inventories.order_item_id', $order->order_item_id)
-                ->where('inventories.ship_date', $order->ship_date)
-                ->sum('inventories.weight');
-                
-        }*/
+            ->oldest('inventories.charge_code');
 
         return $query;
+    }
+
+    public function scopeSearchByShipArrangedList($query, $ship_date)
+    {
+        $ship_arranged = \Config::get('const.Temporaries.ship_arranged');
+
+        $query->where('inventories.status', $ship_arranged)
+            ->where('inventories.ship_date', $ship_date)
+            ->oldest('inventories.charge_code');
+
+        return $query;
+
     }
 
     public function scopeShipmentCancelExecute($query, $item_ids, $status_edit) 
