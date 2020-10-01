@@ -19,7 +19,7 @@ class CsvController extends Controller
         //$change_id = $request->input('change_id');
         $item_ids = [$request->input('item_ids')];
 
-        $temporary_ships = Inventory::TemporaryShip($item_ids)->get();
+        $temporary_ships = Inventory::TemporaryShipSearchByStock($item_ids)->get();
 
         return response()->streamDownload(
             function () use ($temporary_ships) {

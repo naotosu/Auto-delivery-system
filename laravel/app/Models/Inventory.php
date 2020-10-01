@@ -19,7 +19,7 @@ class Inventory extends Model
         'status'
         ];
 
-    public function scopeStockIndex($query, $item_code, $delivery_user_id, $status)
+    public function scopeSearchByStock($query, $item_code, $delivery_user_id, $status)
     {
         $query->join('orders', 'inventories.item_code', '=', 'orders.item_code');
 
@@ -40,7 +40,7 @@ class Inventory extends Model
         return $query;
     }
 
-    public function scopeTemporaryIndex($query, $item_code, $delivery_user_id)
+    public function scopeTemporarySearchByStock($query, $item_code, $delivery_user_id)
     {
         
         $query->join('orders', 'inventories.item_code', '=', 'orders.item_code')
@@ -69,8 +69,8 @@ class Inventory extends Model
         return $query;
     }
 
-    //public function scopeTemporaryShip($query, $item_ids, $ship_date, $change, $change_id)
-    public function scopeTemporaryShip($query, $item_ids)
+    //public function scopeTemporaryShipSearchByStock($query, $item_ids, $ship_date, $change, $change_id)
+    public function scopeTemporaryShipSearchByStock($query, $item_ids)
     {
 
         /*if (isset($change)) {
@@ -90,7 +90,7 @@ class Inventory extends Model
         return $query;
     }
 
-    public function scopeEditIndex($query, $item_code, $delivery_user_id, $status, $ship_date)
+    public function scopeSipmentCancelSearch($query, $item_code, $delivery_user_id, $status, $ship_date)
     {
         
         $query->join('orders', 'inventories.item_code', '=', 'orders.item_code')
@@ -129,7 +129,7 @@ class Inventory extends Model
         return $query;
     }
 
-    public function scopeEditCheck($query, $item_ids)
+    public function scopeSipmentCancelCheck($query, $item_ids)
     {
         $query->join('orders', 'inventories.item_code', '=', 'orders.item_code')
             ->join('items', 'inventories.item_code', '=', 'items.item_code')
@@ -148,7 +148,33 @@ class Inventory extends Model
         return $query;
     }
 
-    public function scopeInventoryEdit($query, $item_ids, $status_edit) 
+    public function scopeSearchByShipDate($query, $order)
+    {
+        $factory_stock = \Config::get('const.Temporaries.factory_stock');
+        $warehouse_stock = \Config::get('const.Temporaries.warehouse_stock');
+
+        $query->where('inventories.item_code', $order->item_code)
+            ->where(function($query) use ($factory_stock, $warehouse_stock){
+                        $query->where('inventories.status', $factory_stock)
+                            ->orwhere('inventories.status', $warehouse_stock);
+                    })
+            ->oldest('inventories.charge_code');      
+
+        /*ループを止める処理は後ほど実装
+        $shipment_sum = 0;
+
+        while ($shipment_sum <= $order->quantity) {
+
+            $shipment_sum = Inventory::where('inventories.order_item_id', $order->order_item_id)
+                ->where('inventories.ship_date', $order->ship_date)
+                ->sum('inventories.weight');
+                
+        }*/
+
+        return $query;
+    }
+
+    public function scopeShipmentCancelExecute($query, $item_ids, $status_edit) 
     {
         $query->whereIn('id', $item_ids)->update(['status' => $status_edit]);
 
@@ -159,6 +185,11 @@ class Inventory extends Model
     {
         return $this->belongsTo('App\Models\Item', 'item_code', 'item_code');
     }
+
+    public function orderItem()
+    {
+        return $this->belongsTo('App\Models\OrderItem');
+    }
     
     public function order()
     {
@@ -167,6 +198,6 @@ class Inventory extends Model
 
     public function clientCompany() 
     {
-        return $this->belongsTo('App\Models\ClientCompany', 'delivery_user_id', 'id');
+        return $this->belongsTo('App\Models\ClientCompany', 'delivery_user_id');
     }
 }

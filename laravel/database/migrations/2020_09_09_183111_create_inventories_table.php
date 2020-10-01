@@ -14,7 +14,7 @@ class CreateInventoriesTable extends Migration
     public function up()
     {
         Schema::create('inventories', function (Blueprint $table) {
-            $table->unique(['manufacturing_code', 'bundle_number'],    // []内にunique制約を付けたいカラム名を並べる
+            $table->unique(['manufacturing_code', 'bundle_number'],
                        'manufacturing_codebundle_number');
             $table->bigIncrements('id');
             $table->string('item_code', 11);
@@ -28,6 +28,7 @@ class CreateInventoriesTable extends Migration
             $table->date('production_date')->nullable();
             $table->date('factory_warehousing_date')->nullable();
             $table->date('warehouse_receipt_date')->nullable();
+            $table->bigInteger('order_item_id')->nullable()->unsigned();
             $table->date('ship_date')->nullable();
             $table->Integer('destination_id')->nullable();
             $table->bigInteger('input_user_id')->unsigned();
