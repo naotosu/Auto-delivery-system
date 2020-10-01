@@ -31,7 +31,7 @@ class StockController extends Controller
         $order_start = $request->input('order_start');
         $order_end = $request->input('order_end');
 
-        $order_indexes = OrderItem::SearchByOrder($item_code, $delivery_user_id, $order_start, $order_end)->get();
+        $order_indexes = OrderItem::SearchByOrderList($item_code, $delivery_user_id, $order_start, $order_end)->get();
 
         return view('order', compact('order_indexes', 'item_code', 'delivery_user_id', 'order_start', 'order_end'));
     }

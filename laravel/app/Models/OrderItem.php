@@ -15,7 +15,7 @@ class OrderItem extends Model
         'quantity',
         ];
 
-    public function scopeSearchByOrder($query, $item_code, $delivery_user_id, $order_start, $order_end)
+    public function scopeSearchByOrderList($query, $item_code, $delivery_user_id, $order_start, $order_end)
     {
         if (isset($item_code)) {
             $query->where('order_items.item_code', $item_code);
@@ -34,7 +34,7 @@ class OrderItem extends Model
         return $query;
     }
 
-    public function scopeAutoDeliverySearchByOrder($query, $ship_date)
+    public function scopeSearchByShipDate($query, $ship_date)
     {
         $query->where('ship_date', $ship_date);
 
