@@ -15,17 +15,14 @@ class OrderItem extends Model
         'quantity',
         ];
 
-    public function scopeOrderIndex($query, $item_code, $delivery_user_id, $order_start, $order_end)
+    public function scopeSearchByOrder($query, $item_code, $delivery_user_id, $order_start, $order_end)
     {
-        $query->join('orders', 'order_items.order_id', '=', 'orders.id')
-                ->join('client_companies', 'delivery_user_id', '=', 'client_companies.id');
-
         if (isset($item_code)) {
-            $query->where('orders.item_code', $item_code);
+            $query->where('order_items.item_code', $item_code);
         }
 
         if (isset($delivery_user_id)) {
-            $query->where('orders.delivery_user_id', $delivery_user_id);
+            $query->where('order_items.delivery_user_id', $delivery_user_id);
         }
 
         if (isset($order_start) and isset($order_end)) {
@@ -37,7 +34,7 @@ class OrderItem extends Model
         return $query;
     }
 
-    public function scopeAutoDeliveryIndex($query, $ship_date)
+    public function scopeAutoDeliverySearchByOrder($query, $ship_date)
     {
         $query->where('ship_date', $ship_date);
 
@@ -56,7 +53,7 @@ class OrderItem extends Model
 
     public function inventories()
     {
-        return $this->hasMany('App\Models\Inventory', 'inventory_id', 'id');
+        return $this->hasMany('App\Models\Inventory');
     }
 
 }
