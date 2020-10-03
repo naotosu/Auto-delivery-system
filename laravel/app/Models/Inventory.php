@@ -122,9 +122,9 @@ class Inventory extends Model
             $query->where('inventories.ship_date', $ship_date);
         }
 
-        $query->oldest('charge_code');
+        $query->oldest('inventories.ship_date');
 
-        $query->select('inventories.id', 'inventories.item_code', 'items.name', 'inventories.order_code', 'inventories.charge_code', 'inventories.manufacturing_code', 'inventories.bundle_number', 'inventories.quantity', 'inventories.weight', 'inventories.status', 'inventories.production_date', 'inventories.factory_warehousing_date', 'inventories.warehouse_receipt_date', 'inventories.destination_id', 'orders.delivery_user_id');
+        $query->select('inventories.id', 'inventories.item_code', 'items.name', 'inventories.order_code', 'inventories.charge_code', 'inventories.manufacturing_code', 'inventories.bundle_number', 'inventories.quantity', 'inventories.weight', 'inventories.status', 'inventories.production_date', 'inventories.factory_warehousing_date', 'inventories.warehouse_receipt_date', 'inventories.destination_id', 'inventories.order_item_id', 'inventories.ship_date', 'orders.delivery_user_id');
 
         return $query;
     }
@@ -143,7 +143,7 @@ class Inventory extends Model
 
         $query->oldest('charge_code');
 
-        $query->select('inventories.id', 'inventories.item_code', 'items.name', 'inventories.order_code', 'inventories.charge_code', 'inventories.manufacturing_code', 'inventories.bundle_number', 'inventories.quantity', 'inventories.weight', 'inventories.status', 'inventories.production_date', 'inventories.factory_warehousing_date', 'inventories.warehouse_receipt_date', 'inventories.destination_id', 'orders.delivery_user_id');
+        $query->select('inventories.id', 'inventories.item_code', 'items.name', 'inventories.order_code', 'inventories.charge_code', 'inventories.manufacturing_code', 'inventories.bundle_number', 'inventories.quantity', 'inventories.weight', 'inventories.status', 'inventories.production_date', 'inventories.factory_warehousing_date', 'inventories.warehouse_receipt_date', 'inventories.destination_id', 'inventories.order_item_id', 'inventories.ship_date', 'orders.delivery_user_id');
 
         return $query;
     }
@@ -178,9 +178,9 @@ class Inventory extends Model
 
     }
 
-    public function scopeShipmentCancelExecute($query, $item_ids, $status_edit) 
+    public function scopeShipmentCancelExecute($query, $item_ids) 
     {
-        $query->whereIn('id', $item_ids)->update(['status' => $status_edit]);
+        $query->whereIn('id', $item_ids);
 
         return $query;
     }

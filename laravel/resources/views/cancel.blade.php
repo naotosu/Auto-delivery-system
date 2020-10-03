@@ -61,6 +61,7 @@
               <th>製造日</th>
               <th>工場入庫日</th>
               <th>倉庫入庫日</th>
+              <th>注文ID</th>
               <th>出荷日</th>
               <th>ENDユーザー</th>
               <th>ユーザー</th>
@@ -78,16 +79,17 @@
                 <td>{{$stock->item->size}}</td> 
                 <td>{{$stock->item->shape}}</td> 
                 <td>{{$stock->item->spec}}</td>
-                <th>{{$stock->order_code}}</th>
-                <th>{{$stock->charge_code}}</th>
-                <th>{{$stock->manufacturing_code}}</th>
-                <th>{{$stock->bundle_number}}</th>
+                <td>{{$stock->order_code}}</td>
+                <td>{{$stock->charge_code}}</td>
+                <td>{{$stock->manufacturing_code}}</td>
+                <td>{{$stock->bundle_number}}</td>
                 <td>{{$stock->quantity}}</td>
                 <td>{{$stock->weight}}</td>
                 <td>{{$stock->status}}</td>
                 <td>{{$stock->production_date}}</td>
                 <td>{{$stock->factory_warehousing_date}}</td>
                 <td>{{$stock->warehouse_receipt_date}}</td>
+                <td>{{$stock->order_item_id}}</td>
                 <td>{{$stock->ship_date}}</td>
                 <td>{{$stock->order->clientCompanyEndUser->name}}</td>
                 <td>{{$stock->order->clientCompanyClientUser->name}}</td>
