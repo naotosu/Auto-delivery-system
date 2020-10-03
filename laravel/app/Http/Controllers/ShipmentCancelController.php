@@ -58,15 +58,13 @@ class ShipmentCancelController extends Controller
         $status_edit = $request->input('status_edit');
 
         try {   
-            $stock_indexes = Inventory::ShipmentCancelExecute($item_ids);
+            $stock_indexes = Inventory::ShipmentCancelExecute($item_ids)->get();
 
             foreach ($stock_indexes as $stock){
-                dd($stock);
                 $stock->status = $status_edit;
                 $stock->order_item_id = null;
-                $stock->status = null;
+                $stock->ship_date = null;
                 $stock->save();
-
             }
 
         } catch (\Exception $e) {
