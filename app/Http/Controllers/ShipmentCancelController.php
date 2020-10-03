@@ -42,12 +42,12 @@ class ShipmentCancelController extends Controller
         }
 
         if (empty($item_ids)) {
-        	$stock_indexes = Inventory::editIndex($item_code, $delivery_user_id, $status, $ship_date)->get();
+        	$stock_indexes = Inventory::SipmentCancelCheck($item_code, $delivery_user_id, $status, $ship_date)->get();
             session()->flash('flash_message', '出荷取消を行う対象を選択して下さい');
             return view('cancel', compact('stock_indexes', 'item_code', 'delivery_user_id', 'status', 'ship_date', 'status_edit'));
         }
 
-        $stock_indexes = Inventory::editCheck($item_ids)->get();
+        $stock_indexes = Inventory::SipmentCancelCheck($item_ids)->get();
 
         return view('cancel_check', compact('stock_indexes', 'item_ids', 'status', 'status_edit'));
     } 
@@ -58,7 +58,17 @@ class ShipmentCancelController extends Controller
         $status_edit = $request->input('status_edit');
 
         try {   
-            Inventory::ShipmentCancelExecute($item_ids, $status_edit);
+            $stock_indexes = Inventory::ShipmentCancelExecute($item_ids);
+
+            foreach ($stock_indexes as $stock){
+                dd($stock);
+                $stock->status = $status_edit;
+                $stock->order_item_id = null;
+                $stock->status = null;
+                $stock->save();
+
+            }
+
         } catch (\Exception $e) {
             report($e);
             session()->flash('flash_message', '注文データの取消を中断しました');
