@@ -74,14 +74,14 @@ class AutoDeliveryCommand extends Command
                     $inventory->save();
 
                     if ($order_sum <= $shipment_sum){
-                        break 1;
+                        break;
                     }
 
                     $cnt++;
 
                     if ($cnt == $cntend) {
                         throw new Exception('在庫不足');
-                        return ;// TODO: "在庫が不足していおります。注文を減らすか、在庫を増やして下さい」と通知したい"
+                        // TODO: "在庫が不足していおります。注文を減らすか、在庫を増やして下さい」と通知したい"
                     }
                 }
             }
