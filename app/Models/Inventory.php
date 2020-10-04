@@ -148,7 +148,7 @@ class Inventory extends Model
         return $query;
     }
 
-    public function scopeSearchByShipDate($query, $order)
+    public function scopeSearchByItemCodeAndStatus($query, $order)
     {
         $factory_stock = \Config::get('const.Constant.factory_stock');
         $warehouse_stock = \Config::get('const.Constant.warehouse_stock');
