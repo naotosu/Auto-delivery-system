@@ -8,6 +8,7 @@ use App\Models\Inventory;
 use App\Models\GoogleSheet;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use \Exception;
 
 class AutoDeliveryCommand extends Command
 {
@@ -47,7 +48,7 @@ class AutoDeliveryCommand extends Command
         $sheet_id = \Config::get('const.Constant.spread_sheet_id');
         $acceptable_range = \Config::get('const.Constant.acceptable_range');
         $valueInputOption = "USER_ENTERED";
-        $ship_date = '2020-11-5';
+        $ship_date = '2020-9-16';
         $range = 'A1';
         
         $order_indexes = OrderItem::SearchByShipDate($ship_date)->get();
@@ -64,10 +65,6 @@ class AutoDeliveryCommand extends Command
                 $cnt = 0;
 
                 foreach($inventories as $inventory) {
-
-                    if ($order_sum <= $shipment_sum){
-                        break 1;
-                    }
                 
                     $shipment_sum = $shipment_sum + $inventory->weight;
                     $ship_arranged = \Config::get('const.Constant.ship_arranged');
@@ -75,94 +72,99 @@ class AutoDeliveryCommand extends Command
                     $inventory->ship_date = $order_item->ship_date;
                     $inventory->status = $ship_arranged;
                     $inventory->save();
-                    $cnt++;                  
+                    $cnt++;
+
+                    if ($order_sum <= $shipment_sum){
+                        break 1;
+                    }
 
                     if ($cnt = $cntend) {
-                        return DB::rollback();// TODO: "在庫が不足していおります。注文を減らすか、在庫を増やして下さい」と通知したい"
+                        throw new Exception('在庫不足');
+                        return ;// TODO: "在庫が不足していおります。注文を減らすか、在庫を増やして下さい」と通知したい"
                     }
                 }
             }
         
 
-        $ship_arranged_list = Inventory::SearchByShipArrangedList($ship_date)->get();
+            $ship_arranged_list = Inventory::SearchByShipArrangedList($ship_date)->get();
 
-        $order_items = array();
-
-        array_push($order_items, [
-                '配送業者ID',
-                '配送業者',
-                '担当',
-                '納品先コード',
-                '納品先',
-                'オーダーCode',
-                '鋼種', 
-                'サイズ', 
-                '単位',
-                '仕様',
-                '納入日',
-                'チャージ',
-                '製造No',
-                '束番',
-                '重量',
-                '本数',
-                ]);
-     
-        foreach ( $ship_arranged_list as $order) {
+            $order_items = array();
 
             array_push($order_items, [
-                $order->order->transport_id,
-                $order->order->transportCompany->name,
-                $order->order->transportCompany->stuff_name,
-                $order->order->delivery_user_id,
-                $order->order->clientCompanyDeliveryUser->name,
-                $order->order_code,
-                $order->item->name,
-                $order->item->size, 
-                $order->item->shape, 
-                $order->item->spec,
-                $order->ship_date,
-                $order->charge_code,
-                $order->manufacturing_code,
-                $order->bundle_number,
-                $order->weight,
-                $order->quantity,
-                ]);
-        }
+                    '配送業者ID',
+                    '配送業者',
+                    '担当',
+                    '納品先コード',
+                    '納品先',
+                    'オーダーCode',
+                    '鋼種', 
+                    'サイズ', 
+                    '単位',
+                    '仕様',
+                    '納入日',
+                    'チャージ',
+                    '製造No',
+                    '束番',
+                    '重量',
+                    '本数',
+                    ]);
+         
+            foreach ( $ship_arranged_list as $order) {
 
-        $data = [];
-        $data[] = new \Google_Service_Sheets_ValueRange(array(
-            'range' => $range,
-            'values' => $order_items
-        ));
+                array_push($order_items, [
+                    $order->order->transport_id,
+                    $order->order->transportCompany->name,
+                    $order->order->transportCompany->stuff_name,
+                    $order->order->delivery_user_id,
+                    $order->order->clientCompanyDeliveryUser->name,
+                    $order->order_code,
+                    $order->item->name,
+                    $order->item->size, 
+                    $order->item->shape, 
+                    $order->item->spec,
+                    $order->ship_date,
+                    $order->charge_code,
+                    $order->manufacturing_code,
+                    $order->bundle_number,
+                    $order->weight,
+                    $order->quantity,
+                    ]);
+            }
 
-        // TODO: 更新失敗シートが残ってた場合は消去するコードを後程作成
+            $data = [];
+            $data[] = new \Google_Service_Sheets_ValueRange(array(
+                'range' => $range,
+                'values' => $order_items
+            ));
 
-        $body = new \Google_Service_Sheets_BatchUpdateSpreadsheetRequest([
-            'requests' => [
-                'addSheet' => [
-                    'properties' => [
-                        'title' => $ship_date
+            // TODO: 更新失敗シートが残ってた場合は消去するコードを後程作成
+
+            $body = new \Google_Service_Sheets_BatchUpdateSpreadsheetRequest([
+                'requests' => [
+                    'addSheet' => [
+                        'properties' => [
+                            'title' => $ship_date
+                        ]
                     ]
                 ]
-            ]
-        ]);
+            ]);
 
-        $response = $sheets->spreadsheets->batchUpdate($sheet_id, $body);
-        $new_sheet_id = $response->getReplies()[0]
-            ->getAddSheet()
-            ->getProperties()
-            ->sheetId;
+            $response = $sheets->spreadsheets->batchUpdate($sheet_id, $body);
+            $new_sheet_id = $response->getReplies()[0]
+                ->getAddSheet()
+                ->getProperties()
+                ->sheetId;
 
-        //$sheets->setActiveSheetIndex($new_sheet_id);　//　← TODO: この書き方だと新たなgoogleライブラリが必要
+            //$sheets->setActiveSheetIndex($new_sheet_id);　//　← TODO: この書き方だと新たなgoogleライブラリが必要
 
-        $body = new \Google_Service_Sheets_BatchUpdateValuesRequest(array(
-            'valueInputOption' => $valueInputOption,
-            'data' => $data
-        ));
+            $body = new \Google_Service_Sheets_BatchUpdateValuesRequest(array(
+                'valueInputOption' => $valueInputOption,
+                'data' => $data
+            ));
 
-        $result = $sheets->spreadsheets_values->batchUpdate($sheet_id, $body);
+            $result = $sheets->spreadsheets_values->batchUpdate($sheet_id, $body);
 
-        DB::commit();
+            DB::commit();
         
         } catch (\Exception $e) {
             return DB::rollback();
