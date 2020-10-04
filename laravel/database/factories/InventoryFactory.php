@@ -14,7 +14,7 @@ $factory->define(App\Models\Inventory::class, function (Faker $faker) {
             'bundle_number' => "01",
             'weight' => $faker->numberBetween($min = 1900, $max = 2100),
             'quantity' => "18",
-            'status' => $faker->numberBetween($min = 1, $max = 5),
+            'status' => $faker->numberBetween($min = 2, $max = 3),
             'production_date' => $faker->dateTimeBetween('2020-8-25', '2020-08-27'),
             'factory_warehousing_date' => $faker->dateTimeBetween('2020-08-28', '2020-08-29'),
             'warehouse_receipt_date' => $faker->dateTimeBetween('2020-08-30', '2020-08-31'),
