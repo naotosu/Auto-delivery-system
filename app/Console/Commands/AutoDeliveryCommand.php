@@ -46,41 +46,60 @@ class AutoDeliveryCommand extends Command
         $sheet_id = \Config::get('const.Constant.spread_sheet_id');
         $acceptable_range = \Config::get('const.Constant.acceptable_range');
         $valueInputOption = "USER_ENTERED";
-        $ship_date = '2020-9-20';
-        $range = 'A2';
+        $ship_date = '2020-11-5';
+        $range = 'A1';
         
         $order_indexes = OrderItem::SearchByShipDate($ship_date)->get();
 
-        foreach ($order_indexes as $order) {
+        DB::beginTransaction();
+        try {
 
-            for ($shipment_sum = Inventory::where('inventories.order_item_id', $order->id)
-                    ->where('inventories.ship_date', $order->ship_date)
-                    ->sum('inventories.weight'); $shipment_sum <= ($order_sum = $order->quantity - $acceptable_range); ) {
+            foreach ($order_indexes as $order) {
 
-                $inventory = Inventory::SearchByShipDate($order)->first();
+                $shipment_sum = 0;
 
-                    //$inventory nullの場合はブレイクにする
-                    if (empty($inventory)) {
-                        dd($shipment_sum);//テスト段階では仮で0であることを返す
-                        return ;//"在庫が不足していおります。注文を減らすか、在庫を増やして下さい」と通知したい"
-                    }
+                $order_sum = $order->quantity - $acceptable_range;
 
-                $ship_arranged = \Config::get('const.Constant.ship_arranged');
-                $inventory->order_item_id = $order->id;
-                $inventory->ship_date = $order->ship_date;
-                $inventory->status = $ship_arranged;
-                $inventory->save();
+                for ($shipment_sum; $shipment_sum <= $order_sum; ) {
 
-                $shipment_sum = Inventory::where('inventories.order_item_id', $order->id)
-                    ->where('inventories.ship_date', $order->ship_date)
-                    ->sum('inventories.weight');
+                    $inventory = Inventory::SearchByShipDate($order)->first();
+
+                    $shipment_sum = $shipment_sum + $inventory->weight;
+                    $ship_arranged = \Config::get('const.Constant.ship_arranged');
+                    $inventory->order_item_id = $order->id;
+                    $inventory->ship_date = $order->ship_date;
+                    $inventory->status = $ship_arranged;
+                    $inventory->save();
+                }
             }
-
+        DB::commit();         
+        
+        } catch (\Exception $e) {
+            return　DB::rollback();//"在庫が不足していおります。注文を減らすか、在庫を増やして下さい」と通知したい"
         }
 
         $ship_arranged_list = Inventory::SearchByShipArrangedList($ship_date)->get();
 
         $order_items = array();
+
+        array_push($order_items, [
+                '配送業者ID',
+                '配送業者',
+                '担当',
+                '納品先コード',
+                '納品先',
+                'オーダーCode',
+                '鋼種', 
+                'サイズ', 
+                '単位',
+                '仕様',
+                '納入日',
+                'チャージ',
+                '製造No',
+                '束番',
+                '重量',
+                '本数',
+                ]);
      
         foreach ( $ship_arranged_list as $order) {
 
@@ -110,10 +129,29 @@ class AutoDeliveryCommand extends Command
             'values' => $order_items
         ));
 
+        $body = new \Google_Service_Sheets_BatchUpdateSpreadsheetRequest([
+            'requests' => [
+                'addSheet' => [
+                    'properties' => [
+                        'title' => $ship_date
+                    ]
+                ]
+            ]
+        ]);
+
+        $response = $sheets->spreadsheets->batchUpdate($sheet_id, $body);
+        $new_sheet_id = $response->getReplies()[0]
+            ->getAddSheet()
+            ->getProperties()
+            ->sheetId;
+
+        $sheets->setActiveSheetIndex($new_sheet_id);　//　←この書き方だと新たなgoogleライブラリが必要
+
         $body = new \Google_Service_Sheets_BatchUpdateValuesRequest(array(
             'valueInputOption' => $valueInputOption,
             'data' => $data
         ));
+
         $result = $sheets->spreadsheets_values->batchUpdate($sheet_id, $body);
 
     }

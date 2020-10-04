@@ -129,7 +129,7 @@ class Inventory extends Model
         return $query;
     }
 
-    public function scopeSipmentCancelCheck($query, $item_ids)
+    public function scopeShipmentCancelCheck($query, $item_ids)
     {
         $query->join('orders', 'inventories.item_code', '=', 'orders.item_code')
             ->join('items', 'inventories.item_code', '=', 'items.item_code')
