@@ -48,7 +48,7 @@ class AutoDeliveryCommand extends Command
         $sheet_id = \Config::get('const.Constant.spread_sheet_id');
         $acceptable_range = \Config::get('const.Constant.acceptable_range');
         $valueInputOption = "USER_ENTERED";
-        $ship_date = '2020-9-16';
+        $ship_date = '2020-10-20';
         $range = 'A1';
         
         $order_indexes = OrderItem::SearchByShipDate($ship_date)->get();
@@ -72,13 +72,14 @@ class AutoDeliveryCommand extends Command
                     $inventory->ship_date = $order_item->ship_date;
                     $inventory->status = $ship_arranged;
                     $inventory->save();
-                    $cnt++;
 
                     if ($order_sum <= $shipment_sum){
                         break 1;
                     }
 
-                    if ($cnt = $cntend) {
+                    $cnt++;
+
+                    if ($cnt == $cntend) {
                         throw new Exception('在庫不足');
                         return ;// TODO: "在庫が不足していおります。注文を減らすか、在庫を増やして下さい」と通知したい"
                     }
