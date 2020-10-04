@@ -7,6 +7,7 @@ use App\Models\OrderItem;
 use App\Models\Inventory;
 use App\Models\GoogleSheet;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class AutoDeliveryCommand extends Command
 {
@@ -54,29 +55,34 @@ class AutoDeliveryCommand extends Command
         DB::beginTransaction();
         try {
 
-            foreach ($order_indexes as $order) {
+            foreach ($order_indexes as $order_item) {
 
                 $shipment_sum = 0;
+                $order_sum = $order_item->quantity - $acceptable_range;
+                $inventories = Inventory::SearchByItemCodeAndStatus($order_item)->get();
+                $cntend = count($inventories);
+                $cnt = 0;
 
-                $order_sum = $order->quantity - $acceptable_range;
+                foreach($inventories as $inventory) {
 
-                for ($shipment_sum; $shipment_sum <= $order_sum; ) {
-
-                    $inventory = Inventory::SearchByShipDate($order)->first();
-
+                    if ($order_sum <= $shipment_sum){
+                        break 1;
+                    }
+                
                     $shipment_sum = $shipment_sum + $inventory->weight;
                     $ship_arranged = \Config::get('const.Constant.ship_arranged');
-                    $inventory->order_item_id = $order->id;
-                    $inventory->ship_date = $order->ship_date;
+                    $inventory->order_item_id = $order_item->id;
+                    $inventory->ship_date = $order_item->ship_date;
                     $inventory->status = $ship_arranged;
                     $inventory->save();
+                    $cnt++;                  
+
+                    if ($cnt = $cntend) {
+                        return DB::rollback();// TODO: "在庫が不足していおります。注文を減らすか、在庫を増やして下さい」と通知したい"
+                    }
                 }
             }
-        DB::commit();         
         
-        } catch (\Exception $e) {
-            return　DB::rollback();//"在庫が不足していおります。注文を減らすか、在庫を増やして下さい」と通知したい"
-        }
 
         $ship_arranged_list = Inventory::SearchByShipArrangedList($ship_date)->get();
 
@@ -129,6 +135,8 @@ class AutoDeliveryCommand extends Command
             'values' => $order_items
         ));
 
+        // TODO: 更新失敗シートが残ってた場合は消去するコードを後程作成
+
         $body = new \Google_Service_Sheets_BatchUpdateSpreadsheetRequest([
             'requests' => [
                 'addSheet' => [
@@ -145,7 +153,7 @@ class AutoDeliveryCommand extends Command
             ->getProperties()
             ->sheetId;
 
-        $sheets->setActiveSheetIndex($new_sheet_id);　//　←この書き方だと新たなgoogleライブラリが必要
+        //$sheets->setActiveSheetIndex($new_sheet_id);　//　← TODO: この書き方だと新たなgoogleライブラリが必要
 
         $body = new \Google_Service_Sheets_BatchUpdateValuesRequest(array(
             'valueInputOption' => $valueInputOption,
@@ -153,6 +161,12 @@ class AutoDeliveryCommand extends Command
         ));
 
         $result = $sheets->spreadsheets_values->batchUpdate($sheet_id, $body);
+
+        DB::commit();
+        
+        } catch (\Exception $e) {
+            return DB::rollback();
+        }
 
     }
 }
