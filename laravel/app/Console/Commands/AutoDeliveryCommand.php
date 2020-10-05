@@ -48,8 +48,8 @@ class AutoDeliveryCommand extends Command
         $sheet_id = \Config::get('const.Constant.spread_sheet_id');
         $acceptable_range = \Config::get('const.Constant.acceptable_range');
         $valueInputOption = "USER_ENTERED";
-        $ship_date = '2020-10-20';
-        $range = 'A1';
+        $ship_date = '2020-9-17';
+        $range = $ship_date.'!'.'A1';
         
         $order_indexes = OrderItem::SearchByShipDate($ship_date)->get();
 
@@ -140,23 +140,15 @@ class AutoDeliveryCommand extends Command
 
             // TODO: 更新失敗シートが残ってた場合は消去するコードを後程作成
 
-            $body = new \Google_Service_Sheets_BatchUpdateSpreadsheetRequest([
-                'requests' => [
-                    'addSheet' => [
-                        'properties' => [
-                            'title' => $ship_date
-                        ]
-                    ]
-                ]
-            ]);
+            $body = new \Google_Service_Sheets_BatchUpdateSpreadsheetRequest(array(
+                'requests' => array('addSheet' => array('properties' => array('title' => $ship_date)))
+            )); 
 
             $response = $sheets->spreadsheets->batchUpdate($sheet_id, $body);
             $new_sheet_id = $response->getReplies()[0]
                 ->getAddSheet()
                 ->getProperties()
                 ->sheetId;
-
-            //$sheets->setActiveSheetIndex($new_sheet_id);　//　← TODO: この書き方だと新たなgoogleライブラリが必要
 
             $body = new \Google_Service_Sheets_BatchUpdateValuesRequest(array(
                 'valueInputOption' => $valueInputOption,
