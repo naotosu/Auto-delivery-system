@@ -86,7 +86,6 @@ class AutoDeliveryCommand extends Command
                 }
             }
         
-
             $ship_arranged_list = Inventory::SearchByShipArrangedList($ship_date)->get();
 
             $order_items = array();
