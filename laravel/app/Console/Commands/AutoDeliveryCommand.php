@@ -13,11 +13,6 @@ use Illuminate\Support\Facades\DB;
 use \Exception;
 use App\Mail\AutoDeliverySystemNotification;
 use Illuminate\Support\Facades\Mail;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 
 class AutoDeliveryCommand extends Command
 {
@@ -57,7 +52,7 @@ class AutoDeliveryCommand extends Command
         $sheet_id = \Config::get('const.Constant.spread_sheet_id');
         $acceptable_range = \Config::get('const.Constant.acceptable_range');
         $valueInputOption = "USER_ENTERED";
-        $ship_date = '2020-9-20';
+        $ship_date = '2020-11-5';
         $range = $ship_date.'!'.'A1';
         
         $order_indexes = OrderItem::SearchByShipDate($ship_date)->get();
@@ -139,24 +134,34 @@ class AutoDeliveryCommand extends Command
                     $order->quantity,
                     ]);
             }
-
-            //更新失敗シートを消去          
+         
             try {
-                $spreadsheet_id = $sheet_id;
-                $sheet_index = $sheet_id->getSheetByName($ship_date);
+                $response = $sheets->spreadsheets->get($sheet_id);
+                $sheet_lists = $response->getSheets();
+
+                foreach ($sheet_lists as $sheet) {
+
+                    $properties = $sheet->getProperties();
+                    $sheet_id_info = $properties->getSheetId();
+                    $sheet_title = $properties->getTitle();
+
+                    if ($sheet_title == $sheet_title) {
+                        $delete_sheet = $sheet_id_info;
+                    }
+
+                }
+
                 $body = new \Google_Service_Sheets_BatchUpdateSpreadsheetRequest([
                     'requests' => [
                         'deleteSheet' => [
-                            'sheetId' => $sheet_index
+                            'sheetId' => $delete_sheet
                         ]
                     ]
                 ]);
-                $response = $spreadsheet_service->spreadsheets->batchUpdate($spreadsheet_id, $body);
+                $response = $sheets->spreadsheets->batchUpdate($sheet_id, $body);
 
             } catch (\Exception $e) {
-
-                // エラー処理
-
+                // エラー処理　無し
             }
 
             $data = [];
@@ -174,9 +179,6 @@ class AutoDeliveryCommand extends Command
                 ->getAddSheet()
                 ->getProperties()
                 ->sheetId;
-
-            //ここでアクティブシートを変更したい
-            $sheet_id->setActiveSheetIndex($new_sheet_id);
 
             $body = new \Google_Service_Sheets_BatchUpdateValuesRequest(array(
                 'valueInputOption' => $valueInputOption,
@@ -220,11 +222,10 @@ class AutoDeliveryCommand extends Command
 
             $lost_point = $e->getMessage();
             $mail_to = $mail_lists;
-            $mail_text = '指示書の作成を中断しました。在庫が足りていない可能性があります。item_code['.$lost_point.']で不足';
+            $mail_text = '指示書の作成を中断しました。在庫が足りていない可能性があります。item_code[ '.$lost_point.' ]で不足';
             $inventory_error = 
             Mail::to($mail_to)->send( new AutoDeliverySystemNotification($mail_text) );
             return DB::rollback();
         }
-        //TODO エラーシート消去　、　アクティブシート
     }
 }
