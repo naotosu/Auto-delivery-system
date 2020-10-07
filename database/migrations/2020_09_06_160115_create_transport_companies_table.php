@@ -17,6 +17,7 @@ class CreateTransportCompaniesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name',20);
             $table->string('stuff_name',20);
+            $table->string('mail');
             $table->timestamps();
         });
     }
