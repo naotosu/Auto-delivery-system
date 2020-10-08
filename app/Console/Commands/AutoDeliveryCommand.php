@@ -21,7 +21,7 @@ class AutoDeliveryCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'command:auto_delivery';
+    protected $signature = 'command:auto_delivery {ship_date}';
 
     /**
      * The console command description.
@@ -52,7 +52,7 @@ class AutoDeliveryCommand extends Command
         $sheet_id = \Config::get('const.Constant.spread_sheet_id');
         $acceptable_range = \Config::get('const.Constant.acceptable_range');
         $valueInputOption = "USER_ENTERED";
-        $ship_date = '2020-11-5';
+        $ship_date = $this->argument("ship_date");
         $range = $ship_date.'!'.'A1';
         
         $order_indexes = OrderItem::SearchByShipDate($ship_date)->get();
@@ -86,6 +86,7 @@ class AutoDeliveryCommand extends Command
                     if ($cnt == $cntend) {
                         $lost_point = $inventory->order_code;
                         throw new Exception($lost_point);
+                        //　TODO 必要に応じ配列化し、複数のエラーを表示する可能性有り
                     }
                 }
             }
@@ -135,21 +136,23 @@ class AutoDeliveryCommand extends Command
                     ]);
             }
          
-            try {
-                $response = $sheets->spreadsheets->get($sheet_id);
-                $sheet_lists = $response->getSheets();
 
-                foreach ($sheet_lists as $sheet) {
+            $response = $sheets->spreadsheets->get($sheet_id);
+            $sheet_lists = $response->getSheets();
 
-                    $properties = $sheet->getProperties();
-                    $sheet_id_info = $properties->getSheetId();
-                    $sheet_title = $properties->getTitle();
+            foreach ($sheet_lists as $sheet) {
 
-                    if ($sheet_title == $sheet_title) {
-                        $delete_sheet = $sheet_id_info;
-                    }
+                $properties = $sheet->getProperties();
+                $sheet_id_info = $properties->getSheetId();
+                $sheet_title = $properties->getTitle();
 
+                if ($sheet_title == $ship_date) {
+                    $delete_sheet = $sheet_id_info;
                 }
+
+            }
+
+            if (isset($delete_sheet)) {
 
                 $body = new \Google_Service_Sheets_BatchUpdateSpreadsheetRequest([
                     'requests' => [
@@ -158,10 +161,8 @@ class AutoDeliveryCommand extends Command
                         ]
                     ]
                 ]);
-                $response = $sheets->spreadsheets->batchUpdate($sheet_id, $body);
 
-            } catch (\Exception $e) {
-                // エラー処理　無し
+                $response = $sheets->spreadsheets->batchUpdate($sheet_id, $body);
             }
 
             $data = [];
@@ -187,44 +188,30 @@ class AutoDeliveryCommand extends Command
 
             $result = $sheets->spreadsheets_values->batchUpdate($sheet_id, $body);
 
-            $users_mail_lists = User::SearchByAll()->get();
-            $mail_lists = array();
+            $users = User::SearchByAll()->get();
+            $users_mail_lists = $users->pluck('email')->toArray();
 
-            foreach ( $users_mail_lists as $users_mail_list ) {
-                array_push($mail_lists, $users_mail_list->email);
-            }
+            $transports = TransportCompany::SearchByAll()->get();
+            $transport_mail_lists = $transports->pluck('email')->toArray();
+                  
+            $mail_lists = array_merge($users_mail_lists, $transport_mail_lists);
 
-            $transport_mail_lists = TransportCompany::SearchByAll()->get();
-
-            foreach ( $transport_mail_lists as $transport_mail_list ) {
-                array_push($mail_lists, $transport_mail_list->mail);
-            }
-
-            $mail_to = $mail_lists;
             $mail_text = '新しい指示書が更新されました。輸送会社様はご確認をお願い致します。';
-            Mail::to($mail_to)->send( new AutoDeliverySystemNotification($mail_text) );
+            Mail::to($mail_lists)->send( new AutoDeliverySystemNotification($mail_text) );
 
             DB::commit();
         
         } catch (\Exception $e) {
-            $users_mail_lists = User::SearchByAll()->get();
-            $mail_lists = array();
+            $users = User::SearchByAll()->get();
+            $users_mail_lists = $users->pluck('email')->toArray();
 
-            foreach ( $users_mail_lists as $users_mail_list ) {
-                array_push($mail_lists, $users_mail_list->email);
-            }
+            $transports = TransportCompany::SearchByAll()->get();
+            $transport_mail_lists = $transports->pluck('email')->toArray();
+                  
+            $mail_lists = array_merge($users_mail_lists, $transport_mail_lists);
 
-            $transport_mail_lists = TransportCompany::SearchByAll()->get();
-
-            foreach ( $transport_mail_lists as $transport_mail_list ) {
-                array_push($mail_lists, $transport_mail_list->mail);
-            }
-
-            $lost_point = $e->getMessage();
-            $mail_to = $mail_lists;
-            $mail_text = '指示書の作成を中断しました。在庫が足りていない可能性があります。item_code[ '.$lost_point.' ]で不足';
-            $inventory_error = 
-            Mail::to($mail_to)->send( new AutoDeliverySystemNotification($mail_text) );
+            $mail_text = '指示書の作成を中断しました。在庫が足りていない可能性があります。item_code[ '.$e->getMessage().' ]で不足';
+            $inventory_error = Mail::to($mail_lists)->send( new AutoDeliverySystemNotification($mail_text) );
             return DB::rollback();
         }
     }
