@@ -45,7 +45,7 @@ class AutoDeliveryCommand extends Command
      *
      * @return int
      */
-    public function handle()
+    public static function handle()
     {
         $sheets = GoogleSheet::OrderItem();
 

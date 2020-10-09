@@ -9,10 +9,11 @@ li {
   list-style: none;
 }
 
-.header a:link { color: white; }
-.header a:visited { color: white; }
-.header a:hover { color: white; }
-.header a:active { color: white; }
+.icon a:link { color: white; }
+.icon a:visited { color: white; }
+.icon a:hover { color: white; }
+.icon a:active { color: white; }
+
 
 body {
   font-family: "Nunito", sans-serif;
@@ -49,7 +50,7 @@ body {
 
 .icon {
   background-color: #000088 ;
-  opacity: 0.6;
+  opacity: 1;
   padding: 15px 15px;
   margin: 0px 7px;
   float: left;
@@ -57,11 +58,7 @@ body {
 }
 
 .icon:hover {
-  opacity: 1;
-}
-
-.icon li {
-  opacity: 1;
+  opacity: 0.6;
 }
 
 .main {
