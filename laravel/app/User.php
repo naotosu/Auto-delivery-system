@@ -10,11 +10,6 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    public function scopeSearchByAll ($query)
-    {
-        return $query;
-    }
-
     /**
      * The attributes that are mass assignable.
      *

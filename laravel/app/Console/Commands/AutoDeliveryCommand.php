@@ -188,10 +188,10 @@ class AutoDeliveryCommand extends Command
 
             $result = $sheets->spreadsheets_values->batchUpdate($sheet_id, $body);
 
-            $users = User::SearchByAll()->get();
+            $users = User::all();
             $users_mail_lists = $users->pluck('email')->toArray();
 
-            $transports = TransportCompany::SearchByAll()->get();
+            $transports = TransportCompany::all();
             $transport_mail_lists = $transports->pluck('email')->toArray();
                   
             $mail_lists = array_merge($users_mail_lists, $transport_mail_lists);
@@ -202,10 +202,10 @@ class AutoDeliveryCommand extends Command
             DB::commit();
         
         } catch (\Exception $e) {
-            $users = User::SearchByAll()->get();
+            $users = User::all();
             $users_mail_lists = $users->pluck('email')->toArray();
 
-            $transports = TransportCompany::SearchByAll()->get();
+            $transports = TransportCompany::all();
             $transport_mail_lists = $transports->pluck('email')->toArray();
                   
             $mail_lists = array_merge($users_mail_lists, $transport_mail_lists);
