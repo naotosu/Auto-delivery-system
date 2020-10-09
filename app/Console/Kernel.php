@@ -25,9 +25,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        /*$schedule->command('command:auto_delivery')
-                 ->dailyAt('10:00');
-                 ->appendOutputTo(dirname(dirname(dirname(__FILE__))) . '/storage/logs/SampleSchedule.log')
+        $carbon = new \Carbon\Carbon::now()->toDateString();
+        $ship_date = $carbon->addDays(2);
+
+        $schedule->command('command:auto_delivery 2020-10-13')
+                 ->dailyAt('20:20');
+                 /*->appendOutputTo(dirname(dirname(dirname(__FILE__))) . '/storage/logs/SampleSchedule.log')
                  ->onSuccess(function () {
                      Log::info('成功');
                  })
