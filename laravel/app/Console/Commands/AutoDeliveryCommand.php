@@ -6,9 +6,13 @@ use Illuminate\Console\Command;
 use App\Models\OrderItem;
 use App\Models\Inventory;
 use App\Models\GoogleSheet;
+use App\Models\TransportCompany;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use \Exception;
+use App\Mail\AutoDeliverySystemNotification;
+use Illuminate\Support\Facades\Mail;
 
 class AutoDeliveryCommand extends Command
 {
@@ -17,7 +21,7 @@ class AutoDeliveryCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'command:auto_delivery';
+    protected $signature = 'command:auto_delivery {ship_date}';
 
     /**
      * The console command description.
@@ -48,7 +52,7 @@ class AutoDeliveryCommand extends Command
         $sheet_id = \Config::get('const.Constant.spread_sheet_id');
         $acceptable_range = \Config::get('const.Constant.acceptable_range');
         $valueInputOption = "USER_ENTERED";
-        $ship_date = '2020-9-17';
+        $ship_date = $this->argument("ship_date");
         $range = $ship_date.'!'.'A1';
         
         $order_indexes = OrderItem::SearchByShipDate($ship_date)->get();
@@ -80,8 +84,9 @@ class AutoDeliveryCommand extends Command
                     $cnt++;
 
                     if ($cnt == $cntend) {
-                        throw new Exception('在庫不足');
-                        // TODO: "在庫が不足していおります。注文を減らすか、在庫を増やして下さい」と通知したい"
+                        $lost_point = $inventory->order_code;
+                        throw new Exception($lost_point);
+                        //　TODO 必要に応じ配列化し、複数のエラーを表示する可能性有り
                     }
                 }
             }
@@ -130,14 +135,41 @@ class AutoDeliveryCommand extends Command
                     $order->quantity,
                     ]);
             }
+         
+
+            $response = $sheets->spreadsheets->get($sheet_id);
+            $sheet_lists = $response->getSheets();
+
+            foreach ($sheet_lists as $sheet) {
+
+                $properties = $sheet->getProperties();
+                $sheet_id_info = $properties->getSheetId();
+                $sheet_title = $properties->getTitle();
+
+                if ($sheet_title == $ship_date) {
+                    $delete_sheet = $sheet_id_info;
+                }
+
+            }
+
+            if (isset($delete_sheet)) {
+
+                $body = new \Google_Service_Sheets_BatchUpdateSpreadsheetRequest([
+                    'requests' => [
+                        'deleteSheet' => [
+                            'sheetId' => $delete_sheet
+                        ]
+                    ]
+                ]);
+
+                $response = $sheets->spreadsheets->batchUpdate($sheet_id, $body);
+            }
 
             $data = [];
             $data[] = new \Google_Service_Sheets_ValueRange(array(
                 'range' => $range,
                 'values' => $order_items
             ));
-
-            // TODO: 更新失敗シートが残ってた場合は消去するコードを後程作成
 
             $body = new \Google_Service_Sheets_BatchUpdateSpreadsheetRequest(array(
                 'requests' => array('addSheet' => array('properties' => array('title' => $ship_date)))
@@ -156,11 +188,31 @@ class AutoDeliveryCommand extends Command
 
             $result = $sheets->spreadsheets_values->batchUpdate($sheet_id, $body);
 
+            $users = User::all();
+            $users_mail_lists = $users->pluck('email')->toArray();
+
+            $transports = TransportCompany::all();
+            $transport_mail_lists = $transports->pluck('email')->toArray();
+                  
+            $mail_lists = array_merge($users_mail_lists, $transport_mail_lists);
+
+            $mail_text = '新しい指示書が更新されました。輸送会社様はご確認をお願い致します。';
+            Mail::to($mail_lists)->send( new AutoDeliverySystemNotification($mail_text) );
+
             DB::commit();
         
         } catch (\Exception $e) {
+            $users = User::all();
+            $users_mail_lists = $users->pluck('email')->toArray();
+
+            $transports = TransportCompany::all();
+            $transport_mail_lists = $transports->pluck('email')->toArray();
+                  
+            $mail_lists = array_merge($users_mail_lists, $transport_mail_lists);
+
+            $mail_text = '指示書の作成を中断しました。在庫が足りていない可能性があります。item_code[ '.$e->getMessage().' ]で不足';
+            $inventory_error = Mail::to($mail_lists)->send( new AutoDeliverySystemNotification($mail_text) );
             return DB::rollback();
         }
-
     }
 }
