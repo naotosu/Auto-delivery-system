@@ -5,6 +5,7 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 class Kernel extends ConsoleKernel
 {
@@ -25,19 +26,21 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $carbon = new \Carbon\Carbon::now()->toDateString();
-        $ship_date = $carbon->addDays(2);
+        $carbon = Carbon::now();
+        $ship_date = $carbon->addDay(2)->toDateString();
 
-        $schedule->command('command:auto_delivery 2020-10-13')
-                 ->dailyAt('20:20');
-                 /*->appendOutputTo(dirname(dirname(dirname(__FILE__))) . '/storage/logs/SampleSchedule.log')
+        //TODO 祝日判定で更に+1日をループ　order_items重複防止策
+
+        $schedule->command('command:auto_delivery '.$ship_date)
+                 ->dailyAt('10:00')
+                 ->appendOutputTo(dirname(dirname(dirname(__FILE__))) . '/storage/logs/SampleSchedule.log')
                  ->onSuccess(function () {
                      Log::info('成功');
                  })
                  ->onFailure(function () {
                      Log::error('エラー');
                  })
-                 ;*/
+                 ;
     }
 
     /**

@@ -39,6 +39,8 @@ Route::get('/stocks', 'StockController@stock_index')->name('stock');
 
 Route::get('/manager', 'UserController@manager')->name('manager');
 
+Route::get('/log_test', 'LogTestController@index')->name('log_test');
+
 Route::get('/welcome', function () {
     return view('welcome');
 });
