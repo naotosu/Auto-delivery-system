@@ -23,7 +23,7 @@ class CreateOrderItemsTable extends Migration
             $table->date('ship_date');
             $table->Integer('quantity');
             $table->boolean('temporary_flag')->default(false);
-            $table->bigInteger('inventory_id')->nullable()->unsigned();
+            $table->boolean('done_flag')->default(false);
             $table->bigInteger('update_user_id')->nullable()->unsigned();
             $table->timestamps();
         });

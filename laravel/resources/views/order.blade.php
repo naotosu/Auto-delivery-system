@@ -40,6 +40,9 @@
                 <th>デバッグ用ID</th>
                 <th>アイテムコード</th>
                 <th>アイテム名</th>
+                <th>寸法</th>
+                <th>単位</th>
+                <th>仕様</th>
                 <th>納入日</th>
                 <th>数量</th>
                 <th>ENDユーザー</th>
@@ -47,12 +50,16 @@
                 <th>納入先ID</th>
                 <th>納入先名</th>
                 <th>即時フラグ</th>
+                <th>完了フラグ</th>
             </tr>
             @foreach ($order_indexes as $order)
             <tr>
                 <td>{{$order->id}}</td>
                 <td>{{$order->item_code}}</td>
                 <td>{{$order->item->name}}</td>
+                <td>{{$order->item->size}}</td> 
+                <td>{{$order->item->shape}}</td> 
+                <td>{{$order->item->spec}}</td>
                 <td>{{$order->ship_date}}</td>
                 <td>{{$order->quantity}}</td>
                 <td>{{$order->order->clientCompanyEndUser->name}}</td>
@@ -60,6 +67,7 @@
                 <td>{{$order->order->delivery_user_id}}</td>
                 <td>{{$order->order->clientCompanyDeliveryUser->name}}</td>
                 <td>{{$order->temporary_flag}}</td>
+                <td>{{$order->done_flag}}</td>
             </tr>
             @endforeach
         </table>

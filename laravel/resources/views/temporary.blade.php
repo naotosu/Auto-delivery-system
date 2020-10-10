@@ -47,8 +47,8 @@
                 <th>寸法</th>
                 <th>単位</th>
                 <th>仕様</th>             
-                <th>オーダーNo</th>
-                <th>チャージNo</th>
+                <th>オーダーCode</th>
+                <th>チャージCode</th>
                 <th>製造No</th>
                 <th>束番</th>
                 <th>数量</th>

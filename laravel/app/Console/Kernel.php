@@ -27,13 +27,30 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $saturday = \Config::get('const.Constant.saturday');
+        $sunday = \Config::get('const.Constant.sunday');
         $now = Carbon::now();
-        $ship_date = $now->addDay(2)->toDateString();
+        $ship_date = $now->addDay(2);
+
+        //$date_week = date('w', strtotime($ship_date));
+
+        //あえて土日テスト用変数
+        $date_week = 6;
+
+        if ($date_week == $saturday) {
+            $ship_date = $ship_date->addDay(3);
+        }
+
+        if ($date_week == $sunday) {
+            $ship_date = $ship_date->addDay(2);
+        }
+
+        $ship_date = $ship_date->toDateString();
 
         //TODO 祝日判定で更に+1日をループ　order_items重複防止策
 
         $schedule->command('command:auto_delivery '.$ship_date)
-                 ->dailyAt('10:00')
+                 ->dailyAt('22:54')
                  ->appendOutputTo(dirname(dirname(dirname(__FILE__))) . '/storage/logs/SampleSchedule.log')
                  ->onSuccess(function () {
                      Log::info('成功');
