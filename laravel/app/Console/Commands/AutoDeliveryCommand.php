@@ -47,12 +47,6 @@ class AutoDeliveryCommand extends Command
      */
     public function handle()
     {
-        //　デバック専用
-        $saturday = \Config::get('const.Constant.saturday');
-        $sunday = \Config::get('const.Constant.sunday');
-        dd($saturday);
-        //　ここまで
-
         $sheets = GoogleSheet::OrderItem();
 
         $sheet_id = \Config::get('const.Constant.spread_sheet_id');
