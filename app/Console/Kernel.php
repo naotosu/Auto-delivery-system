@@ -6,6 +6,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
+use Spatie\GoogleCalendar\Event;
 
 class Kernel extends ConsoleKernel
 {
@@ -26,8 +27,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $carbon = Carbon::now();
-        $ship_date = $carbon->addDay(2)->toDateString();
+        $now = Carbon::now();
+        $ship_date = $now->addDay(2)->toDateString();
 
         //TODO 祝日判定で更に+1日をループ　order_items重複防止策
 
