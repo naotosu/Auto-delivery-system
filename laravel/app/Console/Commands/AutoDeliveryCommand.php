@@ -57,6 +57,21 @@ class AutoDeliveryCommand extends Command
         
         $order_indexes = OrderItem::SearchByShipDate($ship_date)->get();
 
+        $order_info = $order_indexes->pluck('ship_date')->toArray();
+
+        if (empty($order_info)) {
+            $users = User::all();
+            $users_mail_lists = $users->pluck('email')->toArray();
+
+            $transports = TransportCompany::all();
+            $transport_mail_lists = $transports->pluck('email')->toArray();
+                  
+            $mail_lists = array_merge($users_mail_lists, $transport_mail_lists);
+            $mail_text = '注文日'.$ship_date.'この日の注文はございません';
+            $inventory_error = Mail::to($mail_lists)->send( new AutoDeliverySystemNotification($mail_text) );
+            return ;
+        }
+
         DB::beginTransaction();
         try {
 

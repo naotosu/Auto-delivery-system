@@ -39,10 +39,6 @@ Route::get('/stocks', 'StockController@stock_index')->name('stock');
 
 Route::get('/manager', 'UserController@manager')->name('manager');
 
-/*Route::get('/notification_mail', function () {
-    return view('notification_mail');
-});*/
-
 Route::get('/welcome', function () {
     return view('welcome');
 });
