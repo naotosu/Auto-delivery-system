@@ -67,7 +67,8 @@ class AutoDeliveryCommand extends Command
             $transport_mail_lists = $transports->pluck('email')->toArray();
                   
             $mail_lists = array_merge($users_mail_lists, $transport_mail_lists);
-            $mail_text = '注文日'.$ship_date.'この日の注文はございません';
+            $mail_text = '注文日'.$ship_date.'この日の新しい注文はございません。
+            　※別途送付済みの指示書がある場合は、そちらを正としてご手配を進めて下さい。';
             $inventory_error = Mail::to($mail_lists)->send( new AutoDeliverySystemNotification($mail_text) );
             return ;
         }
@@ -93,6 +94,8 @@ class AutoDeliveryCommand extends Command
                     $inventory->save();
 
                     if ($order_sum <= $shipment_sum){
+                        $order_item->done_flag = 1;
+                        $order_item->save();
                         break;
                     }
 

@@ -36,7 +36,8 @@ class OrderItem extends Model
 
     public function scopeSearchByShipDate($query, $ship_date)
     {
-        $query->where('ship_date', $ship_date);
+        $query->where('ship_date', $ship_date)
+                ->where('done_flag', null);
 
         return $query;
     }
