@@ -8,6 +8,7 @@ use App\Models\Inventory;
 use App\Services\TemporaryService;
 use Carbon\Carbon;
 use App\Services\InventoryCsvImportService;
+use Illuminate\Support\Facades\DB;
 
 class CsvController extends Controller
 {
@@ -22,13 +23,14 @@ class CsvController extends Controller
         $temporary_ships = Inventory::TemporaryShipSearchByStock($item_ids)->get();
 
         $ship_arranged = \Config::get('const.Constant.ship_arranged');
+        $temporary_ship_id = \Config::get('const.Constant.temporary_ship_id');
 
+        /* TODO このページでのTransactionは別途検討
         DB::beginTransaction();
-        try{
-
+        try{*/
             foreach ($temporary_ships as $temporary_ship) {
 
-                $temporary_ship->order_item_id = 0;
+                $temporary_ship->order_item_id = $temporary_ship_id;
                 $temporary_ship->ship_date = $ship_date;
                 $temporary_ship->status = $ship_arranged;
                 $temporary_ship->save();
@@ -53,8 +55,13 @@ class CsvController extends Controller
                 ]
             );
 
-        } catch (\Exception $e) {
+        /*} catch (\Exception $e) {
+            $users = User::all();
+            $mail_lists = $users->pluck('email')->toArray();
+
+            $mail_text = '更新に失敗しました。';
+            Mail::to($mail_lists)->send( new AutoDeliverySystemNotification($mail_text) );
             DB::rollback();
-        }
+        }*/
     }  
 }
