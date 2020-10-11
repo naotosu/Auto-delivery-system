@@ -62,7 +62,12 @@ class Inventory extends Model
             $query->where('orders.delivery_user_id', $delivery_user_id);
         }
 
-        $query->oldest('charge_code');
+        $query->oldest('item_code')
+            ->oldest('charge_code')
+            ->oldest('order_code')            
+            ->oldest('manufacturing_code')
+            ->oldest('bundle_number');
+
 
         $query->select('inventories.id', 'inventories.item_code', 'items.name', 'inventories.order_code', 'inventories.charge_code', 'inventories.manufacturing_code', 'inventories.bundle_number', 'inventories.quantity', 'inventories.weight', 'inventories.status', 'inventories.production_date', 'inventories.factory_warehousing_date', 'inventories.warehouse_receipt_date', 'inventories.destination_id', 'orders.delivery_user_id');
 
@@ -83,7 +88,7 @@ class Inventory extends Model
 
         $query->oldest('item_code')
             ->oldest('order_code')
-            ->oldest('charge_code')
+            ->oldest('charge_code')                        
             ->oldest('manufacturing_code')
             ->oldest('bundle_number');
 
@@ -135,13 +140,25 @@ class Inventory extends Model
             ->join('items', 'inventories.item_code', '=', 'items.item_code')
             ->join('client_companies', 'orders.end_user_id', 'client_companies.id');
 
+        if (isset($status)) {
+            $query->where('inventories.status', $status);
+
+        } else {
+            $ship_arranged = \Config::get('const.Constant.ship_arranged');
+            $shipped = \Config::get('const.Constant.shipped');
+
+            $query->where (function($query) use ($ship_arranged, $shipped) {
+                $query->where('inventories.status', $ship_arranged)
+                    ->orwhere('inventories.status', $shipped);
+            });
+        }
+
         if (isset($item_ids)) {
             
             $query->whereIn('inventories.id', $item_ids);
-            
         }
 
-        $query->oldest('charge_code');
+        $query->oldest('inventories.ship_date');
 
         $query->select('inventories.id', 'inventories.item_code', 'items.name', 'inventories.order_code', 'inventories.charge_code', 'inventories.manufacturing_code', 'inventories.bundle_number', 'inventories.quantity', 'inventories.weight', 'inventories.status', 'inventories.production_date', 'inventories.factory_warehousing_date', 'inventories.warehouse_receipt_date', 'inventories.destination_id', 'inventories.order_item_id', 'inventories.ship_date', 'orders.delivery_user_id');
 
@@ -158,7 +175,10 @@ class Inventory extends Model
                         $query->where('inventories.status', $factory_stock)
                             ->orwhere('inventories.status', $warehouse_stock);
                     })
-            ->oldest('inventories.charge_code');
+            ->oldest('inventories.charge_code')
+            ->oldest('inventories.order_code')
+            ->oldest('manufacturing_code')
+            ->oldest('bundle_number');
 
         return $query;
     }
