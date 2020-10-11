@@ -4,18 +4,13 @@
 @include('header') 
    <div class="main">
        <h3>在庫一覧・出荷実績照会</h3>
-       <ul>
-         <li>登録メニュー設置予定</li>   
-       </ul>
     <div class="main2">
-        <h3>出荷予定</h3>
-
-        <form action="{{url('/stocks')}}" method="GET">
+        <form action="{{url('/inventories')}}" method="GET">
             <p><label for="item_code">アイテムコードを入力して下さい。
                 <input type="text" name="item_code" value="{{ $item_code ?? null }}">
             </label></p>
 
-            <p><label for="delivery_user_id">納品先IDを入力して下さい。
+            <p><label for="delivery_user_id">納入先IDを入力して下さい。
                 <input type="text" name="delivery_user_id" value="{{ $delivery_user_id ?? null }}">
             </label></p>
 
@@ -46,7 +41,9 @@
 
         @if(!empty($stock_indexes))
 
-        <p>現在時刻は{{ \Carbon\Carbon::now() }}</p>
+        <div class="pagination">
+            {{ $stock_indexes->appends(request()->input())->links('vendor.pagination.default') }}
+        </div>
          
         <table border="1">
             <tr>
@@ -67,8 +64,6 @@
                 <th>倉庫入庫日</th>
                 <th>注文ID</th>
                 <th>出荷日</th>
-                <th>ENDユーザー</th>
-                <th>ユーザー</th>
                 <th>納入先ID</th>
                 <th>納入先名</th>
             </tr>
@@ -91,8 +86,6 @@
                 <td>{{$stock->warehouse_receipt_date}}</td>
                 <td>{{$stock->order_item_id}}</td>
                 <td>{{$stock->ship_date}}</td>
-                <td>{{$stock->order->clientCompanyEndUser->name}}</td>
-                <td>{{$stock->order->clientCompanyClientUser->name}}</td>
                 <td>{{$stock->order->delivery_user_id}}</td>
                 <td>{{$stock->order->clientCompanyDeliveryUser->name}}</td>
             </tr>

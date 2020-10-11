@@ -21,9 +21,7 @@ Route::post('/order_imports', 'StockController@order_csv_import')->name('incomin
 
 Route::post('/inventory_imports', 'StockController@inventory_csv_import')->name('incoming');
 
-Route::get('/order', 'StockController@order')->name('order');
-
-Route::get('/orders', 'StockController@order_index')->name('order');
+Route::get('/orders', 'StockController@order')->name('order');
 
 Route::get('/shipment/cancels', 'ShipmentCancelController@shipment_cancel')->name('cancel');
 
@@ -33,9 +31,7 @@ Route::post('/shipment/cancels', 'ShipmentCancelController@shipment_cancel_execu
 
 Route::get('/temporaries', 'StockController@temporary')->name('temporary');
 
-Route::get('/stock', 'StockController@stock')->name('stock');
-
-Route::get('/stocks', 'StockController@stock_index')->name('stock');
+Route::get('/inventories', 'StockController@inventory')->name('inventory');
 
 Route::get('/manager', 'UserController@manager')->name('manager');
 

@@ -19,7 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => ['api']],function(){
-	Route::get('temporary_ships', 'API\CsvController@temporary_ship');
+	Route::post('temporary_ships', 'API\CsvController@temporary_ship');
 });
 
 /*Route::group(['middleware' => ['api']],function(){

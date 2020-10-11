@@ -16,12 +16,12 @@
             </div>
             <div class="icon">
             <li>            
-              <a href="/order">注文データ照会</a>
+              <a href="/orders">注文データ照会</a>
             </li>
             </div>
             <div class="icon"> 
             <li>
-              <a href="/stock">在庫一覧・出荷実績</a>
+              <a href="/inventories">在庫一覧・出荷実績</a>
             </li>
             </div>
             <div class="icon">

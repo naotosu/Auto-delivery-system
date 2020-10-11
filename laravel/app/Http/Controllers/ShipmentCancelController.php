@@ -15,12 +15,9 @@ class ShipmentCancelController extends Controller
         $status = $request->input('status');
         $ship_date = $request->input('ship_date');
 
-        if (isset($item_code) or ($delivery_user_id) or ($status) or ($ship_date)) {
-
-            $stock_indexes = Inventory::SipmentCancelSearch($item_code, $delivery_user_id, $status, $ship_date)->get();
+        $stock_indexes = Inventory::SipmentCancelSearch($item_code, $delivery_user_id, $status, $ship_date)->paginate(15);
 
         return view('cancel', compact('stock_indexes', 'item_code', 'delivery_user_id', 'status', 'ship_date'));
-        }
 
         return view('cancel');
     }
