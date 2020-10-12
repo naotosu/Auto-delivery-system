@@ -14,10 +14,11 @@ class ShipmentCancelController extends Controller
         $delivery_user_id = $request->input('delivery_user_id');
         $status = $request->input('status');
         $ship_date = $request->input('ship_date');
+        $cancel_pagination = \Config::get('const.Constant.cancel_pagination');
 
-        $stock_indexes = Inventory::SipmentCancelSearch($item_code, $delivery_user_id, $status, $ship_date)->paginate(10);
+        $shipped_searches = Inventory::SipmentCancelSearch($item_code, $delivery_user_id, $status, $ship_date)->paginate($cancel_pagination);
 
-        return view('cancel', compact('stock_indexes', 'item_code', 'delivery_user_id', 'status', 'ship_date'));
+        return view('cancel', compact('shipped_searches', 'item_code', 'delivery_user_id', 'status', 'ship_date'));
     }
 
     public function shipment_cancel_check(Request $request)
@@ -29,22 +30,23 @@ class ShipmentCancelController extends Controller
 
         $item_ids = $request->input('item_ids');
         $status_edit = $request->input('status_edit');
+        $cancel_pagination = \Config::get('const.Constant.cancel_pagination');
 
         if (empty($status_edit)) {
-        	$stock_indexes = Inventory::ShipmentCancelCheck($item_code, $delivery_user_id, $status, $ship_date)->paginate(10);
+        	$shipped_searches = Inventory::ShipmentCancelCheck($item_code, $delivery_user_id, $status, $ship_date)->paginate($cancel_pagination);
             session()->flash('flash_message', 'どこまで進捗を戻すか？は入力必須です');
-            return view('cancel', compact('stock_indexes', 'item_code', 'delivery_user_id', 'status', 'ship_date', 'item_ids'));
+            return view('cancel', compact('shipped_searches', 'item_code', 'delivery_user_id', 'status', 'ship_date', 'item_ids'));
         }
 
         if (empty($item_ids)) {
-        	$stock_indexes = Inventory::ShipmentCancelCheck($item_code, $delivery_user_id, $status, $ship_date)->paginate(10);
+        	$shipped_searches = Inventory::ShipmentCancelCheck($item_code, $delivery_user_id, $status, $ship_date)->paginate($cancel_pagination);
             session()->flash('flash_message', '出荷取消を行う対象を選択して下さい');
             return view('cancel', compact('stock_indexes', 'item_code', 'delivery_user_id', 'status', 'ship_date', 'status_edit'));
         }
 
-        $stock_indexes = Inventory::ShipmentCancelCheck($item_ids)->get();
+        $shipped_searches = Inventory::ShipmentCancelCheck($item_ids)->get();
 
-        return view('cancel_check', compact('stock_indexes', 'item_ids', 'status', 'status_edit'));
+        return view('cancel_check', compact('shipped_searches', 'item_ids', 'status', 'status_edit'));
     } 
 
     public function shipment_cancel_execute(Request $request)
@@ -53,13 +55,13 @@ class ShipmentCancelController extends Controller
         $status_edit = $request->input('status_edit');
 
         try {   
-            $stock_indexes = Inventory::ShipmentCancelExecute($item_ids)->get();
+            $shipped_searches = Inventory::ShipmentCancelExecute($item_ids)->get();
 
-            foreach ($stock_indexes as $stock){
-                $stock->status = $status_edit;
-                $stock->order_item_id = null;
-                $stock->ship_date = null;
-                $stock->save();
+            foreach ($shipped_searches as $shipped){
+                $shipped->status = $status_edit;
+                $shipped->order_item_id = null;
+                $shipped->ship_date = null;
+                $shipped->save();
             }
 
         } catch (\Exception $e) {

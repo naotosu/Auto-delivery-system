@@ -30,7 +30,7 @@
             <p><input type="submit" value="検索"></p>
         </form>
 
-        @if(!empty($stock_indexes))
+        @if(!empty($shipped_searches))
 
           <form action="{{url('/shipment/cancels/checks')}}" method="GET">
               @csrf
@@ -43,9 +43,9 @@
                 </label></p>
              <P>出荷指示を取り消す明細をチェックして下さい　<input type="submit" value="出荷取消"></P>
 
-          @if(!empty($stock_indexes))
+          @if(!empty($shipped_indexes))
           <div class="pagination">
-              {{ $stock_indexes->appends(request()->input())->links('vendor.pagination.default') }}
+              {{ $shipped_searches->appends(request()->input())->links('vendor.pagination.default') }}
           </div>
           @endif
 
@@ -71,30 +71,30 @@
                 <th>出荷日</th>
                 <th>納入先名</th>
               </tr>
-              @foreach ($stock_indexes as $stock)
+              @foreach ($shipped_searches as $shipped)
               <tr>
                 <td>
-                  <input class="form-check-input" type="checkbox" id="{{$stock->id}}" name="item_ids[]" value="{{$stock->id}}" <?php if (isset($item_ids)) { $key = in_array($stock->id, $item_ids); if ($key) {echo "checked"; }} ?>>
-                  <label class="form-check-label" for="checkbox">{{$stock->id}}</label>
+                  <input class="form-check-input" type="checkbox" id="{{$shipped->id}}" name="item_ids[]" value="{{$shipped->id}}" <?php if (isset($item_ids)) { $key = in_array($shipped->id, $item_ids); if ($key) {echo "checked"; }} ?>>
+                  <label class="form-check-label" for="checkbox">{{$shipped->id}}</label>
                 </td>
-                  <td>{{$stock->item_code}}</td>
-                  <td>{{$stock->item->name}}</td>                
-                  <td>{{$stock->item->size}}</td> 
-                  <td>{{$stock->item->shape}}</td> 
-                  <td>{{$stock->item->spec}}</td>
-                  <td>{{$stock->order_code}}</td>
-                  <td>{{$stock->charge_code}}</td>
-                  <td>{{$stock->manufacturing_code}}</td>
-                  <td>{{$stock->bundle_number}}</td>
-                  <td>{{$stock->quantity}}</td>
-                  <td>{{$stock->weight}}</td>
-                  <td>{{$stock->status}}</td>
-                  <td>{{$stock->production_date}}</td>
-                  <td>{{$stock->factory_warehousing_date}}</td>
-                  <td>{{$stock->warehouse_receipt_date}}</td>
-                  <td>{{$stock->order_item_id}}</td>
-                  <td>{{$stock->ship_date}}</td>
-                  <td>{{$stock->order->clientCompanyDeliveryUser->name}}</td>
+                  <td>{{$shipped->item_code}}</td>
+                  <td>{{$shipped->item->name}}</td>                
+                  <td>{{$shipped->item->size}}</td> 
+                  <td>{{$shipped->item->shape}}</td> 
+                  <td>{{$shipped->item->spec}}</td>
+                  <td>{{$shipped->order_code}}</td>
+                  <td>{{$shipped->charge_code}}</td>
+                  <td>{{$shipped->manufacturing_code}}</td>
+                  <td>{{$shipped->bundle_number}}</td>
+                  <td>{{$shipped->quantity}}</td>
+                  <td>{{$shipped->weight}}</td>
+                  <td>{{$shipped->status}}</td>
+                  <td>{{$shipped->production_date}}</td>
+                  <td>{{$shipped->factory_warehousing_date}}</td>
+                  <td>{{$shipped->warehouse_receipt_date}}</td>
+                  <td>{{$shipped->order_item_id}}</td>
+                  <td>{{$shipped->ship_date}}</td>
+                  <td>{{$shipped->order->clientCompanyDeliveryUser->name}}</td>
               </tr>
               @endforeach
           </table>
