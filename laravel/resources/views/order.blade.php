@@ -24,10 +24,10 @@
                 <p><input type="submit" value="検索"></p>
             </form>
             
-            @if(!empty($order_searches))
+            @if(!empty($orders))
 
             <div class="pagination">
-                {{ $order_searches->appends(request()->input())->links('vendor.pagination.default') }}
+                {{ $orders->appends(request()->input())->links('vendor.pagination.default') }}
             </div>
 
             <table border="1">
@@ -48,7 +48,7 @@
                     <th>即時フラグ</th>
                     <th>完了フラグ</th>
                 </tr>
-                @foreach ($order_searches as $order)
+                @foreach ($orders as $order)
                 <tr>
                     <td>{{$order->id}}</td>
                     <td>{{$order->item_code}}</td>

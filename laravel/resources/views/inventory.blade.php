@@ -39,10 +39,10 @@
         
         </form>
 
-        @if(!empty($inventory_searches))
+        @if(!empty($inventories))
 
         <div class="pagination">
-            {{ $inventory_searches->appends(request()->input())->links('vendor.pagination.default') }}
+            {{ $inventories->appends(request()->input())->links('vendor.pagination.default') }}
         </div>
          
         <table border="1">
@@ -67,7 +67,7 @@
                 <th>納入先ID</th>
                 <th>納入先名</th>
             </tr>
-            @foreach ($inventory_searches as $inventory)
+            @foreach ($inventories as $inventory)
             <tr>
                 <td>{{$inventory->item_code}}</td>
                 <td>{{$inventory->item->name}}</td>

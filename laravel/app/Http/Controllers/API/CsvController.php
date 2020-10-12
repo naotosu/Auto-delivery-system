@@ -21,31 +21,31 @@ class CsvController extends Controller
         //$change_id = $request->input('change_id');
         $item_ids = [$request->input('item_ids')];
 
-        $temporary_ships = Inventory::TemporaryShipSearchByStock($item_ids)->get();
+        $inventories = Inventory::TemporaryShipSearchByStock($item_ids)->get();
 
         $ship_arranged = \Config::get('const.Constant.ship_arranged');
         $temporary_ship_id = \Config::get('const.Constant.temporary_ship_id');
 
         //TODO Transaction設置予定（仮）
 
-        foreach ($temporary_ships as $temporary_ship) {
+        foreach ($inventories as $inventory) {
 
-            $temporary_ship->order_item_id = $temporary_ship_id;
-            $temporary_ship->ship_date = $ship_date;
-            $temporary_ship->status = $ship_arranged;
-            $temporary_ship->save();
+            $inventory->order_item_id = $temporary_ship_id;
+            $inventory->ship_date = $ship_date;
+            $inventory->status = $ship_arranged;
+            $inventory->save();
 
         }
 
         return response()->streamDownload(
-            function () use ($temporary_ships) {
+            function () use ($inventories) {
                 // 出力バッファをopen
                 $stream = fopen('php://output', 'w');
                 // 文字コードをShift-JISに変換
                 stream_filter_prepend($stream,'convert.iconv.utf-8/cp932//TRANSLIT');
                 // ヘッダー&データ
 
-                TemporaryService::TemporaryIndex($stream, $temporary_ships);
+                TemporaryService::TemporaryIndex($stream, $inventories);
 
                 fclose($stream);
             },

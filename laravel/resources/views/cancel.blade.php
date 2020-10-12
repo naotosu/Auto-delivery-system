@@ -30,7 +30,7 @@
             <p><input type="submit" value="検索"></p>
         </form>
 
-        @if(!empty($shipped_searches))
+        @if(!empty($inventories))
 
           <form action="{{url('/shipment/cancels/checks')}}" method="GET">
               @csrf
@@ -43,9 +43,9 @@
                 </label></p>
              <P>出荷指示を取り消す明細をチェックして下さい　<input type="submit" value="出荷取消"></P>
 
-          @if(!empty($shipped_indexes))
+          @if(!empty($inventories))
           <div class="pagination">
-              {{ $shipped_searches->appends(request()->input())->links('vendor.pagination.default') }}
+              {{ $inventories->appends(request()->input())->links('vendor.pagination.default') }}
           </div>
           @endif
 
@@ -71,7 +71,7 @@
                 <th>出荷日</th>
                 <th>納入先名</th>
               </tr>
-              @foreach ($shipped_searches as $shipped)
+              @foreach ($inventories as $shipped)
               <tr>
                 <td>
                   <input class="form-check-input" type="checkbox" id="{{$shipped->id}}" name="item_ids[]" value="{{$shipped->id}}" <?php if (isset($item_ids)) { $key = in_array($shipped->id, $item_ids); if ($key) {echo "checked"; }} ?>>

@@ -11,7 +11,7 @@
        <H1>【確認】本当に取り消しても良いですか？</H1>
        <h2><span class="attention">注意</span>　出荷取り消す際は必ず輸送会社の許可を得て行って下さい</h2>
 
-        @if(!empty($shipped_searches))
+        @if(!empty($inventories))
         <form action="{{url('/shipment/cancels')}}" method="POST" name="status_edit" value="{{ $status_edit ?? null }}">
             @csrf
           <p>現在の進捗　<input class="check_date" name="status" value="{{ $status ?? null }}" readonly>   どこまで戻すか　<input class="check_date" name="status_edit" value="{{ $status_edit ?? null }}" readonly>
@@ -40,7 +40,7 @@
               <th>納入先ID</th>
               <th>納入先名</th>
             </tr>
-            @foreach ($shipped_searches as $shipped)
+            @foreach ($inventories as $shipped)
             <tr>
               <td>
                 <input class="check_date" id="{{$shipped->id}}" name="item_ids[]" value="{{$shipped->id}}" readonly>
