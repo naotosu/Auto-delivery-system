@@ -27,9 +27,9 @@ class StockController extends Controller
         $order_end = $request->input('order_end');
         $nomal_pagination = \Config::get('const.Constant.nomal_pagination');
 
-        $order_searches = OrderItem::SearchByOrderList($item_code, $delivery_user_id, $order_start, $order_end)->paginate($nomal_pagination);
+        $orders = OrderItem::SearchByOrderList($item_code, $delivery_user_id, $order_start, $order_end)->paginate($nomal_pagination);
 
-        return view('order', compact('order_searches', 'item_code', 'delivery_user_id', 'order_start', 'order_end'));
+        return view('order', compact('orders', 'item_code', 'delivery_user_id', 'order_start', 'order_end'));
     }
 
     public function temporary(Request $request)
@@ -38,9 +38,9 @@ class StockController extends Controller
         $delivery_user_id = $request->input('delivery_user_id');
         $nomal_pagination = \Config::get('const.Constant.nomal_pagination');
 
-        $inventory_searches = Inventory::TemporarySearchByStock($item_code,$delivery_user_id)->paginate($nomal_pagination);
+        $inventories = Inventory::TemporarySearchByStock($item_code,$delivery_user_id)->paginate($nomal_pagination);
 
-        return view('temporary', compact('inventory_searches', 'item_code', 'delivery_user_id'));
+        return view('temporary', compact('inventories', 'item_code', 'delivery_user_id'));
     }
 
     public function inventory(Request $request)
@@ -50,9 +50,9 @@ class StockController extends Controller
         $status = $request->input('status');
         $nomal_pagination = \Config::get('const.Constant.nomal_pagination');
 
-        $inventory_searches = Inventory::SearchByStock($item_code, $delivery_user_id, $status)->paginate($nomal_pagination);
+        $inventories = Inventory::SearchByStock($item_code, $delivery_user_id, $status)->paginate($nomal_pagination);
 
-        return view('inventory', compact('inventory_searches', 'item_code', 'delivery_user_id', 'status'));
+        return view('inventory', compact('inventories', 'item_code', 'delivery_user_id', 'status'));
     }
 
     public function inventory_csv_import(Request $request)
