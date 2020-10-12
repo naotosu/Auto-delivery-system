@@ -17,12 +17,14 @@ class OrderItem extends Model
 
     public function scopeSearchByOrderList($query, $item_code, $delivery_user_id, $order_start, $order_end)
     {
+        $query->join('orders', 'order_items.item_code', '=', 'orders.item_code');
+
         if (isset($item_code)) {
             $query->where('order_items.item_code', $item_code);
         }
 
         if (isset($delivery_user_id)) {
-            $query->where('order_items.delivery_user_id', $delivery_user_id);
+            $query->where('orders.delivery_user_id', $delivery_user_id);
         }
 
         if (isset($order_start) and isset($order_end)) {
@@ -36,8 +38,10 @@ class OrderItem extends Model
 
     public function scopeSearchByShipDate($query, $ship_date)
     {
+        $not_done = \Config::get('const.Constant.not_done');
+
         $query->where('ship_date', $ship_date)
-                ->where('done_flag', null);
+                ->where('done_flag', $not_done);
 
         return $query;
     }

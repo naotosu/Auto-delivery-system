@@ -19,54 +19,40 @@ class StockController extends Controller
         return view('incoming');
     }
 
-    public function order()
-    {
-        return view('order');
-    }
-
-    public function order_index(Request $request)
+    public function order(Request $request)
     {
         $item_code = $request->input('item_code');
         $delivery_user_id = $request->input('delivery_user_id');
         $order_start = $request->input('order_start');
         $order_end = $request->input('order_end');
+        $nomal_pagination = \Config::get('const.Constant.nomal_pagination');
 
-        $order_indexes = OrderItem::SearchByOrderList($item_code, $delivery_user_id, $order_start, $order_end)->get();
+        $orders = OrderItem::SearchByOrderList($item_code, $delivery_user_id, $order_start, $order_end)->paginate($nomal_pagination);
 
-        return view('order', compact('order_indexes', 'item_code', 'delivery_user_id', 'order_start', 'order_end'));
+        return view('order', compact('orders', 'item_code', 'delivery_user_id', 'order_start', 'order_end'));
     }
 
     public function temporary(Request $request)
     {
         $item_code = $request->input('item_code');
         $delivery_user_id = $request->input('delivery_user_id');
+        $nomal_pagination = \Config::get('const.Constant.nomal_pagination');
 
-        if (isset($item_code) or ($delivery_user_id)) {
+        $inventories = Inventory::TemporarySearchByStock($item_code,$delivery_user_id)->paginate($nomal_pagination);
 
-            $temporary_indexes = Inventory::TemporarySearchByStock($item_code,$delivery_user_id)->get();
-
-            return view('temporary', compact('temporary_indexes', 'item_code', 'delivery_user_id'));
-
-        }
-
-        return view('temporary');
+        return view('temporary', compact('inventories', 'item_code', 'delivery_user_id'));
     }
 
-
-    public function stock(Request $request)
-    {
-        return view('stock');
-    }
-
-    public function stock_index(Request $request)
+    public function inventory(Request $request)
     {
         $item_code = $request->input('item_code');
         $delivery_user_id = $request->input('delivery_user_id');
         $status = $request->input('status');
+        $nomal_pagination = \Config::get('const.Constant.nomal_pagination');
 
-        $stock_indexes = Inventory::SearchByStock($item_code, $delivery_user_id, $status)->get();
+        $inventories = Inventory::SearchByStock($item_code, $delivery_user_id, $status)->paginate($nomal_pagination);
 
-        return view('stock', compact('stock_indexes', 'item_code', 'delivery_user_id', 'status'));
+        return view('inventory', compact('inventories', 'item_code', 'delivery_user_id', 'status'));
     }
 
     public function inventory_csv_import(Request $request)

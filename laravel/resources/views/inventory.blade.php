@@ -4,18 +4,13 @@
 @include('header') 
    <div class="main">
        <h3>在庫一覧・出荷実績照会</h3>
-       <ul>
-         <li>登録メニュー設置予定</li>   
-       </ul>
     <div class="main2">
-        <h3>出荷予定</h3>
-
-        <form action="{{url('/stocks')}}" method="GET">
+        <form action="{{url('/inventories')}}" method="GET">
             <p><label for="item_code">アイテムコードを入力して下さい。
                 <input type="text" name="item_code" value="{{ $item_code ?? null }}">
             </label></p>
 
-            <p><label for="delivery_user_id">納品先IDを入力して下さい。
+            <p><label for="delivery_user_id">納入先IDを入力して下さい。
                 <input type="text" name="delivery_user_id" value="{{ $delivery_user_id ?? null }}">
             </label></p>
 
@@ -44,9 +39,11 @@
         
         </form>
 
-        @if(!empty($stock_indexes))
+        @if(!empty($inventories))
 
-        <p>現在時刻は{{ \Carbon\Carbon::now() }}</p>
+        <div class="pagination">
+            {{ $inventories->appends(request()->input())->links('vendor.pagination.default') }}
+        </div>
          
         <table border="1">
             <tr>
@@ -67,34 +64,30 @@
                 <th>倉庫入庫日</th>
                 <th>注文ID</th>
                 <th>出荷日</th>
-                <th>ENDユーザー</th>
-                <th>ユーザー</th>
                 <th>納入先ID</th>
                 <th>納入先名</th>
             </tr>
-            @foreach ($stock_indexes as $stock)
+            @foreach ($inventories as $inventory)
             <tr>
-                <td>{{$stock->item_code}}</td>
-                <td>{{$stock->item->name}}</td>                
-                <td>{{$stock->item->size}}</td> 
-                <td>{{$stock->item->shape}}</td> 
-                <td>{{$stock->item->spec}}</td>
-                <th>{{$stock->order_code}}</th>
-                <th>{{$stock->charge_code}}</th>
-                <th>{{$stock->manufacturing_code}}</th>
-                <th>{{$stock->bundle_number}}</th>
-                <td>{{$stock->quantity}}</td>
-                <td>{{$stock->weight}}</td>
-                <td>{{$stock->status}}</td>
-                <td>{{$stock->production_date}}</td>
-                <td>{{$stock->factory_warehousing_date}}</td>
-                <td>{{$stock->warehouse_receipt_date}}</td>
-                <td>{{$stock->order_item_id}}</td>
-                <td>{{$stock->ship_date}}</td>
-                <td>{{$stock->order->clientCompanyEndUser->name}}</td>
-                <td>{{$stock->order->clientCompanyClientUser->name}}</td>
-                <td>{{$stock->order->delivery_user_id}}</td>
-                <td>{{$stock->order->clientCompanyDeliveryUser->name}}</td>
+                <td>{{$inventory->item_code}}</td>
+                <td>{{$inventory->item->name}}</td>
+                <td>{{$inventory->item->size}}</td> 
+                <td>{{$inventory->item->shape}}</td> 
+                <td>{{$inventory->item->spec}}</td>
+                <th>{{$inventory->order_code}}</th>
+                <th>{{$inventory->charge_code}}</th>
+                <th>{{$inventory->manufacturing_code}}</th>
+                <th>{{$inventory->bundle_number}}</th>
+                <td>{{$inventory->quantity}}</td>
+                <td>{{$inventory->weight}}</td>
+                <td>{{$inventory->status}}</td>
+                <td>{{$inventory->production_date}}</td>
+                <td>{{$inventory->factory_warehousing_date}}</td>
+                <td>{{$inventory->warehouse_receipt_date}}</td>
+                <td>{{$inventory->order_item_id}}</td>
+                <td>{{$inventory->ship_date}}</td>
+                <td>{{$inventory->order->delivery_user_id}}</td>
+                <td>{{$inventory->order->clientCompanyDeliveryUser->name}}</td>
             </tr>
             @endforeach
         </table>
