@@ -11,7 +11,7 @@
        <H1>【確認】本当に取り消しても良いですか？</H1>
        <h2><span class="attention">注意</span>　出荷取り消す際は必ず輸送会社の許可を得て行って下さい</h2>
 
-        @if(!empty($stock_indexes))
+        @if(!empty($shipped_searches))
         <form action="{{url('/shipment/cancels')}}" method="POST" name="status_edit" value="{{ $status_edit ?? null }}">
             @csrf
           <p>現在の進捗　<input class="check_date" name="status" value="{{ $status ?? null }}" readonly>   どこまで戻すか　<input class="check_date" name="status_edit" value="{{ $status_edit ?? null }}" readonly>
@@ -40,31 +40,31 @@
               <th>納入先ID</th>
               <th>納入先名</th>
             </tr>
-            @foreach ($stock_indexes as $stock)
+            @foreach ($shipped_searches as $shipped)
             <tr>
               <td>
-                <input class="check_date" id="{{$stock->id}}" name="item_ids[]" value="{{$stock->id}}" readonly>
+                <input class="check_date" id="{{$shipped->id}}" name="item_ids[]" value="{{$shipped->id}}" readonly>
               </td>
-              <td>{{$stock->item_code}}</td>
-              <td>{{$stock->item->name}}</td>                
-              <td>{{$stock->item->size}}</td> 
-              <td>{{$stock->item->shape}}</td> 
-              <td>{{$stock->item->spec}}</td>
-              <th>{{$stock->order_code}}</th>
-              <th>{{$stock->charge_code}}</th>
-              <th>{{$stock->manufacturing_code}}</th>
-              <th>{{$stock->bundle_number}}</th>
-              <td>{{$stock->quantity}}</td>
-              <td>{{$stock->weight}}</td>
-              <td>{{$stock->status}}</td>
-              <td>{{$stock->production_date}}</td>
-              <td>{{$stock->factory_warehousing_date}}</td>
-              <td>{{$stock->warehouse_receipt_date}}</td>
-              <td>{{$stock->ship_date}}</td>
-              <td>{{$stock->order->clientCompanyEndUser->name}}</td>
-              <td>{{$stock->order->clientCompanyClientUser->name}}</td>
-              <td>{{$stock->order->delivery_user_id}}</td>
-              <td>{{$stock->order->clientCompanyDeliveryUser->name}}</td>
+              <td>{{$shipped->item_code}}</td>
+              <td>{{$shipped->item->name}}</td>                
+              <td>{{$shipped->item->size}}</td> 
+              <td>{{$shipped->item->shape}}</td> 
+              <td>{{$shipped->item->spec}}</td>
+              <th>{{$shipped->order_code}}</th>
+              <th>{{$shipped->charge_code}}</th>
+              <th>{{$shipped->manufacturing_code}}</th>
+              <th>{{$shipped->bundle_number}}</th>
+              <td>{{$shipped->quantity}}</td>
+              <td>{{$shipped->weight}}</td>
+              <td>{{$shipped->status}}</td>
+              <td>{{$shipped->production_date}}</td>
+              <td>{{$shipped->factory_warehousing_date}}</td>
+              <td>{{$shipped->warehouse_receipt_date}}</td>
+              <td>{{$shipped->ship_date}}</td>
+              <td>{{$shipped->order->clientCompanyEndUser->name}}</td>
+              <td>{{$shipped->order->clientCompanyClientUser->name}}</td>
+              <td>{{$shipped->order->delivery_user_id}}</td>
+              <td>{{$shipped->order->clientCompanyDeliveryUser->name}}</td>
             </tr>
             @endforeach
         </table>

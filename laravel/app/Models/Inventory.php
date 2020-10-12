@@ -88,7 +88,7 @@ class Inventory extends Model
 
         $query->oldest('item_code')
             ->oldest('order_code')
-            ->oldest('charge_code')                        
+            ->oldest('charge_code')
             ->oldest('manufacturing_code')
             ->oldest('bundle_number');
 

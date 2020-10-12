@@ -38,8 +38,10 @@ class OrderItem extends Model
 
     public function scopeSearchByShipDate($query, $ship_date)
     {
+        $not_done = \Config::get('const.Constant.not_done');
+
         $query->where('ship_date', $ship_date)
-                ->where('done_flag', null);
+                ->where('done_flag', $not_done);
 
         return $query;
     }

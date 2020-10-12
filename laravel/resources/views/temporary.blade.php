@@ -15,7 +15,7 @@
             </label><input type="submit" value="検索"></p>        
         </form>
 
-        @if(!empty($temporary_indexes))
+        @if(!empty($inventory_searches))
 
         <form action="{{url('/api/temporary_ships')}}" method="POST">
             @csrf
@@ -31,7 +31,7 @@
            <div class= 'attention'><p>※チャージNoが古い順で表示。理由が無い限り一番上から使用下さい。</p></div>
 
         <div class="pagination">
-            {{ $temporary_indexes->appends(request()->input())->links('vendor.pagination.default') }}
+            {{ $inventory_searches->appends(request()->input())->links('vendor.pagination.default') }}
         </div>
 
         <table border="1">
@@ -54,7 +54,7 @@
                 <th>倉庫入庫日</th>
                 <th>納入先名</th>
             </tr>
-            @foreach ($temporary_indexes as $temporary)
+            @foreach ($inventory_searches as $temporary)
             <tr>
                 <td>
                   <input class="form-check-input" type="checkbox" id="{{$temporary->id}}" name="item_ids[]" value="{{$temporary->id}}">
