@@ -69,7 +69,7 @@ class Inventory extends Model
             ->oldest('bundle_number');
 
 
-        $query->select('inventories.id', 'inventories.item_code', 'items.name', 'inventories.order_code', 'inventories.charge_code', 'inventories.manufacturing_code', 'inventories.bundle_number', 'inventories.quantity', 'inventories.weight', 'inventories.status', 'inventories.production_date', 'inventories.factory_warehousing_date', 'inventories.warehouse_receipt_date', 'inventories.destination_id', 'orders.delivery_user_id');
+        $query->select('inventories.id', 'inventories.item_code', 'items.name', 'inventories.order_code', 'inventories.charge_code', 'inventories.manufacturing_code', 'inventories.bundle_number', 'inventories.quantity', 'inventories.weight', 'inventories.status', 'inventories.production_date', 'inventories.factory_warehousing_date', 'inventories.warehouse_receipt_date', 'orders.delivery_user_id');
 
         return $query;
     }
@@ -129,7 +129,7 @@ class Inventory extends Model
 
         $query->oldest('inventories.ship_date');
 
-        $query->select('inventories.id', 'inventories.item_code', 'items.name', 'inventories.order_code', 'inventories.charge_code', 'inventories.manufacturing_code', 'inventories.bundle_number', 'inventories.quantity', 'inventories.weight', 'inventories.status', 'inventories.production_date', 'inventories.factory_warehousing_date', 'inventories.warehouse_receipt_date', 'inventories.destination_id', 'inventories.order_item_id', 'inventories.ship_date', 'orders.delivery_user_id');
+        $query->select('inventories.id', 'inventories.item_code', 'items.name', 'inventories.order_code', 'inventories.charge_code', 'inventories.manufacturing_code', 'inventories.bundle_number', 'inventories.quantity', 'inventories.weight', 'inventories.status', 'inventories.production_date', 'inventories.factory_warehousing_date', 'inventories.warehouse_receipt_date', 'inventories.order_item_id', 'inventories.ship_date', 'orders.delivery_user_id');
 
         return $query;
     }
@@ -160,7 +160,7 @@ class Inventory extends Model
 
         $query->oldest('inventories.ship_date');
 
-        $query->select('inventories.id', 'inventories.item_code', 'items.name', 'inventories.order_code', 'inventories.charge_code', 'inventories.manufacturing_code', 'inventories.bundle_number', 'inventories.quantity', 'inventories.weight', 'inventories.status', 'inventories.production_date', 'inventories.factory_warehousing_date', 'inventories.warehouse_receipt_date', 'inventories.destination_id', 'inventories.order_item_id', 'inventories.ship_date', 'orders.delivery_user_id');
+        $query->select('inventories.id', 'inventories.item_code', 'items.name', 'inventories.order_code', 'inventories.charge_code', 'inventories.manufacturing_code', 'inventories.bundle_number', 'inventories.quantity', 'inventories.weight', 'inventories.status', 'inventories.production_date', 'inventories.factory_warehousing_date', 'inventories.warehouse_receipt_date', 'inventories.order_item_id', 'inventories.ship_date', 'orders.delivery_user_id');
 
         return $query;
     }
@@ -220,8 +220,8 @@ class Inventory extends Model
         return $this->belongsTo('App\Models\Order', 'item_code', 'item_code');
     }
 
-    public function clientCompany() 
+    /*public function clientCompany() 
     {
         return $this->belongsTo('App\Models\ClientCompany', 'delivery_user_id');
-    }
+    }*/
 }

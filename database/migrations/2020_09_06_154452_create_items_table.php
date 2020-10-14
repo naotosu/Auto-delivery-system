@@ -17,7 +17,7 @@ class CreateItemsTable extends Migration
             $table->bigIncrements('id');
             $table->string('item_code', 11)->index()->unique();
             $table->string('name', 20);
-            $table->Integer('size');
+            $table->Integer('size')->unsigned();
             $table->string('shape', 2);
             $table->string('spec', 2);
             $table->timestamps();

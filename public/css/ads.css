@@ -225,6 +225,10 @@ body {
   width: auto;
 }
 
+.unimplemented {
+  text-decoration: line-through;
+}
+
 
 /*下記CSSは、Laravel初期設定のため、一部だけ利用するためにここに残す
 
