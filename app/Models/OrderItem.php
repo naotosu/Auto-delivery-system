@@ -56,9 +56,4 @@ class OrderItem extends Model
         return $this->belongsTo('App\Models\Item', 'item_code', 'item_code');
     }
 
-    /*public function inventories()
-    {
-        return $this->hasMany('App\Models\Inventory');
-    }*/
-
 }
