@@ -19,7 +19,7 @@ class CreateOrderItemsTable extends Migration
                        'order_id_item_code_ship_date_quantity');
             $table->bigIncrements('id');
             $table->Integer('order_id');
-            $table->string('item_code', 11);
+            $table->string('item_code', 11)->index();
             $table->date('ship_date');
             $table->Integer('weight');
             $table->boolean('temporary_flag')->default(false);
