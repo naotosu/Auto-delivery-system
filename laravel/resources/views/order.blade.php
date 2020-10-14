@@ -39,13 +39,12 @@
                     <th>単位</th>
                     <th>仕様</th>
                     <th>納入日</th>
-                    <th>数量</th>
+                    <th>重量</th>
                     <th>商流ID</th>
                     <th>ENDユーザー</th>
                     <th>ユーザー</th>
                     <th>納入先ID</th>
                     <th>納入先名</th>
-                    <th>即時フラグ</th>
                     <th>完了フラグ</th>
                 </tr>
                 @foreach ($orders as $order)
@@ -57,13 +56,12 @@
                     <td>{{$order->item->shape}}</td> 
                     <td>{{$order->item->spec}}</td>
                     <td>{{$order->ship_date}}</td>
-                    <td>{{$order->quantity}}</td>
+                    <td>{{$order->weight}}</td>
                     <td>{{$order->order_id}}</td>
                     <td>{{$order->order->clientCompanyEndUser->name}}</td>
                     <td>{{$order->order->clientCompanyClientUser->name}}</td>
                     <td>{{$order->order->delivery_user_id}}</td>
                     <td>{{$order->order->clientCompanyDeliveryUser->name}}</td>
-                    <td>{{$order->temporary_flag}}</td>
                     <td>{{$order->done_flag}}</td>
                 </tr>
                 @endforeach

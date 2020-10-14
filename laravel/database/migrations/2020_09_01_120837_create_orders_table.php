@@ -15,12 +15,11 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('item_code', 11);
+            $table->string('item_code', 11)->index();
             $table->bigInteger('end_user_id')->unsigned();
             $table->bigInteger('client_user_id')->unsigned();
-            $table->bigInteger('delivery_user_id')->unsigned();
+            $table->bigInteger('delivery_user_id')->unsigned()->index();
             $table->bigInteger('transport_id')->unsigned();
-            $table->bigInteger('update_user_id')->unsigned();
             $table->timestamps(); 
         });
     }

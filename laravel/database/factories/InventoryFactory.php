@@ -18,7 +18,6 @@ $factory->define(App\Models\Inventory::class, function (Faker $faker) {
             'production_date' => $faker->dateTimeBetween('2020-8-25', '2020-08-27'),
             'factory_warehousing_date' => $faker->dateTimeBetween('2020-08-28', '2020-08-29'),
             'warehouse_receipt_date' => $faker->dateTimeBetween('2020-08-30', '2020-08-31'),
-            'input_user_id' => "1",
             'item_code' => function() {
             	return Item::all()->random()->item_code;
             } // 22111111150　22111111255　22111111363　3パターン

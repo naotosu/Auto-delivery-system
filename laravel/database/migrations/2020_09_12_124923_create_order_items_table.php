@@ -15,16 +15,14 @@ class CreateOrderItemsTable extends Migration
     public function up()
     {
         Schema::create('order_items', function (Blueprint $table) {
-            $table->unique(['order_id', 'item_code', 'ship_date', 'quantity' ],    // []内にunique制約を付けたいカラム名を並べる
+            $table->unique(['order_id', 'item_code', 'ship_date', 'weight' ],    // []内にunique制約を付けたいカラム名を並べる
                        'order_id_item_code_ship_date_quantity');
             $table->bigIncrements('id');
             $table->Integer('order_id');
-            $table->string('item_code', 11);
+            $table->string('item_code', 11)->index();
             $table->date('ship_date');
-            $table->Integer('quantity');
-            $table->boolean('temporary_flag')->default(false);
+            $table->Integer('weight');
             $table->boolean('done_flag')->default(false);
-            $table->bigInteger('update_user_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }

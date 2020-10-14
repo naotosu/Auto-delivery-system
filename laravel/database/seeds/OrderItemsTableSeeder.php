@@ -15,17 +15,13 @@ class OrderItemsTableSeeder extends Seeder
             'order_id' => '3',
             'item_code' => 'BB111111363',
             'ship_date' => '2020-10-15',
-            'quantity' => '4000',
-            'temporary_flag' => '1',
-            'update_user_id' => '1',
+            'weight' => '4000',
             ],
             [
             'order_id' => '3',
             'item_code' => 'BB111111363',
             'ship_date' => '2020-11-5',
-            'quantity' => '120000',
-            'temporary_flag' => '0',
-            'update_user_id' => '1',
+            'weight' => '120000',
             ]]);
 
         factory('App\Models\OrderItem', 20)->create();
