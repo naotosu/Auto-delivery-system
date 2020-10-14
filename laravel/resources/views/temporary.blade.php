@@ -12,7 +12,7 @@
 
             <p><label for="delivery_user_id">納品先IDを入力して下さい。
                 <input type="text" name="delivery_user_id" value="{{ $delivery_user_id ?? null }}">
-            </label><input type="submit" value="検索"></p>        
+            </label><input type="submit" value="検索"></p>
         </form>
 
         @if(!empty($inventories))

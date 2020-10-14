@@ -19,7 +19,6 @@ class OrdersTableSeeder extends Seeder
             'client_user_id' => '3',
             'delivery_user_id' => '6',
             'transport_id' => '1',
-        	'update_user_id' => '1',
             'created_at' => new DateTime(),
             'updated_at' => new DateTime(),
         	],
@@ -30,7 +29,6 @@ class OrdersTableSeeder extends Seeder
             'client_user_id' => '3',
             'delivery_user_id' => '7',
             'transport_id' => '1',
-            'update_user_id' => '1',
             'created_at' => new DateTime(),
             'updated_at' => new DateTime(),
             ],
@@ -41,7 +39,6 @@ class OrdersTableSeeder extends Seeder
             'client_user_id' => '5',
             'delivery_user_id' => '5',
             'transport_id' => '2',
-            'update_user_id' => '1',
             'created_at' => new DateTime(),
             'updated_at' => new DateTime(),
             ]]);
