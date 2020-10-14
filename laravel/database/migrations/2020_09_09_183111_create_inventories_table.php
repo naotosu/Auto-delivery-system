@@ -17,7 +17,7 @@ class CreateInventoriesTable extends Migration
             $table->unique(['manufacturing_code', 'bundle_number'],
                        'manufacturing_codebundle_number');
             $table->bigIncrements('id');
-            $table->string('item_code', 11);
+            $table->string('item_code', 11)->index();
             $table->string('order_code',7);
             $table->string('charge_code',5);
             $table->string('manufacturing_code',8);
