@@ -79,7 +79,7 @@ class AutoDeliveryCommand extends Command
             foreach ($order_indexes as $order_item) {
 
                 $shipment_sum = 0;
-                $order_sum = $order_item->quantity - $acceptable_range;
+                $order_sum = $order_item->weight - $acceptable_range;
                 $inventories = Inventory::SearchByItemCodeAndStatus($order_item)->get();
                 $cntend = count($inventories);
                 $cnt = 0;
