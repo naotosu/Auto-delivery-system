@@ -15,7 +15,7 @@ class CreateItemsTable extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('item_code', 11)->index()->unique();
+            $table->string('item_code', 11)->unique();
             $table->string('name', 20);
             $table->Integer('size')->unsigned();
             $table->string('shape', 2);

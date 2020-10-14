@@ -219,9 +219,4 @@ class Inventory extends Model
     {
         return $this->belongsTo('App\Models\Order', 'item_code', 'item_code');
     }
-
-    /*public function clientCompany() 
-    {
-        return $this->belongsTo('App\Models\ClientCompany', 'delivery_user_id');
-    }*/
 }
