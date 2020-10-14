@@ -4,7 +4,7 @@ namespace App\Services;
 
 class GoogleSheet
 {
-    public static function ClientSet() {
+    public static function InitializeClient() {
 
         $credentials_path = storage_path('app/json/credentials.json');
         $client = new \Google_Client();

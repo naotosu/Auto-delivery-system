@@ -47,7 +47,7 @@ class AutoDeliveryCommand extends Command
      */
     public function handle()
     {
-        $sheets = GoogleSheet::ClientSet();
+        $sheets = GoogleSheet::InitializeClient();
 
         $sheet_id = \Config::get('const.Constant.spread_sheet_id');
         $acceptable_range = \Config::get('const.Constant.acceptable_range');
