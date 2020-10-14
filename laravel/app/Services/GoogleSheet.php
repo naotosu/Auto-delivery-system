@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Services;
 
-use Illuminate\Database\Eloquent\Model;
-
-class GoogleSheet extends Model
+class GoogleSheet
 {
-    public static function OrderItem() {
+    public static function InitializeClient() {
 
         $credentials_path = storage_path('app/json/credentials.json');
         $client = new \Google_Client();

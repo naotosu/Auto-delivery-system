@@ -5,9 +5,9 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\OrderItem;
 use App\Models\Inventory;
-use App\Models\GoogleSheet;
+use App\Services\GoogleSheet;
 use App\Models\TransportCompany;
-use App\User;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use \Exception;
@@ -47,7 +47,7 @@ class AutoDeliveryCommand extends Command
      */
     public function handle()
     {
-        $sheets = GoogleSheet::OrderItem();
+        $sheets = GoogleSheet::InitializeClient();
 
         $sheet_id = \Config::get('const.Constant.spread_sheet_id');
         $acceptable_range = \Config::get('const.Constant.acceptable_range');
