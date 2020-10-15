@@ -177,7 +177,7 @@
         <img src="/image/under.png" class="under_arrow">
         <p>今すぐ使ってみよう！</p>
         <div class="top-icon">
-          <a href="/csv.imports">CSVデータ登録 ＆ 出荷指示確認</a>
+          <a href="/csv_imports">CSVデータ登録 ＆ 出荷指示確認</a>
         </div>
     </div>
   </div>
