@@ -50,8 +50,10 @@ class Inventory extends Model
         $factory_stock = \Config::get('const.Constant.factory_stock');
         $warehouse_stock = \Config::get('const.Constant.warehouse_stock');
 
-        $query->where('inventories.status', $factory_stock)
-            ->orwhere('inventories.status', $warehouse_stock);
+        $query->where (function($query) use ($factory_stock, $warehouse_stock) {
+            $query->where('inventories.status', $factory_stock)
+                ->orwhere('inventories.status', $warehouse_stock);
+        });
 
         if (isset($item_code)) {
             $query->where('inventories.item_code', $item_code);

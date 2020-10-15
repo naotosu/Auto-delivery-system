@@ -23,6 +23,10 @@ Route::post('/inventory_imports', 'InventoryController@inventory_csv_import')->n
 
 Route::get('/orders', 'OrderController@order_index')->name('order');
 
+Route::get('/orders/delete_check', 'OrderController@order_delete_check')->name('order');
+
+Route::post('/orders/delete', 'OrderController@order_delete_execute')->name('order');
+
 Route::get('/shipment/cancels', 'ShipmentCancelController@shipment_cancel')->name('cancel');
 
 Route::get('/shipment/cancels/checks', 'ShipmentCancelController@shipment_cancel_check')->name('cancel');

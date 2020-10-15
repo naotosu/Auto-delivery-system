@@ -15,16 +15,14 @@ class OrderItem extends Model
         'weight',
         ];
 
-    public function scopeSearchByOrderList($query, $item_code, $delivery_user_id, $order_start, $order_end)
+    public function scopeSearchByOrderList($query, $item_code, $order_id, $order_start, $order_end)
     {
-        $query->join('orders', 'order_items.item_code', '=', 'orders.item_code');
-
         if (isset($item_code)) {
             $query->where('order_items.item_code', $item_code);
         }
 
-        if (isset($delivery_user_id)) {
-            $query->where('orders.delivery_user_id', $delivery_user_id);
+        if (isset($order_id)) {
+            $query->where('order_id', $order_id);
         }
 
         if (isset($order_start) and isset($order_end)) {
@@ -42,6 +40,13 @@ class OrderItem extends Model
 
         $query->where('ship_date', $ship_date)
                 ->where('done_flag', $not_done);
+
+        return $query;
+    }
+
+    public function scopeSearchbyId($query, $order_item_id)
+    {
+        $query->where('id', $order_item_id);
 
         return $query;
     }

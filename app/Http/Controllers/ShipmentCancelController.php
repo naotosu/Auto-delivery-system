@@ -71,5 +71,5 @@ class ShipmentCancelController extends Controller
         }
         session()->flash('flash_message', '出荷指示の取消を実行しました。必ず輸送会社へ連絡をして下さい');
         return redirect('/shipment/cancels');
-    } 
+    }
 }

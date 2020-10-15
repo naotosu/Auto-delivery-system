@@ -47,6 +47,7 @@
          
         <table border="1">
             <tr>
+                <th>デバック</th>
                 <th>アイテムコード</th>
                 <th>アイテム名</th>
                 <th>寸法</th>
@@ -69,6 +70,7 @@
             </tr>
             @foreach ($inventories as $inventory)
             <tr>
+                <td>{{$inventory->id}}</td>
                 <td>{{$inventory->item_code}}</td>
                 <td>{{$inventory->item->name}}</td>
                 <td>{{$inventory->item->size}}</td> 
