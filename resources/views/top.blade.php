@@ -121,7 +121,6 @@
         </div>
       </div>
 
-      <div class = "description-set">
         <div class="description-main">
           <div class = "description-title">
             <p>例えば導入前の注文は</p>
@@ -169,14 +168,20 @@
             <ul>
               <li>出荷指示</li>
             </ul>
+            
             <img src="/image/computer_laptop.png" class = "img">
             <img src="/image/pose_happy_businesswoman_banzai.png" class = "img">
           </div>
         </div>
-      </div>
 
+        <img src="/image/under.png" class="under_arrow">
+        <p>今すぐ使ってみよう！</p>
+        <div class="top-icon">
+          <a href="/csv.imports">CSVデータ登録 ＆ 出荷指示確認</a>
+        </div>
     </div>
   </div>
+
 @include('footer')
 @endsection
 
