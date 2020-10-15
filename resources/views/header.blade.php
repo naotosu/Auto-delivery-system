@@ -11,22 +11,22 @@
             </div>
             <div class="icon">
             <li>
-              <a href="/incoming">CSVデータ登録</a>
+              <a href="/csv.imports">CSVデータ登録</a>
             </li>
             </div>
             <div class="icon">
             <li>            
-              <a href="/orders">注文データ照会</a>
+              <a href="/orders/index">注文データ照会</a>
             </li>
             </div>
             <div class="icon"> 
             <li>
-              <a href="/inventories">在庫一覧・出荷実績</a>
+              <a href="/inventories/index">在庫一覧・出荷実績</a>
             </li>
             </div>
             <div class="icon">
             <li>
-              <a href="/temporaries">臨時出荷指示出力</a>
+              <a href="/shipment/temporaries">臨時出荷指示出力</a>
             </li>
             </div>
             <div class="icon">
