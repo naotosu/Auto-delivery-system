@@ -47,15 +47,13 @@ class OrderItemCsvImportService extends Model
                 $item_code = mb_convert_encoding($row[1], 'UTF-8', 'SJIS');
                 $ship_date = mb_convert_encoding($row[2], 'UTF-8', 'SJIS');
                 $quantity = mb_convert_encoding($row[3], 'UTF-8', 'SJIS');
-                $temporary_flag = mb_convert_encoding($row[4], 'UTF-8', 'SJIS');
 
                 //1件ずつインポート
                     OrderItem::insert(array(
                         'order_id' => $row[0],
                         'item_code' => $row[1],
                         'ship_date' => $row[2],
-                        'quantity' => $row[3],
-                        'temporary_flag' => $row[4],
+                        'weight' => $row[3],
                     ));
             }
             $row_count++;

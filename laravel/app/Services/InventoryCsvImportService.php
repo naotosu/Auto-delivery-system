@@ -58,7 +58,6 @@ class InventoryCsvImportService extends Model
                 $production_date = mb_convert_encoding($row[8], 'UTF-8', 'SJIS');
                 $factory_warehousing_date = mb_convert_encoding($row[9], 'UTF-8', 'SJIS');
                 $warehouse_receipt_date = mb_convert_encoding($row[10], 'UTF-8', 'SJIS');
-                $input_user_id = mb_convert_encoding($row[11], 'UTF-8', 'SJIS');
                 
                 //1件ずつインポート
                     Inventory::insert(array(
@@ -73,7 +72,6 @@ class InventoryCsvImportService extends Model
                         'production_date' => $row[8],
                         'factory_warehousing_date' => $row[9],
                         'warehouse_receipt_date' => $row[10],
-                        'input_user_id' => $row[11],
                     ));
             }
             $row_count++;

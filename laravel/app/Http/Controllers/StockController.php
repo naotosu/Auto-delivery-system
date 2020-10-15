@@ -14,9 +14,9 @@ use App\Services\EditService;
 
 class StockController extends Controller
 {
-    public function incoming()
+    public function csv_imports()
     {
-        return view('incoming');
+        return view('csv_import');
     }
 
     public function order(Request $request)
@@ -62,10 +62,10 @@ class StockController extends Controller
         } catch (\Exception $e) {
             report($e);
             session()->flash('flash_message', 'CSVのデータのアップロード中断しました　製番＆束番に重複がある可能性があります');
-            return redirect('/incoming');
+            return redirect('/csv.imports');
         }
         session()->flash('flash_message', 'CSVの入荷品在庫データをアップロードしました');
-        return redirect('/incoming');
+        return redirect('/csv.imports');
     } 
 
     public function order_csv_import(Request $request)
@@ -74,10 +74,10 @@ class StockController extends Controller
             OrderItemCsvImportService::orderItemCsvImport($request);
         } catch (\Exception $e) {
             report($e);
-            session()->flash('flash_message', 'CSVのデータのアップロード中断しました　同じ注文がある可能性があります（仮）');
-            return redirect('/incoming');
+            session()->flash('flash_message', 'CSVのデータのアップロード中断しました　同じ注文がある可能性があります');
+            return redirect('/csv.imports');
         }
         session()->flash('flash_message', 'CSVの注文データをアップロードしました');
-        return redirect('/incoming');
+        return redirect('/csv.imports');
     } 
 }
