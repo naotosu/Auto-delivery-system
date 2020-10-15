@@ -14,6 +14,16 @@ li {
 .icon a:hover { color: white; }
 .icon a:active { color: white; }
 
+.top-icon a:link { color: white; }
+.top-icon a:visited { color: white; }
+.top-icon a:hover { color: white; }
+.top-icon a:active { color: white; }
+
+.csv-icon a:link { color: white; }
+.csv-icon a:visited { color: white; }
+.csv-icon a:hover { color: white; }
+.csv-icon a:active { color: white; }
+
 
 body {
   font-family: "Nunito", sans-serif;
@@ -48,6 +58,25 @@ body {
   float: right;
 }
 
+.top-icon {
+  background-color: #000088 ;
+  opacity: 1;
+  padding: 25px 15px;
+  margin: 0px 7px;
+  display:inline-flex;
+}
+
+.csv-icon {
+  background-color: #000088 ;
+  opacity: 1;
+  padding: 20px 30px;
+  margin: 90px 7px;
+  display:inline-flex;
+  font-feature-settings: "palt" 1;
+  letter-spacing: 0.06em;
+  font-size: 20px;
+}
+
 .icon {
   background-color: #000088 ;
   opacity: 1;
@@ -55,6 +84,14 @@ body {
   margin: 0px 7px;
   float: left;
   display:inline-flex;
+}
+
+.top-icon:hover {
+  opacity: 0.6;
+}
+
+.csv-icon:hover {
+  opacity: 0.6;
 }
 
 .icon:hover {
@@ -116,6 +153,7 @@ body {
 }
 
 .input_data {
+  margin: 0px;
   display: none;
 }
 
@@ -215,9 +253,24 @@ body {
   width: 200px;
 }
 
+.csv-description {
+  font-size: 18px;
+  margin: 0px 200px;
+  margin-bottom: 50px;
+  padding: 1px;
+  background-color: yellow;
+  text-align: left;
+}
+
 .right_arrow {
   height: 50px;
   width: 300px;
+}
+
+.csv-arrow {
+  height: 50px;
+  width: 200px;
+  margin: 100px 50px;
 }
 
 .img {
@@ -227,6 +280,10 @@ body {
 
 .unimplemented {
   text-decoration: line-through;
+}
+
+.shipping-instructions {
+  float: left;
 }
 
 

@@ -18,14 +18,14 @@ class OrderController extends Controller
     public function order_index(Request $request)
     {
         $item_code = $request->input('item_code');
-        $delivery_user_id = $request->input('delivery_user_id');
+        $order_id = $request->input('order_id');
         $order_start = $request->input('order_start');
         $order_end = $request->input('order_end');
         $nomal_pagination = \Config::get('const.Constant.nomal_pagination');
 
-        $orders = OrderItem::SearchByOrderList($item_code, $delivery_user_id, $order_start, $order_end)->paginate($nomal_pagination);
+        $orders = OrderItem::SearchByOrderList($item_code, $order_id, $order_start, $order_end)->paginate($nomal_pagination);
 
-        return view('order', compact('orders', 'item_code', 'delivery_user_id', 'order_start', 'order_end'));
+        return view('order', compact('orders', 'item_code', 'order_id', 'order_start', 'order_end'));
     }
 
     public function order_csv_import(Request $request)
@@ -39,5 +39,32 @@ class OrderController extends Controller
         }
         session()->flash('flash_message', 'CSVの注文データをアップロードしました');
         return redirect('/csv_imports');
-    } 
+    }
+
+    public function order_delete_check(Request $request)
+    {
+        $order_item_id = $request->input('order_item_id');
+
+        $orders = OrderItem::find([$order_item_id]);
+
+        return view('order_delete_check', compact('orders', 'order_item_id'));
+    }
+
+    public function order_delete_execute(Request $request)
+    {
+        $order_item_id = $request->input('order_item_id');
+
+        try {
+
+            $orders = OrderItem::find($order_item_id);
+            $orders->delete();
+        
+        } catch (\Exception $e) {
+            report($e);
+            session()->flash('flash_message', '注文の消去を中断しました');
+            return redirect('/orders');
+        }
+        session()->flash('flash_message', '注文の消去完了しました');
+        return redirect('/orders');
+    }
 }

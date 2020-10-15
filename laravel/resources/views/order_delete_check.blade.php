@@ -2,40 +2,16 @@
 
 @section('content')
 @include('header')
-
     <div class="main">
-        @if (session('flash_message'))
+      @if (session('flash_message'))
           <div class="flash_message">
               {{ session('flash_message') }}
           </div>
-        @endif
-        <div class="main2">
-            <h3>注文データ照会</h3>
-
-            <form action="{{url('/orders')}}" method="GET">
-                <p><label for="item_code">アイテムコードを入力して下さい。
-                    <input type="text" name="item_code" value="{{ $item_code ?? null }}">
-                </label></p>
-
-                <p><label for="order_id">商流IDを入力して下さい。
-                    <input type="text" name="order_id" value="{{ $order_id ?? null }}">
-                </label></p>
-
-                <p><label for="order_date">表示する納入日を選んで下さい。
-                        <input type="date" name="order_start" value="{{ $order_start ?? null }}"> 〜 
-                        <input type="date" name="order_end" value="{{ $order_end ?? null }}">
-                </label></p>
-
-                <p><input type="submit" value="検索"></p>
-            </form>
-            
-            @if(!empty($orders))
-
-            <div class="pagination">
-                {{ $orders->appends(request()->input())->links('vendor.pagination.default') }}
-            </div>
-
-            <table border="1">
+      @endif
+       <H1>【確認】本当に消去しても良いですか？</H1>
+       @if(isset($orders))
+        
+        <table border="1">
                 <tr>
                     <th>デバッグ用ID</th>
                     <th>アイテムコード</th>
@@ -71,21 +47,22 @@
                     <td>{{$order->done_flag}}</td>
                     <td>
                         <div class="input_data">
-                            <form action="{{url('/orders/delete_check')}}" method="GET" class="input_data">
+                            <form action="{{url('/orders/delete')}}" method="POST" class="input_data">
+                                @csrf
+                                @method('DELETE')
                             <input type="text" name="order_item_id" value="{{ $order->id }}" readonly>
                         </div>
                             <input type="submit" value="消去">
                         </form>
                     </td>
-
                 </tr>
                 @endforeach
             </table>
-             
-            @else
-            <p>検索条件を入力してください</p>
-            @endif
-        </div>
+      </form>
+         
+        @else
+        <p>取り消す明細が選択されていません</p>
+        @endif
     </div>
 @include('footer')
 @endsection
