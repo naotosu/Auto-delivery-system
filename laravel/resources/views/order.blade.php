@@ -7,7 +7,7 @@
         <div class="main2">
             <h3>注文データ照会</h3>
 
-            <form action="{{url('/orders/index')}}" method="GET">
+            <form action="{{url('/orders')}}" method="GET">
                 <p><label for="item_code">アイテムコードを入力して下さい。
                     <input type="text" name="item_code" value="{{ $item_code ?? null }}">
                 </label></p>
