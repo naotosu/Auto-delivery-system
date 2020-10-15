@@ -153,6 +153,7 @@ body {
 }
 
 .input_data {
+  margin: 0px;
   display: none;
 }
 
