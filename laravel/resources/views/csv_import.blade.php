@@ -9,6 +9,7 @@
               {{ session('flash_message') }}
           </div>
         @endif
+        <div class="shipping-instructions">
           <H3>CSVデータ登録</H3>
             <form role="form" method="post" action="{{url('/order_imports')}}" enctype="multipart/form-data">
           <p>■注文データ登録(CSVファイルを選んで下さい)</p>
@@ -21,8 +22,21 @@
           <p>■入荷品在庫データ登録(CSVファイルを選んで下さい)</p>
                 {{ csrf_field() }}
             <p><input type="file" name="csv_file" id="csv_file">
-                <button type="submit" class="btn btn-default btn-success">登録</button></p>     
-        </form>
+                  <button type="submit" class="btn btn-default btn-success">登録</button></p>   
+            </form>
+        </div>
+
+        <div class="shipping-instructions">
+          <img src="/image/right.png" class="csv-arrow">
+        </div>
+
+        <div class="csv-icon">
+          <a href="https://docs.google.com/spreadsheets/d/1DRe3JKouPvmXoosZXlhXcNOGnALHO61J39QTItwAMHc/edit#gid=0" target="_blank">出荷指示確認</a>
+        </div>
+
+        <div class="csv-description">
+          <p>サンプルデータが入力済みです。 「出荷指示確認」 、 「注文データ照会」 、 「在庫一覧」をチェック！</p>
+        </div>
 
         <div class="main2">
           <h3>使い方</h3>
