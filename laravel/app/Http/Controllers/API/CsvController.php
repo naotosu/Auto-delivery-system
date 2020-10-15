@@ -21,6 +21,16 @@ class CsvController extends Controller
         //$change_id = $request->input('change_id');
         $item_ids = [$request->input('item_ids')];
 
+        //APIではフラッシュメッセージ使えない為、処理に必要なデータ不足の場合、returnで処理を中断とした
+
+        if(empty($ship_date)){
+            return redirect('/shipment/temporaries');
+        }
+
+        if(empty($item_ids)){
+            return redirect('/shipment/temporaries');
+        }
+
         $inventories = Inventory::TemporaryShipSearchByStock($item_ids)->get();
 
         $ship_arranged = \Config::get('const.Constant.ship_arranged');
