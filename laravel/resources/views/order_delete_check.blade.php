@@ -49,6 +49,7 @@
                         <div class="input_data">
                             <form action="{{url('/orders/delete')}}" method="POST" class="input_data">
                                 @csrf
+                                @method('DELETE')
                             <input type="text" name="order_item_id" value="{{ $order->id }}" readonly>
                         </div>
                             <input type="submit" value="消去">

@@ -44,13 +44,6 @@ class OrderItem extends Model
         return $query;
     }
 
-    public function scopeSearchbyId($query, $order_item_id)
-    {
-        $query->where('id', $order_item_id);
-
-        return $query;
-    }
-
     public function order()
     {
         return $this->belongsTo('App\Models\Order');

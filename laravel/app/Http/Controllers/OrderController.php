@@ -45,7 +45,7 @@ class OrderController extends Controller
     {
         $order_item_id = $request->input('order_item_id');
 
-        $orders = OrderItem::SearchbyId($order_item_id)->get();
+        $orders = OrderItem::find([$order_item_id]);
 
         return view('order_delete_check', compact('orders', 'order_item_id'));
     }
@@ -56,7 +56,8 @@ class OrderController extends Controller
 
         try {
 
-            OrderItem::SearchbyId($order_item_id)->delete();
+            $orders = OrderItem::find($order_item_id);
+            $orders->delete();
         
         } catch (\Exception $e) {
             report($e);
