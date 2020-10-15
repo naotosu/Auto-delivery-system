@@ -35,17 +35,6 @@ Route::get('/inventories/index', 'StockController@inventory')->name('inventory')
 
 Route::get('/manager', 'UserController@manager')->name('manager');
 
-Route::get('/welcome', function () {
-    return view('welcome');
-});
-
-Route::get('/test', function () {
-    return view('test');
-});
-
-Route::get('/archives/{category}/',function($category) {
-    return view('archives.category',['category'=>$category]);
-});
 Auth::routes();
 
 Route::get('/home', 'UserController@index')->name('home');
