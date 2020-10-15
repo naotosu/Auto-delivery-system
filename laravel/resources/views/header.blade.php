@@ -11,7 +11,7 @@
             </div>
             <div class="icon">
             <li>
-              <a href="/incoming">CSVデータ登録</a>
+              <a href="/csv_imports">CSVデータ登録</a>
             </li>
             </div>
             <div class="icon">
@@ -26,7 +26,7 @@
             </div>
             <div class="icon">
             <li>
-              <a href="/temporaries">臨時出荷指示出力</a>
+              <a href="/shipment/temporaries">臨時出荷指示出力</a>
             </li>
             </div>
             <div class="icon">

@@ -10,28 +10,9 @@ use App\Models\Temporary;
 use Carbon\Carbon;
 use App\Services\InventoryCsvImportService;
 use App\Services\OrderItemCsvImportService;
-use App\Services\EditService;
 
-class StockController extends Controller
+class InventoryController extends Controller
 {
-    public function incoming()
-    {
-        return view('incoming');
-    }
-
-    public function order(Request $request)
-    {
-        $item_code = $request->input('item_code');
-        $delivery_user_id = $request->input('delivery_user_id');
-        $order_start = $request->input('order_start');
-        $order_end = $request->input('order_end');
-        $nomal_pagination = \Config::get('const.Constant.nomal_pagination');
-
-        $orders = OrderItem::SearchByOrderList($item_code, $delivery_user_id, $order_start, $order_end)->paginate($nomal_pagination);
-
-        return view('order', compact('orders', 'item_code', 'delivery_user_id', 'order_start', 'order_end'));
-    }
-
     public function temporary(Request $request)
     {
         $item_code = $request->input('item_code');
@@ -43,7 +24,7 @@ class StockController extends Controller
         return view('temporary', compact('inventories', 'item_code', 'delivery_user_id'));
     }
 
-    public function inventory(Request $request)
+    public function inventory_index(Request $request)
     {
         $item_code = $request->input('item_code');
         $delivery_user_id = $request->input('delivery_user_id');
@@ -62,22 +43,9 @@ class StockController extends Controller
         } catch (\Exception $e) {
             report($e);
             session()->flash('flash_message', 'CSVのデータのアップロード中断しました　製番＆束番に重複がある可能性があります');
-            return redirect('/incoming');
+            return redirect('/csv_imports');
         }
         session()->flash('flash_message', 'CSVの入荷品在庫データをアップロードしました');
-        return redirect('/incoming');
-    } 
-
-    public function order_csv_import(Request $request)
-    {
-        try {   
-            OrderItemCsvImportService::orderItemCsvImport($request);
-        } catch (\Exception $e) {
-            report($e);
-            session()->flash('flash_message', 'CSVのデータのアップロード中断しました　同じ注文がある可能性があります（仮）');
-            return redirect('/incoming');
-        }
-        session()->flash('flash_message', 'CSVの注文データをアップロードしました');
-        return redirect('/incoming');
+        return redirect('/csv_imports');
     } 
 }

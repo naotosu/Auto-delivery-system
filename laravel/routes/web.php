@@ -15,13 +15,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'TopController@index')->name('top');
 
-Route::get('/incoming', 'StockController@incoming')->name('incoming');
+Route::get('/csv_imports', 'OrderController@csv_imports')->name('csv_import');
 
-Route::post('/order_imports', 'StockController@order_csv_import')->name('incoming');
+Route::post('/order_imports', 'OrderController@order_csv_import')->name('csv_import');
 
-Route::post('/inventory_imports', 'StockController@inventory_csv_import')->name('incoming');
+Route::post('/inventory_imports', 'InventoryController@inventory_csv_import')->name('csv_import');
 
-Route::get('/orders', 'StockController@order')->name('order');
+Route::get('/orders', 'OrderController@order_index')->name('order');
 
 Route::get('/shipment/cancels', 'ShipmentCancelController@shipment_cancel')->name('cancel');
 
@@ -29,23 +29,12 @@ Route::get('/shipment/cancels/checks', 'ShipmentCancelController@shipment_cancel
 
 Route::post('/shipment/cancels', 'ShipmentCancelController@shipment_cancel_execute')->name('cancel');
 
-Route::get('/temporaries', 'StockController@temporary')->name('temporary');
+Route::get('/shipment/temporaries', 'InventoryController@temporary')->name('temporary');
 
-Route::get('/inventories', 'StockController@inventory')->name('inventory');
+Route::get('/inventories', 'InventoryController@inventory_index')->name('inventory');
 
 Route::get('/manager', 'UserController@manager')->name('manager');
 
-Route::get('/welcome', function () {
-    return view('welcome');
-});
-
-Route::get('/test', function () {
-    return view('test');
-});
-
-Route::get('/archives/{category}/',function($category) {
-    return view('archives.category',['category'=>$category]);
-});
 Auth::routes();
 
 Route::get('/home', 'UserController@index')->name('home');
