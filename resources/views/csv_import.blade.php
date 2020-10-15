@@ -10,14 +10,14 @@
           </div>
         @endif
           <H3>CSVデータ登録</H3>
-            <form role="form" method="post" action="{{url('/order.imports')}}" enctype="multipart/form-data">
+            <form role="form" method="post" action="{{url('/order_imports')}}" enctype="multipart/form-data">
           <p>■注文データ登録(CSVファイルを選んで下さい)</p>
                 {{ csrf_field() }}
           <p><input type="file" name="csv_file" id="csv_file">
             <button type="submit" class="btn btn-default btn-success">登録</button></p>     
         </form><br>
 
-        <form role="form" method="post" action="{{url('/inventory.imports')}}" enctype="multipart/form-data">
+        <form role="form" method="post" action="{{url('/inventory_imports')}}" enctype="multipart/form-data">
           <p>■入荷品在庫データ登録(CSVファイルを選んで下さい)</p>
                 {{ csrf_field() }}
             <p><input type="file" name="csv_file" id="csv_file">

@@ -5,7 +5,7 @@
    <div class="main">
        <h3>在庫一覧・出荷実績照会</h3>
     <div class="main2">
-        <form action="{{url('/inventories/index')}}" method="GET">
+        <form action="{{url('/inventories')}}" method="GET">
             <p><label for="item_code">アイテムコードを入力して下さい。
                 <input type="text" name="item_code" value="{{ $item_code ?? null }}">
             </label></p>
