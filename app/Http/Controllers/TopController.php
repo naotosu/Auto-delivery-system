@@ -25,4 +25,9 @@ class TopController extends Controller
     {
         return view('top');
     }
+
+    public function csv_imports()
+    {
+        return view('csv_import');
+    }
 }

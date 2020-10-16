@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'TopController@index')->name('top');
 
-Route::get('/csv_imports', 'OrderController@csv_imports')->name('csv_import');
+Route::get('/csv_imports', 'TopController@csv_imports')->name('csv_import');
 
 Route::post('/order_imports', 'OrderController@order_csv_import')->name('csv_import');
 

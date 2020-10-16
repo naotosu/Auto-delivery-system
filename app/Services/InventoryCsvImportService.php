@@ -2,13 +2,11 @@
 
 namespace App\Services;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Inventory;
 use Carbon\Carbon;
-use App\Services\InventoryCsvImportService;
 use SplFileObject;
 
-class InventoryCsvImportService extends Model
+class InventoryCsvImportService
 {
     protected $fillable = [
         'item_code',
