@@ -14,8 +14,8 @@
             <p><label for="item_code">アイテムコードを入力して下さい。
                 <input type="text" name="item_code" value="{{ $item_code ?? null }}">
             </label></p>
-            <p><label for="delivery_user_id">納品先IDを入力して下さい。
-                <input type="text" name="delivery_user_id" value="{{ $delivery_user_id ?? null }}">
+            <p><label for="order_id">商流IDを入力して下さい。
+                <input type="text" name="order_id" value="{{ $order_id ?? null }}">
             </label></p>
             <p><label for="order_date">
                 納入日を入力して下さい<input type="date" name="ship_date" value="{{ $ship_date ?? null }}">
@@ -64,12 +64,12 @@
                 <th>数量</th>
                 <th>重量</th>
                 <th>在庫状態</th>
-                <th>製造日</th>
-                <th>工場入庫日</th>
-                <th>倉庫入庫日</th>
                 <th>注文ID</th>
-                <th>出荷日</th>
+                <th>商流ID</th>
+                <th>ENDユーザー</th>
+                <th>ユーザー</th>
                 <th>納入先名</th>
+                <th>出荷日</th>
               </tr>
               @foreach ($inventories as $shipped)
               <tr>
@@ -89,18 +89,18 @@
                   <td>{{$shipped->quantity}}</td>
                   <td>{{$shipped->weight}}</td>
                   <td>{{$shipped->status}}</td>
-                  <td>{{$shipped->production_date}}</td>
-                  <td>{{$shipped->factory_warehousing_date}}</td>
-                  <td>{{$shipped->warehouse_receipt_date}}</td>
                   <td>{{$shipped->order_item_id}}</td>
-                  <td>{{$shipped->ship_date}}</td>
+                  <td>{{$shipped->order_id}}</td>
+                  <td>{{$shipped->order->clientCompanyEndUser->name}}</td>
+                  <td>{{$shipped->order->clientCompanyClientUser->name}}</td>
                   <td>{{$shipped->order->clientCompanyDeliveryUser->name}}</td>
+                  <td>{{$shipped->ship_date}}</td>
               </tr>
               @endforeach
           </table>
             <div class="input_data">
               <input type="text" name="item_code" value="{{ $item_code ?? null }}" readonly>
-              <input type="text" name="delivery_user_id" value="{{ $delivery_user_id ?? null }}" readonly>
+              <input type="text" name="order_id" value="{{ $order_id ?? null }}" readonly>
               <input type="date" name="ship_date" value="{{ $ship_date ?? null }}" readonly>
               <input type="text" name="status" value="{{ $status ?? null }}" readonly>
             </div>

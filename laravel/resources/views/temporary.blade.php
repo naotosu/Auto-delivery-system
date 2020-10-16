@@ -6,12 +6,8 @@
        <h3>臨時出荷指示出力　（在庫ピンポイント指定）</h3>
     <div class="main2">
         <form action="{{url('/shipment/temporaries')}}" method="GET">
-            <p><label for="item_code">アイテムコードを入力して下さい。
+            <p><label for="item_code">アイテムコードを入力して下さい（検索用）
                 <input type="text" name="item_code" value="{{ $item_code ?? null }}">
-            </label></p>
-
-            <p><label for="delivery_user_id">納品先IDを入力して下さい。
-                <input type="text" name="delivery_user_id" value="{{ $delivery_user_id ?? null }}">
             </label><input type="submit" value="検索"></p>
         </form>
 
@@ -19,16 +15,13 @@
 
         <form action="{{url('/api/temporary_ships')}}" method="POST">
             @csrf
-        <p>臨時出荷　納入日<input type="date" name="ship_date"></p>
-        <p><label for="checkbox"><span class="attention">注意！</span></label>
-          向け先変更が必要な場合はチェック=>　（作成中）
-          <input class="form-check-input" type="checkbox" id="change" name="change" value="change">
-          <label class="form-check-label" for="checkbox"></label>
-          　　変更先のオーダーIDを入力=>
-          <input type="text" name="change_id"></p>
+        <p>臨時出荷　納入日を入力　<input type="date" name="ship_date"></p>
+        <p>出荷する商流ID入力 <input type="text" name="order_id"></p>
 
            <P>臨時出荷を行うロットを選択し、出荷指示をクリック　<input type="submit" value="出荷指示"></P>
            <div class= 'attention'><p>※チャージNoが古い順で表示。理由が無い限り一番上から使用下さい。</p></div>
+           <div class= 'attention'><p>※CSVファイルがダウンロードされます。輸送会社へ送付して下さい。</p></div>
+           <div class= 'attention'><p>※納入日の2日前の定期連絡で、もう一度明細に載ります。</p></div>
 
         <div class="pagination">
             {{ $inventories->appends(request()->input())->links('vendor.pagination.default') }}
@@ -52,7 +45,6 @@
                 <th>製造日</th>
                 <th>工場入庫日</th>
                 <th>倉庫入庫日</th>
-                <th>納入先名</th>
             </tr>
             @foreach ($inventories as $temporary)
             <tr>
@@ -75,7 +67,6 @@
                 <td>{{$temporary->production_date}}</td>
                 <td>{{$temporary->factory_warehousing_date}}</td>
                 <td>{{$temporary->warehouse_receipt_date}}</td>
-                <td>{{$temporary->order->clientCompanyDeliveryUser->name}}</td>
             </tr>
             @endforeach
         </table>
