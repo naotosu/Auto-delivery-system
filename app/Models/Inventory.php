@@ -19,14 +19,14 @@ class Inventory extends Model
         'status'
         ];
 
-    public function scopeSearchByStock($query, $item_code, $order_items_id, $order_start, $order_end, $status)
+    public function scopeSearchByStock($query, $item_code, $order_id, $order_start, $order_end, $status)
     {
         if (isset($item_code)) {
             $query->where('item_code', $item_code);
         }
 
-        if (isset($order_items_id)) {
-            $query->where('order_items_id', $order_items_id);
+        if (isset($order_id)) {
+            $query->where('order_id', $order_id);
         }
 
         if (isset($status)) {
@@ -74,10 +74,8 @@ class Inventory extends Model
 
     public function scopeTemporaryShipSearchByStock($query, $item_ids)
     {
-        foreach ($item_ids as $item_id) {
-            $query->whereIn('id', $item_id);
-        }
-
+        $query->whereIn('id', $item_ids);
+        
         $query->oldest('item_code')
             ->oldest('order_code')
             ->oldest('charge_code')

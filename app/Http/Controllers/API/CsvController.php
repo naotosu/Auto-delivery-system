@@ -17,7 +17,7 @@ class CsvController extends Controller
     {
         $ship_date = $request->input('ship_date');
         $order_id = $request->input('order_id');
-        $item_ids = [$request->input('item_ids')];
+        $item_ids = $request->input('item_ids');
 
         //APIではフラッシュメッセージ使えない為、処理に必要なデータ不足の場合、returnで処理を中断とした
 
