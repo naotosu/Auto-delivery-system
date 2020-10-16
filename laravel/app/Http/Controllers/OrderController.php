@@ -10,11 +10,6 @@ use App\Services\OrderItemCsvImportService;
 
 class OrderController extends Controller
 {
-    public function csv_imports()
-    {
-        return view('csv_import');
-    }
-
     public function order_index(Request $request)
     {
         $item_code = $request->input('item_code');

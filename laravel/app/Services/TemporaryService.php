@@ -2,10 +2,9 @@
 
 namespace App\Services;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Inventory;
 
-class TemporaryService extends Model
+class TemporaryService
 {
 	public static function TemporaryIndex($stream, $temporary_ships) {
 	    fputcsv($stream, [

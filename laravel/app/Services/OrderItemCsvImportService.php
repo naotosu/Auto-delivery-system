@@ -2,13 +2,11 @@
 
 namespace App\Services;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\OrderItem;
 use Carbon\Carbon;
-use App\Services\OrderItemCsvImportService;
 use SplFileObject;
 
-class OrderItemCsvImportService extends Model
+class OrderItemCsvImportService
 {
     protected $fillable = [
         'order_id',
