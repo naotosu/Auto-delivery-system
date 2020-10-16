@@ -10,8 +10,13 @@
                 <input type="text" name="item_code" value="{{ $item_code ?? null }}">
             </label></p>
 
-            <p><label for="delivery_user_id">納入先IDを入力して下さい。
-                <input type="text" name="delivery_user_id" value="{{ $delivery_user_id ?? null }}">
+            <p><label for="order_id">商流IDを入力して下さい(出荷手配済み以降の在庫しか表示されません)
+                <input type="text" name="order_id" value="{{ $order_id ?? null }}">
+            </label></p>
+
+            <p><label for="order_date">表示する納入日を選んで下さい。
+                <input type="date" name="order_start" value="{{ $order_start ?? null }}"> 〜 
+                <input type="date" name="order_end" value="{{ $order_end ?? null }}">
             </label></p>
 
             <p>在庫進捗状態を選んで下さい。
@@ -47,7 +52,6 @@
          
         <table border="1">
             <tr>
-                <th>デバック</th>
                 <th>アイテムコード</th>
                 <th>アイテム名</th>
                 <th>寸法</th>
@@ -64,13 +68,12 @@
                 <th>工場入庫日</th>
                 <th>倉庫入庫日</th>
                 <th>注文ID</th>
+                <th>商流ID</th>
                 <th>出荷日</th>
-                <th>納入先ID</th>
                 <th>納入先名</th>
             </tr>
             @foreach ($inventories as $inventory)
             <tr>
-                <td>{{$inventory->id}}</td>
                 <td>{{$inventory->item_code}}</td>
                 <td>{{$inventory->item->name}}</td>
                 <td>{{$inventory->item->size}}</td> 
@@ -87,9 +90,11 @@
                 <td>{{$inventory->factory_warehousing_date}}</td>
                 <td>{{$inventory->warehouse_receipt_date}}</td>
                 <td>{{$inventory->order_item_id}}</td>
+                <td>{{$inventory->order_id}}</td>
                 <td>{{$inventory->ship_date}}</td>
-                <td>{{$inventory->order->delivery_user_id}}</td>
-                <td>{{$inventory->order->clientCompanyDeliveryUser->name}}</td>
+                <td>@if ($inventory->order_id != null)
+                        {{$inventory->order->clientCompanyDeliveryUser->name}}
+                    @endif</td>
             </tr>
             @endforeach
         </table>
