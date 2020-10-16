@@ -31,40 +31,36 @@
               <th>数量</th>
               <th>重量</th>
               <th>在庫状態</th>
-              <th>製造日</th>
-              <th>工場入庫日</th>
-              <th>倉庫入庫日</th>
-              <th>出荷日</th>
+              <th>注文ID</th>
+              <th>商流ID</th>
               <th>ENDユーザー</th>
               <th>ユーザー</th>
-              <th>納入先ID</th>
               <th>納入先名</th>
+              <th>出荷日</th>
             </tr>
             @foreach ($inventories as $shipped)
             <tr>
               <td>
                 <input class="check_date" id="{{$shipped->id}}" name="item_ids[]" value="{{$shipped->id}}" readonly>
               </td>
-              <td>{{$shipped->item_code}}</td>
-              <td>{{$shipped->item->name}}</td>                
-              <td>{{$shipped->item->size}}</td> 
-              <td>{{$shipped->item->shape}}</td> 
-              <td>{{$shipped->item->spec}}</td>
-              <th>{{$shipped->order_code}}</th>
-              <th>{{$shipped->charge_code}}</th>
-              <th>{{$shipped->manufacturing_code}}</th>
-              <th>{{$shipped->bundle_number}}</th>
-              <td>{{$shipped->quantity}}</td>
-              <td>{{$shipped->weight}}</td>
-              <td>{{$shipped->status}}</td>
-              <td>{{$shipped->production_date}}</td>
-              <td>{{$shipped->factory_warehousing_date}}</td>
-              <td>{{$shipped->warehouse_receipt_date}}</td>
-              <td>{{$shipped->ship_date}}</td>
-              <td>{{$shipped->order->clientCompanyEndUser->name}}</td>
-              <td>{{$shipped->order->clientCompanyClientUser->name}}</td>
-              <td>{{$shipped->order->delivery_user_id}}</td>
-              <td>{{$shipped->order->clientCompanyDeliveryUser->name}}</td>
+                <td>{{$shipped->item_code}}</td>
+                <td>{{$shipped->item->name}}</td>                
+                <td>{{$shipped->item->size}}</td> 
+                <td>{{$shipped->item->shape}}</td> 
+                <td>{{$shipped->item->spec}}</td>
+                <td>{{$shipped->order_code}}</td>
+                <td>{{$shipped->charge_code}}</td>
+                <td>{{$shipped->manufacturing_code}}</td>
+                <td>{{$shipped->bundle_number}}</td>
+                <td>{{$shipped->quantity}}</td>
+                <td>{{$shipped->weight}}</td>
+                <td>{{$shipped->status}}</td>
+                <td>{{$shipped->order_item_id}}</td>
+                <td>{{$shipped->order_id}}</td>
+                <td>{{$shipped->order->clientCompanyEndUser->name}}</td>
+                <td>{{$shipped->order->clientCompanyClientUser->name}}</td>
+                <td>{{$shipped->order->clientCompanyDeliveryUser->name}}</td>
+                <td>{{$shipped->ship_date}}</td>
             </tr>
             @endforeach
         </table>

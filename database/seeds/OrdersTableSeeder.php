@@ -14,7 +14,6 @@ class OrdersTableSeeder extends Seeder
     {
          DB::table('orders')->insert([[
         	'id' => '1',
-            'item_code' => "BB111111150",
             'end_user_id' => '1',
             'client_user_id' => '3',
             'delivery_user_id' => '6',
@@ -24,7 +23,6 @@ class OrdersTableSeeder extends Seeder
         	],
             [
             'id' => '2',
-            'item_code' => "BB111111255",
             'end_user_id' => '1',
             'client_user_id' => '3',
             'delivery_user_id' => '7',
@@ -34,7 +32,6 @@ class OrdersTableSeeder extends Seeder
             ],
             [
             'id' => '3',
-            'item_code' => "BB111111363",
             'end_user_id' => '2',
             'client_user_id' => '5',
             'delivery_user_id' => '5',

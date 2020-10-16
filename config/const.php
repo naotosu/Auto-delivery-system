@@ -11,7 +11,7 @@ return [
         'acceptable_range' => 500,
         'saturday' => 6,
         'sunday' => 0,
-        'temporary_ship' => 0,
+        'temporary_ship_id' => 0,
         'not_done' => 0,
         'nomal_pagination' => 15,
         'cancel_pagination' => 10,

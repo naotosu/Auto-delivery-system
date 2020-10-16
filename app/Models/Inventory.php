@@ -19,34 +19,33 @@ class Inventory extends Model
         'status'
         ];
 
-    public function scopeSearchByStock($query, $item_code, $delivery_user_id, $status)
+    public function scopeSearchByStock($query, $item_code, $order_items_id, $order_start, $order_end, $status)
     {
-        $query->join('orders', 'inventories.item_code', '=', 'orders.item_code');
-
         if (isset($item_code)) {
-            $query->where('inventories.item_code', $item_code);
+            $query->where('item_code', $item_code);
         }
 
-        if (isset($delivery_user_id)) {
-            $query->where('orders.delivery_user_id', $delivery_user_id);
+        if (isset($order_items_id)) {
+            $query->where('order_items_id', $order_items_id);
         }
 
         if (isset($status)) {
             $query->where('inventories.status', $status);
         }
 
-        $query->oldest('warehouse_receipt_date');
+        if (isset($order_start) and isset($order_end)) {
+            $query->whereBetween('ship_date', [$order_start, $order_end]);
+        }
+
+        $query->oldest('ship_date')
+            ->oldest('order_code')
+            ->oldest('warehouse_receipt_date');
 
         return $query;
     }
 
-    public function scopeTemporarySearchByStock($query, $item_code, $delivery_user_id)
+    public function scopeTemporarySearchByStock($query, $item_code)
     {
-        
-        $query->join('orders', 'inventories.item_code', '=', 'orders.item_code')
-            ->join('items', 'inventories.item_code', '=', 'items.item_code')
-            ->join('client_companies', 'orders.end_user_id', 'client_companies.id');
-
         $factory_stock = \Config::get('const.Constant.factory_stock');
         $warehouse_stock = \Config::get('const.Constant.warehouse_stock');
 
@@ -60,8 +59,8 @@ class Inventory extends Model
 
         }
 
-        if (isset($delivery_user_id)) {
-            $query->where('orders.delivery_user_id', $delivery_user_id);
+        if (isset($order_items_id)) {
+            $query->where('order_items_id', $order_items_id);
         }
 
         $query->oldest('item_code')
@@ -70,22 +69,13 @@ class Inventory extends Model
             ->oldest('manufacturing_code')
             ->oldest('bundle_number');
 
-
-        $query->select('inventories.id', 'inventories.item_code', 'items.name', 'inventories.order_code', 'inventories.charge_code', 'inventories.manufacturing_code', 'inventories.bundle_number', 'inventories.quantity', 'inventories.weight', 'inventories.status', 'inventories.production_date', 'inventories.factory_warehousing_date', 'inventories.warehouse_receipt_date', 'orders.delivery_user_id');
-
         return $query;
     }
 
-    //public function scopeTemporaryShipSearchByStock($query, $item_ids, $ship_date, $change, $change_id)
     public function scopeTemporaryShipSearchByStock($query, $item_ids)
     {
-
-        /*if (isset($change)) {
-            return ; （order_id変更メソッドを後程作成
-        }*/
-
         foreach ($item_ids as $item_id) {
-            $query->whereIn('inventories.id', $item_id);
+            $query->whereIn('id', $item_id);
         }
 
         $query->oldest('item_code')
@@ -97,51 +87,40 @@ class Inventory extends Model
         return $query;
     }
 
-    public function scopeSipmentCancelSearch($query, $item_code, $delivery_user_id, $status, $ship_date)
+    public function scopeSipmentCancelSearch($query, $item_code, $order_id, $status, $ship_date)
     {
-        
-        $query->join('orders', 'inventories.item_code', '=', 'orders.item_code')
-            ->join('items', 'inventories.item_code', '=', 'items.item_code')
-            ->join('client_companies', 'orders.end_user_id', 'client_companies.id');
-
         if (isset($status)) {
-            $query->where('inventories.status', $status);
+            $query->where('status', $status);
 
         } else {
             $ship_arranged = \Config::get('const.Constant.ship_arranged');
             $shipped = \Config::get('const.Constant.shipped');
 
             $query->where (function($query) use ($ship_arranged, $shipped) {
-                $query->where('inventories.status', $ship_arranged)
-                    ->orwhere('inventories.status', $shipped);
+                $query->where('status', $ship_arranged)
+                    ->orwhere('status', $shipped);
             });
         }
 
         if (isset($item_code)) {
-            $query->where('inventories.item_code', $item_code);
+            $query->where('item_code', $item_code);
         }
 
-        if (isset($delivery_user_id)) {
-            $query->where('orders.delivery_user_id', $delivery_user_id);
+        if (isset($order_id)) {
+            $query->where('order_id', $order_id);
         }
 
         if (isset($ship_date)) {
-            $query->where('inventories.ship_date', $ship_date);
+            $query->where('ship_date', $ship_date);
         }
 
-        $query->oldest('inventories.ship_date');
-
-        $query->select('inventories.id', 'inventories.item_code', 'items.name', 'inventories.order_code', 'inventories.charge_code', 'inventories.manufacturing_code', 'inventories.bundle_number', 'inventories.quantity', 'inventories.weight', 'inventories.status', 'inventories.production_date', 'inventories.factory_warehousing_date', 'inventories.warehouse_receipt_date', 'inventories.order_item_id', 'inventories.ship_date', 'orders.delivery_user_id');
+        $query->oldest('ship_date');
 
         return $query;
     }
 
     public function scopeShipmentCancelCheck($query, $item_ids)
     {
-        $query->join('orders', 'inventories.item_code', '=', 'orders.item_code')
-            ->join('items', 'inventories.item_code', '=', 'items.item_code')
-            ->join('client_companies', 'orders.end_user_id', 'client_companies.id');
-
         if (isset($status)) {
             $query->where('inventories.status', $status);
 
@@ -161,8 +140,6 @@ class Inventory extends Model
         }
 
         $query->oldest('inventories.ship_date');
-
-        $query->select('inventories.id', 'inventories.item_code', 'items.name', 'inventories.order_code', 'inventories.charge_code', 'inventories.manufacturing_code', 'inventories.bundle_number', 'inventories.quantity', 'inventories.weight', 'inventories.status', 'inventories.production_date', 'inventories.factory_warehousing_date', 'inventories.warehouse_receipt_date', 'inventories.order_item_id', 'inventories.ship_date', 'orders.delivery_user_id');
 
         return $query;
     }
@@ -219,6 +196,6 @@ class Inventory extends Model
     
     public function order()
     {
-        return $this->belongsTo('App\Models\Order', 'item_code', 'item_code');
+        return $this->belongsTo('App\Models\Order');
     }
 }

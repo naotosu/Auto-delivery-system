@@ -16,12 +16,14 @@ class CsvController extends Controller
     public function temporary_ship(Request $request)
     {
         $ship_date = $request->input('ship_date');
-        //TODO 出荷先を変更する機能を追加予定
-        //$change = $request->input('change');
-        //$change_id = $request->input('change_id');
+        $order_id = $request->input('order_id');
         $item_ids = [$request->input('item_ids')];
 
         //APIではフラッシュメッセージ使えない為、処理に必要なデータ不足の場合、returnで処理を中断とした
+
+        if(empty($order_id)){
+            return redirect('/shipment/temporaries');
+        }
 
         if(empty($ship_date)){
             return redirect('/shipment/temporaries');
@@ -41,6 +43,7 @@ class CsvController extends Controller
         foreach ($inventories as $inventory) {
 
             $inventory->order_item_id = $temporary_ship_id;
+            $inventory->order_id = $order_id;
             $inventory->ship_date = $ship_date;
             $inventory->status = $ship_arranged;
             $inventory->save();

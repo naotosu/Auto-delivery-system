@@ -16,7 +16,7 @@ class TransportCompaniesTableSeeder extends Seeder
         	'id' => '1',
             'name' => 'M運送　知多センター',
             'stuff_name' => 'S',
-            'mail' => '0111@gmail.com',
+            'email' => '0111@gmail.com',
             'created_at' => new DateTime(),
             'updated_at' => new DateTime(),
             ],
@@ -24,7 +24,7 @@ class TransportCompaniesTableSeeder extends Seeder
             'id' => '2',
             'name' => 'M運送　静岡センター',
             'stuff_name' => 'K',
-            'mail' => '0222@gmail.com',
+            'email' => '0222@gmail.com',
             'created_at' => new DateTime(),
             'updated_at' => new DateTime(),
             ],
@@ -32,9 +32,9 @@ class TransportCompaniesTableSeeder extends Seeder
             'id' => '3',
             'name' => 'K運送　扇町倉庫',
             'stuff_name' => 'A',
-            'mail' => '0333@gmail.com',
+            'email' => '0333@gmail.com',
             'created_at' => new DateTime(),
             'updated_at' => new DateTime(),
-            ]]);        
+            ]]);       
     }
 }

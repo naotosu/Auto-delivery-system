@@ -89,6 +89,7 @@ class AutoDeliveryCommand extends Command
                     $shipment_sum = $shipment_sum + $inventory->weight;
                     $ship_arranged = \Config::get('const.Constant.ship_arranged');
                     $inventory->order_item_id = $order_item->id;
+                    $inventory->order_id = $order_item->order_id;
                     $inventory->ship_date = $order_item->ship_date;
                     $inventory->status = $ship_arranged;
                     $inventory->save();
