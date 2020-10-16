@@ -7,7 +7,6 @@ use App\Models\Inventory;
 
 class TemporaryService extends Model
 {
-    //public static function TemporaryIndex($stream,$ship_date, $change, $change_id, $item_ids)
 	public static function TemporaryIndex($stream, $temporary_ships) {
 	    fputcsv($stream, [
 	                '配送業者ID',
