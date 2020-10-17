@@ -31,7 +31,7 @@
             </div>
             <div class="icon">
             <li>
-              <a href="/shipment/cancels">出荷指示強制取消</a>
+              <a href="/inventory/shipment/cancels">出荷指示強制取消</a>
             </li>
             </div>
           </ul>
