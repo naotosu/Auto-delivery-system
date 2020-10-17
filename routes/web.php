@@ -27,11 +27,11 @@ Route::get('/orders/delete_check', 'OrderController@order_delete_check')->name('
 
 Route::delete('/orders/delete', 'OrderController@order_delete_execute')->name('order');
 
-Route::get('/shipment/cancels', 'InventoryController@shipment_cancel')->name('cancel');
+Route::get('/inventory/shipment/cancels', 'InventoryController@shipment_cancel')->name('cancel');
 
-Route::get('/shipment/cancels/checks', 'InventoryController@shipment_cancel_check')->name('cancel');
+Route::get('/inventory/shipment/cancels/checks', 'InventoryController@shipment_cancel_check')->name('cancel');
 
-Route::post('/shipment/cancels', 'InventoryController@shipment_cancel_execute')->name('cancel');
+Route::post('/inventory/shipment/cancels', 'InventoryController@shipment_cancel_execute')->name('cancel');
 
 Route::get('/shipment/temporaries', 'InventoryController@temporary')->name('temporary');
 
