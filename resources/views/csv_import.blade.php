@@ -34,6 +34,12 @@
           <a href="https://docs.google.com/spreadsheets/d/1DRe3JKouPvmXoosZXlhXcNOGnALHO61J39QTItwAMHc/edit#gid=0" target="_blank">出荷指示確認</a>
         </div>
 
+        <p>■もし、在庫不足等で自動出荷が中断してしまった場合は、下記で再実行出来ます。</p>
+        <form action="{{url('/auto_delivery/manual_execute')}}" method="POST">
+              @csrf
+          <p>納入日　<input type="date" name="ship_date">　<input type="submit" value="自動出荷指示実行"></p>
+        </form>
+
         <div class="csv-description">
           <p>サンプルデータが入力済みです。 「出荷指示確認」 、 「注文データ照会」 、 「在庫一覧」をチェック！</p>
         </div>
