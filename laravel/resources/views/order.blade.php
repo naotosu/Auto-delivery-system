@@ -50,6 +50,7 @@
                     <th>ユーザー</th>
                     <th>納入先ID</th>
                     <th>納入先名</th>
+                    <th>臨時フラグ</th>
                     <th>完了フラグ</th>
                     <th>消去</th>
                 </tr>
@@ -68,6 +69,7 @@
                     <td>{{$order->order->clientCompanyClientUser->name}}</td>
                     <td>{{$order->order->delivery_user_id}}</td>
                     <td>{{$order->order->clientCompanyDeliveryUser->name}}</td>
+                    <td>{{$order->temporary_flag}}</td>
                     <td>{{$order->done_flag}}</td>
                     <td>
                         <div class="input_data">
