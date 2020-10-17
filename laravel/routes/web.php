@@ -19,7 +19,7 @@ Route::get('/csv_imports', 'TopController@csv_imports')->name('csv_import');
 
 Route::post('/order_imports', 'OrderController@order_csv_import')->name('csv_import');
 
-Route::post('/auto_delivery/manual_execute', 'OrderController@auto_delivery_manual_execute')->name('csv_import');
+Route::post('/auto_delivery/manual_execute', 'OrderController@manual_delivery_execute')->name('csv_import');
 
 Route::post('/inventory_imports', 'InventoryController@inventory_csv_import')->name('csv_import');
 

@@ -47,10 +47,10 @@ class AutoDeliveryCommand extends Command
         $order_info = $order_indexes->pluck('ship_date')->toArray();
 
         if (empty($order_info)) {
-            AutoDeliveryService::AutoDeliveryNoOrder($ship_date);
+            AutoDeliveryService::NoOrderSendMail($ship_date);
             return ;
         }
 
-        AutoDeliveryService::AutoDeliveryExecute($ship_date, $order_indexes);
+        AutoDeliveryService::DeliveryExecute($ship_date, $order_indexes);
     }
 }
