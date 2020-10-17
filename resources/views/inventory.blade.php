@@ -69,6 +69,7 @@
                 <th>倉庫入庫日</th>
                 <th>注文ID</th>
                 <th>商流ID</th>
+                <th>臨時</th>
                 <th>出荷日</th>
                 <th>納入先名</th>
             </tr>
@@ -91,6 +92,7 @@
                 <td>{{$inventory->warehouse_receipt_date}}</td>
                 <td>{{$inventory->order_item_id}}</td>
                 <td>{{$inventory->order_id}}</td>
+                <td>{{$inventory->temporary_flag}}</td>
                 <td>{{$inventory->ship_date}}</td>
                 <td>@if ($inventory->order_id != null)
                         {{$inventory->order->clientCompanyDeliveryUser->name}}

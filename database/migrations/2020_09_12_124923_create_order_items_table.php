@@ -22,6 +22,7 @@ class CreateOrderItemsTable extends Migration
             $table->string('item_code', 11)->index();
             $table->date('ship_date');
             $table->Integer('weight');
+            $table->boolean('temporary_flag')->default(false);
             $table->boolean('done_flag')->default(false);
             $table->timestamps();
         });

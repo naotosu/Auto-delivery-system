@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\OrderItems;
 use App\Models\Inventory;
 use App\Services\TemporaryService;
 use Carbon\Carbon;
@@ -37,11 +38,25 @@ class CsvController extends Controller
 
         $ship_arranged = \Config::get('const.Constant.ship_arranged');
         $temporary_ship_id = \Config::get('const.Constant.temporary_ship_id');
+        $temporary_flag = \Config::get('const.Constant.temporary_flag');
+        $done = \Config::get('const.Constant.done');
 
         //TODO Transaction設置予定（仮）
 
+        $temporary_orders = [[]];
+
         foreach ($inventories as $inventory) {
 
+            $temporary_orders[] = [
+                'order_id' => $order_id,
+                'item_code' => $inventory->item_code,
+                'ship_date' => $ship_date,
+                'weight' => $inventory->weight,
+                'temporary_flag' => $temporary_flag,
+                'done_flag' => $done
+            ];
+            
+            //TODO inventories.order_items_id　= order_items.idとしたいが、毎回クエリ発行ではサーバーに負担がかかる
             $inventory->order_item_id = $temporary_ship_id;
             $inventory->order_id = $order_id;
             $inventory->ship_date = $ship_date;
@@ -49,6 +64,7 @@ class CsvController extends Controller
             $inventory->save();
 
         }
+        \DB::table('order_items')->insert($temporary_orders); //多次元の連想配列でデータベースに書き込みたい
 
         return response()->streamDownload(
             function () use ($inventories) {
