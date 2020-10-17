@@ -10,7 +10,7 @@
       @endif
        <h3>出荷指示強制取消</h3>
        <h2><span class="attention">注意</span>　出荷取り消す際は必ず輸送会社の許可を得て行って下さい</h2>
-       <form action="{{url('/shipment/cancels')}}" method="GET">
+       <form action="{{url('/inventory/shipment/cancels')}}" method="GET">
             <p><label for="item_code">アイテムコードを入力して下さい。
                 <input type="text" name="item_code" value="{{ $item_code ?? null }}">
             </label></p>
@@ -32,7 +32,7 @@
 
         @if(!empty($inventories))
 
-          <form action="{{url('/shipment/cancels/checks')}}" method="GET">
+          <form action="{{url('/inventory/shipment/cancels/checks')}}" method="GET">
               @csrf
               <p>どこまで進捗を戻すか選んで下さい<span class="attention">（入力必須）　</span>
                 <label for="status">

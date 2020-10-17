@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'TopController@index')->name('top');
 
-Route::get('/csv_imports', 'OrderController@csv_imports')->name('csv_import');
+Route::get('/csv_imports', 'TopController@csv_imports')->name('csv_import');
 
 Route::post('/order_imports', 'OrderController@order_csv_import')->name('csv_import');
 
@@ -27,11 +27,11 @@ Route::get('/orders/delete_check', 'OrderController@order_delete_check')->name('
 
 Route::delete('/orders/delete', 'OrderController@order_delete_execute')->name('order');
 
-Route::get('/shipment/cancels', 'ShipmentCancelController@shipment_cancel')->name('cancel');
+Route::get('/inventory/shipment/cancels', 'InventoryController@shipment_cancel')->name('cancel');
 
-Route::get('/shipment/cancels/checks', 'ShipmentCancelController@shipment_cancel_check')->name('cancel');
+Route::get('/inventory/shipment/cancels/checks', 'InventoryController@shipment_cancel_check')->name('cancel');
 
-Route::post('/shipment/cancels', 'ShipmentCancelController@shipment_cancel_execute')->name('cancel');
+Route::post('/inventory/shipment/cancels', 'InventoryController@shipment_cancel_execute')->name('cancel');
 
 Route::get('/shipment/temporaries', 'InventoryController@temporary')->name('temporary');
 
