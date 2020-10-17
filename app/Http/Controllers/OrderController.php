@@ -64,7 +64,7 @@ class OrderController extends Controller
         return redirect('/orders');
     }
 
-    public function auto_delivery_manual_execute(Request $request)
+    public function manual_delivery_execute(Request $request)
     {
         $ship_date = $request->input("ship_date");
         
@@ -73,13 +73,13 @@ class OrderController extends Controller
         $order_info = $order_indexes->pluck('ship_date')->toArray();
 
         if (empty($order_info)) {
-            AutoDeliveryService::AutoDeliveryNoOrder($ship_date);
-            session()->flash('flash_message', 'この日の注文はありません');
+            AutoDeliveryService::NoOrderSendMail($ship_date);
+            session()->flash('flash_message', 'この日の注文はありません。実行結果をメールしました。');
             return redirect('/csv_imports');
         }
 
-        AutoDeliveryService::AutoDeliveryExecute($ship_date, $order_indexes);
-        session()->flash('flash_message', '納入日'.$ship_date.'の出荷指示を手動で実行しました');
+        AutoDeliveryService::DeliveryExecute($ship_date, $order_indexes);
+        session()->flash('flash_message', '納入日'.$ship_date.'の出荷指示を手動で実行しました。実行結果をメールしました。');
         return redirect('/csv_imports');
     }
 }

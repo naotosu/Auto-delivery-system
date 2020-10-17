@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Mail;
 
 class AutoDeliveryService
 {
-    public static function AutoDeliveryNoOrder($ship_date)
+    public static function NoOrderSendMail($ship_date)
     {
         $users = User::all();
         $users_mail_lists = $users->pluck('email')->toArray();
@@ -29,7 +29,7 @@ class AutoDeliveryService
         Mail::to($mail_lists)->send( new AutoDeliverySystemNotification($mail_text) );
     }
 
-    public static function AutoDeliveryExecute($ship_date, $order_indexes)
+    public static function DeliveryExecute($ship_date, $order_indexes)
     {
         $sheets = GoogleSheet::InitializeClient();
 
