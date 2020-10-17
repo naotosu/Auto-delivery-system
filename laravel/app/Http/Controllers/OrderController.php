@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use Carbon\Carbon;
 use App\Services\OrderItemCsvImportService;
+use App\Services\AutoDeliveryService;
 
 class OrderController extends Controller
 {
@@ -61,5 +62,24 @@ class OrderController extends Controller
         }
         session()->flash('flash_message', '注文の消去完了しました');
         return redirect('/orders');
+    }
+
+    public function manual_delivery_execute(Request $request)
+    {
+        $ship_date = $request->input("ship_date");
+        
+        $order_indexes = OrderItem::SearchByShipDate($ship_date)->get();
+
+        $order_info = $order_indexes->pluck('ship_date')->toArray();
+
+        if (empty($order_info)) {
+            AutoDeliveryService::NoOrderSendMail($ship_date);
+            session()->flash('flash_message', 'この日の注文はありません。実行結果をメールしました。');
+            return redirect('/csv_imports');
+        }
+
+        AutoDeliveryService::DeliveryExecute($ship_date, $order_indexes);
+        session()->flash('flash_message', '納入日'.$ship_date.'の出荷指示を手動で実行しました。実行結果をメールしました。');
+        return redirect('/csv_imports');
     }
 }
