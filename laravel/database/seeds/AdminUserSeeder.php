@@ -13,9 +13,9 @@ class AdminUserSeeder extends Seeder
     public function run()
     {
     	User::create([
-		  'name' => 'gest',
-		  'email' => 'auto.delivery.system2020gest@gmail.com',
-		  'password' => Hash::make('auto111222'),
+		  'name' => 'guest',
+		  'email' => 'auto.delivery.system2020guest@gmail.com',
+		  'password' => Hash::make('password'),
  		]);
     }
 }
