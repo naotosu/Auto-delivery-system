@@ -12,10 +12,11 @@
        <h2><span class="attention">注意</span>　出荷取り消す際は必ず輸送会社の許可を得て行って下さい</h2>
 
         @if(!empty($inventories))
-        <form action="{{url('/inventory/shipment/cancels')}}" method="POST" name="status_edit" value="{{ $status_edit ?? null }}">
-            @csrf
-          <p>現在の進捗　<input class="check_date" name="status" value="{{ $status ?? null }}" readonly>   どこまで戻すか　<input class="check_date" name="status_edit" value="{{ $status_edit ?? null }}" readonly>
-          <P>出荷取消手配　確定　<input type="submit" value="出荷取消"></P>        
+          <form action="{{url('/inventory/shipment/cancels')}}" method="POST" name="status_edit" value="{{ $status_edit ?? null }}">
+              @csrf
+            <p><div class="input_data">現在の進捗　<input class="check_date" name="status" value="{{ $status ?? null }}" readonly></div></p>
+            <p>どこまで戻すか　<input class="check_date" name="status_edit" value="{{ $status_edit ?? null }}" readonly>
+            　出荷取消手配　確定　<input type="submit" value="出荷取消"></P>     
         <table border="1">
             <tr>
               <th>デバック用</th>

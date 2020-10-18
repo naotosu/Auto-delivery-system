@@ -9,6 +9,12 @@
               {{ session('flash_message') }}
           </div>
         @endif
+        <div class="comment">
+            <p>登録したユーザー様には、自動出荷の通知メールが届きます。</p>
+            <p>下記ゲストアカウントで、サンプルメールを確認できます。</p>
+            <p>gmail auto.delivery.system2020gest@gmail.com</p>
+            <p>pass auto111222</p>
+        </div>
         <div class="shipping-instructions">
           <H3>CSVデータ登録</H3>
             <form role="form" method="post" action="{{url('/order_imports')}}" enctype="multipart/form-data">
@@ -34,14 +40,15 @@
           <a href="https://docs.google.com/spreadsheets/d/1DRe3JKouPvmXoosZXlhXcNOGnALHO61J39QTItwAMHc/edit#gid=0" target="_blank">出荷指示確認</a>
         </div>
 
-        <p>■もし、在庫不足等で自動出荷が中断してしまった場合は、下記で再実行出来ます。</p>
+        <p>■もし、在庫不足等で自動出荷が中断してしまった場合は、</p>
+        <p>下記で再実行出来ます。</p>
         <form action="{{url('/auto_delivery/manual_execute')}}" method="POST">
               @csrf
-          <p>納入日　<input type="date" name="ship_date">　<input type="submit" value="自動出荷指示実行"></p>
+          <p>納入日　<input type="date" name="ship_date">　<input type="submit" value="出荷指示実行"></p>
         </form>
 
         <div class="csv-description">
-          <p>サンプルデータが入力済みです。 「出荷指示確認」 、 「注文データ照会」 、 「在庫一覧」をチェック！</p>
+          <span>サンプルデータが入力済みです。 「出荷指示確認」 、 「注文データ照会」 、 「在庫一覧」をチェック！</span>
         </div>
 
         <div class="main2">

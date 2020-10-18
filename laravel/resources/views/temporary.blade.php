@@ -3,25 +3,27 @@
 @section('content')
 @include('header')  
    <div class="main">
-       <h3>臨時出荷指示出力　（在庫ピンポイント指定）</h3>
+       <h3>臨時出荷指示　（在庫ピンポイント指定）</h3>
     <div class="main2">
         <form action="{{url('/shipment/temporaries')}}" method="GET">
             <p><label for="item_code">アイテムコードを入力して下さい（検索用）
                 <input type="text" name="item_code" value="{{ $item_code ?? null }}">
             </label><input type="submit" value="検索"></p>
         </form>
+        <div class="search-line"></div>
 
         @if(!empty($inventories))
 
         <form action="{{url('/api/temporary_ships')}}" method="POST">
             @csrf
-        <p>臨時出荷　納入日を入力　<input type="date" name="ship_date"></p>
-        <p>出荷する商流ID入力 <input type="text" name="order_id"></p>
+        <p>臨時出荷　納入日を入力　<span class="attention">　※入力必須　</span>　<input type="date" name="ship_date"></p>
+        <p>出荷する商流ID入力　<span class="attention">　※入力必須　</span> <input type="text" name="order_id"></p>
 
-           <P>臨時出荷を行うロットを選択し、出荷指示をクリック　<input type="submit" value="出荷指示"></P>
-           <div class= 'attention'><p>※チャージNoが古い順で表示。理由が無い限り一番上から使用下さい。</p></div>
-           <div class= 'attention'><p>※CSVファイルがダウンロードされます。輸送会社へ送付して下さい。</p></div>
-           <div class= 'attention'><p>※納入日の2日前の定期連絡で、もう一度明細に載ります。</p></div>
+           <P>臨時出荷を行うロットを<span class="attention">選択</span>し、出荷指示をクリック　<input type="submit" value="出荷指示"></P>
+           <p>※チャージNoが古い順で表示。理由が無い限り<span class="attention">一番上から使用</span>下さい。</p>
+           <p>※CSVファイルがダウンロードされます。<span class="attention">輸送会社へ送付</span>して下さい。
+           (定期連絡とは異なる為、個別で連絡して下さい)</p>
+           <p>※納入日の2日前の定期連絡で、もう一度明細に載ります。</p>
 
         <div class="pagination">
             {{ $inventories->appends(request()->input())->links('vendor.pagination.default') }}
