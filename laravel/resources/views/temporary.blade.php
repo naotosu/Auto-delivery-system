@@ -16,7 +16,7 @@
 
         <form action="{{url('/api/temporary_ships')}}" method="POST">
             @csrf
-        <p>臨時出荷　納入日を入力　<span class="attention">　※入力必須　</span>　<input type="date" name="ship_date"></p>
+        <p>臨時出荷　納入日を入力　<span class="attention">※入力必須　</span>　<input type="date" name="ship_date"></p>
         <p>出荷する商流ID入力　<span class="attention">　※入力必須　</span> <input type="text" name="order_id"></p>
 
            <P>臨時出荷を行うロットを<span class="attention">選択</span>し、出荷指示をクリック　<input type="submit" value="出荷指示"></P>
