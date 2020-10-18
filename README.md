@@ -41,11 +41,11 @@
 ![cancel](https://user-images.githubusercontent.com/68208676/96367591-c77d4700-1189-11eb-98af-31493e2615e1.jpg)
 
 ##### データベースモデリング
-![database_modeling](https://user-images.githubusercontent.com/68208676/96368524-301af280-118f-11eb-9896-cbd9fc8a79d7.jpg)
+![database_modeling](https://user-images.githubusercontent.com/68208676/96369021-702fa480-1192-11eb-9718-5102cca2d37f.jpg)
 
 #### 画面設計
 ![views](https://user-images.githubusercontent.com/68208676/96368519-2abda800-118f-11eb-9129-e67286cdebc1.jpg)
 
 #### フローチャート（自動出荷処理)
-![flow](https://user-images.githubusercontent.com/68208676/96368522-2db89880-118f-11eb-814e-cda4539a6b19.jpg)
+![flow](https://user-images.githubusercontent.com/68208676/96368522-2db89880-118f-11eb-814e-cda4539a6b19.jpg).
 
