@@ -8,7 +8,7 @@
               {{ session('flash_message') }}
           </div>
       @endif
-       <h3>出荷指示強制取消</h3>
+       <h3>出荷指示取消</h3>
        <h2><span class="attention">注意</span>　出荷取り消す際は必ず輸送会社の許可を得て行って下さい</h2>
        <form action="{{url('/inventory/shipment/cancels')}}" method="GET">
             <p><label for="item_code">アイテムコードを入力して下さい。
@@ -26,22 +26,23 @@
               </label>
               <label for="status">
                     <input type="radio" name="status" value="5"<?php if( isset($status)){ if( $status ===  "5"){ echo 'checked'; }}?>>5出荷済　
-              </label></p>
-            <p><input type="submit" value="検索"></p>
+              </label> <input type="submit" value="検索"></p>
+            
         </form>
+        <div class="search-line"></div>
 
         @if(!empty($inventories))
 
           <form action="{{url('/inventory/shipment/cancels/checks')}}" method="GET">
               @csrf
-              <p>どこまで進捗を戻すか選んで下さい<span class="attention">（入力必須）　</span>
+              <p>どこまで進捗を戻すか選んで下さい<span class="attention">　※入力必須　</span>
                 <label for="status">
                       <input type="radio" name="status_edit" value="2"<?php if( isset($status_edit)){ if( $status_edit ===  "2"){ echo 'checked'; }}?>>2工場在庫　
                 </label>
                 <label for="status">
                       <input type="radio" name="status_edit" value="3"<?php if( isset($status_edit)){ if( $status_edit ===  "3"){ echo 'checked'; }}?>>3倉庫在庫　
                 </label></p>
-             <P>出荷指示を取り消す明細をチェックして下さい　<input type="submit" value="出荷取消"></P>
+             <P>出荷指示を取り消す明細を<span class="attention">選択</span>して下さい　<input type="submit" value="出荷取消"></P>
 
           @if(!empty($inventories))
           <div class="pagination">
@@ -66,6 +67,7 @@
                 <th>在庫状態</th>
                 <th>注文ID</th>
                 <th>商流ID</th>
+                <th>臨時</th>
                 <th>ENDユーザー</th>
                 <th>ユーザー</th>
                 <th>納入先名</th>
@@ -91,6 +93,7 @@
                   <td>{{$shipped->status}}</td>
                   <td>{{$shipped->order_item_id}}</td>
                   <td>{{$shipped->order_id}}</td>
+                  <td>{{$shipped->temporary_flag}}</td>
                   <td>{{$shipped->order->clientCompanyEndUser->name}}</td>
                   <td>{{$shipped->order->clientCompanyClientUser->name}}</td>
                   <td>{{$shipped->order->clientCompanyDeliveryUser->name}}</td>
