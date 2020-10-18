@@ -9,11 +9,6 @@
               {{ session('flash_message') }}
           </div>
         @endif
-        <div class="comment">
-            <p>登録したユーザー様には、自動出荷の通知メールが届きます。</p>
-            <p>Githubにて、通知メールの画像を公開しております。</p>
-            <p>リンク</p>
-        </div>
         <div class="shipping-instructions">
           <H3>CSVデータ登録</H3>
             <form role="form" method="post" action="{{url('/order_imports')}}" enctype="multipart/form-data">
@@ -22,7 +17,7 @@
           <p><input type="file" name="csv_file" id="csv_file">
             <button type="submit" class="btn btn-default btn-success">登録</button></p>     
           </form>
-          <p><a class="btn btn-primary m-1" href="{{url('/csv_sample/order_items_sample.csv')}}" download>雛形ダウンロード</a></p><br>
+          <p><a href="{{url('/csv_sample/order_items_sample.csv')}}" download>雛形ダウンロード</a></p><br>
 
           <form role="form" method="post" action="{{url('/inventory_imports')}}" enctype="multipart/form-data">
             <p>■入荷品在庫データ登録(CSVファイルを選んで下さい)</p>
@@ -30,7 +25,7 @@
               <p><input type="file" name="csv_file" id="csv_file">
                     <button type="submit" class="btn btn-default btn-success">登録</button></p>   
               </form>
-          <p><a class="btn btn-primary m-1" href="{{url('/csv_sample/inventories_sample.csv')}}" download>雛形ダウンロード</a></p>
+          <p><a href="{{url('/csv_sample/inventories_sample.csv')}}" download>雛形ダウンロード</a></p>
         </div>
 
 
@@ -42,12 +37,14 @@
           <a href="https://docs.google.com/spreadsheets/d/1DRe3JKouPvmXoosZXlhXcNOGnALHO61J39QTItwAMHc/edit#gid=0" target="_blank">出荷指示確認</a>
         </div>
 
-        <p>■もし、在庫不足等で自動出荷が中断してしまった場合は、</p>
-        <p>下記で再実行出来ます。</p>
-        <form action="{{url('/auto_delivery/manual_execute')}}" method="POST">
-              @csrf
-          <p>納入日　<input type="date" name="ship_date">　<input type="submit" value="出荷指示実行"></p>
-        </form>
+        <div class="manual_execute">
+          <p>■もし、在庫不足等で自動出荷が中断してしまった場合は、</p>
+          <p>下記で再実行出来ます。</p>
+          <form action="{{url('/auto_delivery/manual_execute')}}" method="POST">
+                @csrf
+            <p>納入日　<input type="date" name="ship_date">　<input type="submit" value="出荷指示実行"></p>
+          </form>
+        </div>
 
         <div class="csv-description">
           <span>サンプルデータが入力済みです。 「出荷指示確認」 、 「注文データ照会」 、 「在庫一覧」をチェック！</span>

@@ -11,16 +11,16 @@
        <h3>出荷指示取消</h3>
        <h2><span class="attention">注意</span>　出荷取り消す際は必ず輸送会社の許可を得て行って下さい</h2>
        <form action="{{url('/inventory/shipment/cancels')}}" method="GET">
-            <p><label for="item_code">アイテムコードを入力して下さい。
+            <p><label for="item_code">アイテムコードを入力して下さい。(検索用)
                 <input type="text" name="item_code" value="{{ $item_code ?? null }}">
             </label></p>
-            <p><label for="order_id">商流IDを入力して下さい。
+            <p><label for="order_id">商流IDを入力して下さい。(検索用)
                 <input type="text" name="order_id" value="{{ $order_id ?? null }}">
             </label></p>
             <p><label for="order_date">
-                納入日を入力して下さい<input type="date" name="ship_date" value="{{ $ship_date ?? null }}">
+                納入日を入力して下さい(検索用)<input type="date" name="ship_date" value="{{ $ship_date ?? null }}">
             </label></p>
-            <p>進捗進捗状態を選んで下さい。
+            <p>進捗進捗状態を選んで下さい。(検索用)　
               <label for="status">
                     <input type="radio" name="status" value="4"<?php if( isset($status)){ if( $status ===  "4"){ echo 'checked'; }}?>>4手配済　
               </label>
