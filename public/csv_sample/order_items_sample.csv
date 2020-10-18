@@ -1,0 +1,2 @@
+order_id(商流ID) ,item_code(アイテムコード),ship_date(出荷日),weght(注文重量)
+1,BB111111150,2020-11-16,15000

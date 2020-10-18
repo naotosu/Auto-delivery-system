@@ -76,5 +76,5 @@ class CsvController extends Controller
                 'Content-Type' => 'application/octet-stream',
             ]
         );
-    }  
+    }
 }
