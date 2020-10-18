@@ -30,6 +30,7 @@ class CreateInventoriesTable extends Migration
             $table->date('warehouse_receipt_date')->nullable();
             $table->bigInteger('order_item_id')->nullable()->unsigned();
             $table->bigInteger('order_id')->nullable()->unsigned();
+            $table->boolean('temporary_flag')->default(false);
             $table->date('ship_date')->nullable();
             $table->timestamps();
         });

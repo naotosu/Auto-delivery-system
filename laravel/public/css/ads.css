@@ -100,7 +100,7 @@ body {
 
 .main {
   margin-top: 90px;
-  padding: 0px 5px;
+  padding: 0px 3px;
   /*background: linear-gradient(#FFFFFC, #EEEEEE);*/
   opacity: 0.8;
   background-size: cover;
@@ -180,7 +180,7 @@ body {
 }
 
 .top_title {
-  padding: 0px 5px;
+  padding: 0px 4px;
   padding-top: 150px;
   opacity: 0.8;
   background-size: cover;

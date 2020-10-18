@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\OrderItem;
 use App\Models\Inventory;
 use App\Services\TemporaryService;
 use Carbon\Carbon;
@@ -36,20 +37,28 @@ class CsvController extends Controller
         $inventories = Inventory::TemporaryShipSearchByStock($item_ids)->get();
 
         $ship_arranged = \Config::get('const.Constant.ship_arranged');
-        $temporary_ship_id = \Config::get('const.Constant.temporary_ship_id');
 
         //TODO Transaction設置予定（仮）
 
         foreach ($inventories as $inventory) {
 
-            $inventory->order_item_id = $temporary_ship_id;
+            $order_item = new OrderItem;
+            $order_item->order_id = $order_id;
+            $order_item->item_code = $inventory->item_code;
+            $order_item->ship_date = $ship_date;
+            $order_item->weight = $inventory->weight;
+            $order_item->temporary_flag = true;
+            $order_item->done_flag = true;
+            $order_item->save();
+
+            $inventory->order_item_id = $order_item->id;
             $inventory->order_id = $order_id;
+            $inventory->temporary_flag = true;
             $inventory->ship_date = $ship_date;
             $inventory->status = $ship_arranged;
             $inventory->save();
-
         }
-
+        
         return response()->streamDownload(
             function () use ($inventories) {
                 // 出力バッファをopen
