@@ -17,6 +17,10 @@ Route::get('/', 'TopController@index')->name('top');
 
 Route::get('/csv_imports', 'TopController@csv_imports')->name('csv_import');
 
+Route::get('/csv_sample/order_items_sample.csv', 'TopController@orders_download')->name('csv_import');
+
+Route::get('/csv_sample/inventories_sample.csv', 'TopController@inventories_download')->name('csv_import');
+
 Route::post('/order_imports', 'OrderController@order_csv_import')->name('csv_import');
 
 Route::post('/auto_delivery/manual_execute', 'OrderController@manual_delivery_execute')->name('csv_import');

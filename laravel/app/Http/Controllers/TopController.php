@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class TopController extends Controller
 {
@@ -29,5 +30,15 @@ class TopController extends Controller
     public function csv_imports()
     {
         return view('csv_import');
+    }
+
+    public function orders_download(Request $request) {
+
+        return Storage::download('/csv_sample/order_items_sample.csv');
+    }
+
+    public function inventories_download(Request $request) {     
+        
+        return Storage::download('/csv_sample/inventories_sample.csv', $filename, $headers);
     }
 }
