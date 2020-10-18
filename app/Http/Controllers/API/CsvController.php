@@ -42,18 +42,16 @@ class CsvController extends Controller
 
         foreach ($inventories as $inventory) {
 
-            $order_items = OrderItem::All();
-            $order_items = new OrderItem;
-            $order_items->order_id = $order_id;
-            $order_items->item_code = $inventory->item_code;
-            $order_items->ship_date = $ship_date;
-            $order_items->weight = $inventory->weight;
-            $order_items->temporary_flag = true;
-            $order_items->done_flag = true;
-            $order_items->save();
-            $order_item_id = $order_items->id;
+            $order_item = new OrderItem;
+            $order_item->order_id = $order_id;
+            $order_item->item_code = $inventory->item_code;
+            $order_item->ship_date = $ship_date;
+            $order_item->weight = $inventory->weight;
+            $order_item->temporary_flag = true;
+            $order_item->done_flag = true;
+            $order_item->save();
 
-            $inventory->order_item_id = $order_item_id;
+            $inventory->order_item_id = $order_item->id;
             $inventory->order_id = $order_id;
             $inventory->temporary_flag = true;
             $inventory->ship_date = $ship_date;
