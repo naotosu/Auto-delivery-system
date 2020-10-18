@@ -73,10 +73,8 @@
             </div>
         </div>
         <div class="comment-login">
-            <p>登録したユーザー様には、自動出荷の通知メールが届きます。</p>
-            <p>下記ゲストアカウントで、サンプルメールを確認できます。</p>
-            <p>gmail auto.delivery.system2020gest@gmail.com</p>
-            <p>pass auto111222</p>
+            <p>ユーザー登録頂いたユーザー様には、自動出荷の通知メールが届きます。</p>
+            <p>Githubにて、通知メールの画像を公開しております。</p>
         </div>
         @include('footer')
     </div>
