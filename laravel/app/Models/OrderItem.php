@@ -38,8 +38,7 @@ class OrderItem extends Model
     {
         $not_done = \Config::get('const.Constant.not_done');
 
-        $query->where('ship_date', $ship_date)
-                ->where('done_flag', $not_done);
+        $query->where('ship_date', $ship_date);
 
         return $query;
     }

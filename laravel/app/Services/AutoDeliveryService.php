@@ -38,6 +38,8 @@ class AutoDeliveryService
         $valueInputOption = "USER_ENTERED";
         $range = $ship_date.'!'.'A1';
 
+        $order_indexes = $order_indexes->where('done_flag', false);
+
         DB::beginTransaction();
         try {
 
@@ -60,7 +62,7 @@ class AutoDeliveryService
                     $inventory->save();
 
                     if ($order_sum <= $shipment_sum){
-                        $order_item->done_flag = 1;
+                        $order_item->done_flag = true;
                         $order_item->save();
                         break;
                     }
@@ -76,7 +78,7 @@ class AutoDeliveryService
             }
         
             $ship_arranged_list = Inventory::SearchByShipArrangedList($ship_date)->get();
-            //TODO 臨時出荷（CSV出力）終わった明細も再出力している。このままで良いか別途検討（このままの方が親切かも）
+            //臨時出荷（CSV出力）終わった明細も再出力している。
 
             $order_items = array();
 

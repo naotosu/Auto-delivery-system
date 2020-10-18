@@ -37,27 +37,25 @@ class CsvController extends Controller
         $inventories = Inventory::TemporaryShipSearchByStock($item_ids)->get();
 
         $ship_arranged = \Config::get('const.Constant.ship_arranged');
-        $temporary_flag = \Config::get('const.Constant.temporary_flag');
-        $done = \Config::get('const.Constant.done');
 
         //TODO Transaction設置予定（仮）
 
         foreach ($inventories as $inventory) {
 
-            \DB::table('order_items')->insert([
-                'order_id' => $order_id,
-                'item_code' => $inventory->item_code,
-                'ship_date' => $ship_date,
-                'weight' => $inventory->weight,
-                'temporary_flag' => $temporary_flag,
-                'done_flag' => $done
-            ]);
-            $order_items = DB::table('order_items')->orderby('id','desc')->first();
+            $order_items = OrderItem::All();
+            $order_items = new OrderItem;
+            $order_items->order_id = $order_id;
+            $order_items->item_code = $inventory->item_code;
+            $order_items->ship_date = $ship_date;
+            $order_items->weight = $inventory->weight;
+            $order_items->temporary_flag = true;
+            $order_items->done_flag = true;
+            $order_items->save();
             $order_item_id = $order_items->id;
-            
+
             $inventory->order_item_id = $order_item_id;
             $inventory->order_id = $order_id;
-            $inventory->temporary_flag = $temporary_flag;
+            $inventory->temporary_flag = true;
             $inventory->ship_date = $ship_date;
             $inventory->status = $ship_arranged;
             $inventory->save();
