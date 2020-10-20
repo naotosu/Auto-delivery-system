@@ -47,5 +47,4 @@
 ![views](https://user-images.githubusercontent.com/68208676/96368519-2abda800-118f-11eb-9129-e67286cdebc1.jpg)
 
 #### フローチャート（自動出荷処理)
-![flow](https://user-images.githubusercontent.com/68208676/96368522-2db89880-118f-11eb-814e-cda4539a6b19.jpg).
-
+![flow](https://user-images.githubusercontent.com/68208676/96368522-2db89880-118f-11eb-814e-cda4539a6b19.jpg)
