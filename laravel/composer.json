@@ -17,7 +17,8 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.2",
         "nesbot/carbon": "^2.39",
-        "spatie/laravel-google-calendar": "^3.1"
+        "spatie/laravel-google-calendar": "^3.1",
+        "fzaninotto/faker": "^1.9"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
