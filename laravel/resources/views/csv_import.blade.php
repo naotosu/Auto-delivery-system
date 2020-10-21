@@ -30,7 +30,7 @@
 
 
         <div class="shipping-instructions">
-          <img src="/image/right.png" class="csv-arrow">
+          <img src="/Image/right.png" class="csv-arrow">
         </div>
 
         <div class="csv-icon">
