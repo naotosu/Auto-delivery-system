@@ -104,7 +104,7 @@ body {
   /*background: linear-gradient(#FFFFFC, #EEEEEE);*/
   opacity: 0.8;
   background-size: cover;
-  background-image: url(/image/main.jpg);
+  background-image: image-url(/image/main.jpg);
   background-color:rgba(200,200,200,0.8);
   background-blend-mode:lighten;
   width: 100%;
