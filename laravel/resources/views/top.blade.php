@@ -26,7 +26,7 @@
           </div>
 
           <div class = "description-middle">
-            <img src="/image/right.png" class="right_arrow">
+            <img src="/Image/right.png" class="right_arrow">
             <p>毎朝　8：30〜11：00 出荷指示作成</p>
             <p>先入先出、複雑なロット管理、手計算 etc</p>
           </div>
