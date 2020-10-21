@@ -16,6 +16,8 @@ class CsvController extends Controller
     
     public function temporary_ship(Request $request)
     {
+        try {
+
         $ship_date = $request->input('ship_date');
         $order_id = $request->input('order_id');
         $item_ids = $request->input('item_ids');
@@ -75,6 +77,9 @@ class CsvController extends Controller
             [
                 'Content-Type' => 'application/octet-stream',
             ]
+        } catch (\Exception $e) {
+            Log::debug($e);
+        }
         );
     }
 }

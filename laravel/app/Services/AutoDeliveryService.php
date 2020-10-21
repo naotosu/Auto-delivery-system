@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use \Exception;
 use App\Mail\AutoDeliverySystemNotification;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class AutoDeliveryService
 {
@@ -189,6 +190,7 @@ class AutoDeliveryService
             DB::commit();
         
         } catch (\Exception $e) {
+            Log::debug($e);
             $users = User::all();
             $users_mail_lists = $users->pluck('email')->toArray();
 
