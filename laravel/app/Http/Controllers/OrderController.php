@@ -67,7 +67,6 @@ class OrderController extends Controller
 
     public function manual_delivery_execute(Request $request)
     {
-        Log::error('order1');
         $ship_date = $request->input("ship_date");
         
         $order_indexes = OrderItem::SearchByShipDate($ship_date)->get();
@@ -80,10 +79,7 @@ class OrderController extends Controller
             return redirect('/csv_imports');
         }
 
-        Log::error('order4');
-
         AutoDeliveryService::DeliveryExecute($ship_date, $order_indexes);
-        Log::error('order5');
         session()->flash('flash_message', '納入日'.$ship_date.'の出荷指示を手動で実行しました。実行結果をメールしました。');
         return redirect('/csv_imports');
     }

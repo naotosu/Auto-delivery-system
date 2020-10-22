@@ -10,7 +10,6 @@ use App\Services\TemporaryService;
 use Carbon\Carbon;
 use App\Services\InventoryCsvImportService;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class CsvController extends Controller
 {
@@ -60,9 +59,8 @@ class CsvController extends Controller
             $inventory->save();
         }
         
-        return /*response()->streamDownload(
+        return response()->streamDownload(
             function () use ($inventories) {
-                Log::error('4');
                 // 出力バッファをopen
                 $stream = fopen('php://output', 'w');
                 // 文字コードをShift-JISに変換
@@ -77,9 +75,6 @@ class CsvController extends Controller
             [
                 'Content-Type' => 'application/octet-stream',
             ]
-        } catch (\Exception $e) {
-            Log::debug($e);
-        }
-        )*/;
+        );
     }
 }

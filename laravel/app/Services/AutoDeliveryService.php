@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\DB;
 use \Exception;
 use App\Mail\AutoDeliverySystemNotification;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Log;
 
 class AutoDeliveryService
 {
@@ -32,10 +31,7 @@ class AutoDeliveryService
 
     public static function DeliveryExecute($ship_date, $order_indexes)
     {
-        Log::error('yes1');
         $sheets = GoogleSheet::InitializeClient();
-
-        Log::error('yes2');
 
         $sheet_id = \Config::get('const.Constant.spread_sheet_id');
         $acceptable_range = \Config::get('const.Constant.acceptable_range');
@@ -52,7 +48,6 @@ class AutoDeliveryService
                 $shipment_sum = 0;
                 $order_sum = $order_item->weight - $acceptable_range;
                 $inventories = Inventory::SearchByItemCodeAndStatus($order_item)->get();
-                Log::error('yes3');
                 $cntend = count($inventories);
                 $cnt = 0;
 
@@ -82,7 +77,7 @@ class AutoDeliveryService
                 }
             }
         
-            /*$ship_arranged_list = Inventory::SearchByShipArrangedList($ship_date)->get();
+            $ship_arranged_list = Inventory::SearchByShipArrangedList($ship_date)->get();
             //臨時出荷（CSV出力）終わった明細も再出力している。
 
             $order_items = array();
@@ -194,7 +189,6 @@ class AutoDeliveryService
             DB::commit();*/
         
         } catch (\Exception $e) {
-            Log::error($e);
             $users = User::all();
             $users_mail_lists = $users->pluck('email')->toArray();
 
