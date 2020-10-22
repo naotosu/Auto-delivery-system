@@ -18,6 +18,7 @@ class AutoDeliveryService
 {
     public static function NoOrderSendMail($ship_date)
     {
+        Log::error('no1');
         $users = User::all();
         $users_mail_lists = $users->pluck('email')->toArray();
 
@@ -28,11 +29,15 @@ class AutoDeliveryService
         $mail_text = '納入日'.$ship_date.'この日の新しい注文はございません。
         　※別途送付済みの指示書がある場合は、そちらを正としてご手配を進めて下さい。';
         Mail::to($mail_lists)->send( new AutoDeliverySystemNotification($mail_text) );
+        Log::error('no2');
     }
 
     public static function DeliveryExecute($ship_date, $order_indexes)
     {
+        Log::error('yes1');
         $sheets = GoogleSheet::InitializeClient();
+
+        Log::error('yes2');
 
         $sheet_id = \Config::get('const.Constant.spread_sheet_id');
         $acceptable_range = \Config::get('const.Constant.acceptable_range');
@@ -49,6 +54,7 @@ class AutoDeliveryService
                 $shipment_sum = 0;
                 $order_sum = $order_item->weight - $acceptable_range;
                 $inventories = Inventory::SearchByItemCodeAndStatus($order_item)->get();
+                Log::error('yes3');
                 $cntend = count($inventories);
                 $cnt = 0;
 
@@ -190,7 +196,7 @@ class AutoDeliveryService
             DB::commit();
         
         } catch (\Exception $e) {
-            Log::debug($e);
+            Log::error($e);
             $users = User::all();
             $users_mail_lists = $users->pluck('email')->toArray();
 

@@ -16,6 +16,7 @@ class CsvController extends Controller
     
     public function temporary_ship(Request $request)
     {
+        Log::error('no1');
         try {
 
         $ship_date = $request->input('ship_date');
@@ -41,10 +42,12 @@ class CsvController extends Controller
         $ship_arranged = \Config::get('const.Constant.ship_arranged');
 
         //TODO Transaction設置予定（仮）
+        Log::error('2');
 
         foreach ($inventories as $inventory) {
 
             $order_item = new OrderItem;
+            Log::error('3');
             $order_item->order_id = $order_id;
             $order_item->item_code = $inventory->item_code;
             $order_item->ship_date = $ship_date;
@@ -63,6 +66,7 @@ class CsvController extends Controller
         
         return response()->streamDownload(
             function () use ($inventories) {
+                Log::error('4');
                 // 出力バッファをopen
                 $stream = fopen('php://output', 'w');
                 // 文字コードをShift-JISに変換
