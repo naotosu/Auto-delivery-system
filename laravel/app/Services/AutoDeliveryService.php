@@ -46,7 +46,7 @@ class AutoDeliveryService
 
         $order_indexes = $order_indexes->where('done_flag', false);
 
-        DB::beginTransaction();
+        /*DB::beginTransaction();
         //try {
 
             foreach ($order_indexes as $order_item) {
@@ -195,7 +195,7 @@ class AutoDeliveryService
 
             DB::commit();
         
-        /*} catch (\Exception $e) {
+        } catch (\Exception $e) {
             Log::error($e);
             $users = User::all();
             $users_mail_lists = $users->pluck('email')->toArray();

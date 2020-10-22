@@ -36,7 +36,7 @@ class CsvController extends Controller
 
         if(empty($item_ids)){
             return redirect('/shipment/temporaries');
-        }/*
+        }
 
         $inventories = Inventory::TemporaryShipSearchByStock($item_ids)->get();
 
@@ -63,7 +63,7 @@ class CsvController extends Controller
             $inventory->ship_date = $ship_date;
             $inventory->status = $ship_arranged;
             $inventory->save();
-        }
+        }/*
         
         return response()->streamDownload(
             function () use ($inventories) {
