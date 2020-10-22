@@ -186,7 +186,7 @@ class AutoDeliveryService
             $mail_text = '納入日'.$ship_date.'分の新しい指示書が更新されました。輸送会社様はご確認をお願い致します。';
             Mail::to($mail_lists)->send( new AutoDeliverySystemNotification($mail_text) );
 
-            DB::commit();*/
+            DB::commit();
         
         } catch (\Exception $e) {
             $users = User::all();
