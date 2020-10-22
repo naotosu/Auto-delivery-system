@@ -47,7 +47,7 @@ class AutoDeliveryService
         $order_indexes = $order_indexes->where('done_flag', false);
 
         DB::beginTransaction();
-        try {
+        //try {
 
             foreach ($order_indexes as $order_item) {
 
@@ -195,7 +195,7 @@ class AutoDeliveryService
 
             DB::commit();
         
-        } catch (\Exception $e) {
+        /*} catch (\Exception $e) {
             Log::error($e);
             $users = User::all();
             $users_mail_lists = $users->pluck('email')->toArray();
@@ -208,6 +208,6 @@ class AutoDeliveryService
             $mail_text = '納入日'.$ship_date.'指示書の作成を中断しました。在庫が足りていない可能性があります。item_code[ '.$e->getMessage().' ]で不足';
             $inventory_error = Mail::to($mail_lists)->send( new AutoDeliverySystemNotification($mail_text) );
             return DB::rollback();
-        }
+        }*/
     }
 }
