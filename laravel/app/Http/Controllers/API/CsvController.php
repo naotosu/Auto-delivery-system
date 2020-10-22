@@ -17,7 +17,7 @@ class CsvController extends Controller
     
     public function temporary_ship(Request $request)
     {
-        Log::error('no1');
+        /*Log::error('no1');
         try {
 
         $ship_date = $request->input('ship_date');
@@ -85,6 +85,6 @@ class CsvController extends Controller
         } catch (\Exception $e) {
             Log::debug($e);
         }
-        );
+        );*/
     }
 }
