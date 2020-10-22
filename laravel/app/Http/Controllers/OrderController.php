@@ -8,6 +8,7 @@ use App\Models\OrderItem;
 use Carbon\Carbon;
 use App\Services\OrderItemCsvImportService;
 use App\Services\AutoDeliveryService;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
@@ -66,7 +67,7 @@ class OrderController extends Controller
 
     public function manual_delivery_execute(Request $request)
     {
-        Log::debug('order1');
+        Log::error('order1');
         $ship_date = $request->input("ship_date");
         
         $order_indexes = OrderItem::SearchByShipDate($ship_date)->get();
@@ -74,17 +75,17 @@ class OrderController extends Controller
         $order_info = $order_indexes->pluck('ship_date')->toArray();
 
         if (empty($order_info)) {
-             Log::debug('order2');
+             Log::error('order2');
             AutoDeliveryService::NoOrderSendMail($ship_date);
-             Log::debug('order3');
+             Log::error('order3');
             session()->flash('flash_message', 'この日の注文はありません。実行結果をメールしました。');
             return redirect('/csv_imports');
         }
 
-        Log::debug('order4');
+        Log::error('order4');
 
         AutoDeliveryService::DeliveryExecute($ship_date, $order_indexes);
-        Log::debug('order5');
+        Log::error('order5');
         session()->flash('flash_message', '納入日'.$ship_date.'の出荷指示を手動で実行しました。実行結果をメールしました。');
         return redirect('/csv_imports');
     }
