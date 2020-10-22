@@ -60,9 +60,9 @@ class CsvController extends Controller
             $inventory->save();
         }
         
-        return response()->streamDownload(
+        return /*response()->streamDownload(
             function () use ($inventories) {
-                /*Log::error('4');
+                Log::error('4');
                 // 出力バッファをopen
                 $stream = fopen('php://output', 'w');
                 // 文字コードをShift-JISに変換

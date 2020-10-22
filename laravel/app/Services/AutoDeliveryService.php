@@ -18,7 +18,6 @@ class AutoDeliveryService
 {
     public static function NoOrderSendMail($ship_date)
     {
-        Log::error('no1');
         $users = User::all();
         $users_mail_lists = $users->pluck('email')->toArray();
 
@@ -29,13 +28,12 @@ class AutoDeliveryService
         $mail_text = '納入日'.$ship_date.'この日の新しい注文はございません。
         　※別途送付済みの指示書がある場合は、そちらを正としてご手配を進めて下さい。';
         Mail::to($mail_lists)->send( new AutoDeliverySystemNotification($mail_text) );
-        Log::error('no2');
     }
 
     public static function DeliveryExecute($ship_date, $order_indexes)
     {
         Log::error('yes1');
-        $sheets = GoogleSheet::InitializeClient();
+        //$sheets = GoogleSheet::InitializeClient();
 
         Log::error('yes2');
 
@@ -46,8 +44,8 @@ class AutoDeliveryService
 
         $order_indexes = $order_indexes->where('done_flag', false);
 
-        /*DB::beginTransaction();
-        //try {
+        DB::beginTransaction();
+        try {
 
             foreach ($order_indexes as $order_item) {
 
@@ -131,7 +129,7 @@ class AutoDeliveryService
             }
          
 
-            $response = $sheets->spreadsheets->get($sheet_id);
+            /*$response = $sheets->spreadsheets->get($sheet_id);
             $sheet_lists = $response->getSheets();
 
             foreach ($sheet_lists as $sheet) {
@@ -193,7 +191,7 @@ class AutoDeliveryService
             $mail_text = '納入日'.$ship_date.'分の新しい指示書が更新されました。輸送会社様はご確認をお願い致します。';
             Mail::to($mail_lists)->send( new AutoDeliverySystemNotification($mail_text) );
 
-            DB::commit();
+            DB::commit();*/
         
         } catch (\Exception $e) {
             Log::error($e);
@@ -206,8 +204,8 @@ class AutoDeliveryService
             $mail_lists = array_merge($users_mail_lists, $transport_mail_lists);
 
             $mail_text = '納入日'.$ship_date.'指示書の作成を中断しました。在庫が足りていない可能性があります。item_code[ '.$e->getMessage().' ]で不足';
-            $inventory_error = Mail::to($mail_lists)->send( new AutoDeliverySystemNotification($mail_text) );
+            //$inventory_error = Mail::to($mail_lists)->send( new AutoDeliverySystemNotification($mail_text) );
             return DB::rollback();
-        }*/
+        }
     }
 }
