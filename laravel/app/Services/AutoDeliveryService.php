@@ -33,7 +33,7 @@ class AutoDeliveryService
     public static function DeliveryExecute($ship_date, $order_indexes)
     {
         Log::error('yes1');
-        //$sheets = GoogleSheet::InitializeClient();
+        $sheets = GoogleSheet::InitializeClient();
 
         Log::error('yes2');
 
