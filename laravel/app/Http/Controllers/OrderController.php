@@ -67,12 +67,12 @@ class OrderController extends Controller
 
     public function manual_delivery_execute(Request $request)
     {
-        /*Log::error('order1');
+        Log::error('order1');
         $ship_date = $request->input("ship_date");
         
         $order_indexes = OrderItem::SearchByShipDate($ship_date)->get();
 
-        $order_info = $order_indexes->pluck('ship_date')->toArray();
+        /*$order_info = $order_indexes->pluck('ship_date')->toArray();
 
         if (empty($order_info)) {
              Log::error('order2');
