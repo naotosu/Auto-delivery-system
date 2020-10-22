@@ -82,7 +82,7 @@ class AutoDeliveryService
                 }
             }
         
-            $ship_arranged_list = Inventory::SearchByShipArrangedList($ship_date)->get();
+            /*$ship_arranged_list = Inventory::SearchByShipArrangedList($ship_date)->get();
             //臨時出荷（CSV出力）終わった明細も再出力している。
 
             $order_items = array();
@@ -129,7 +129,7 @@ class AutoDeliveryService
             }
          
 
-            /*$response = $sheets->spreadsheets->get($sheet_id);
+            $response = $sheets->spreadsheets->get($sheet_id);
             $sheet_lists = $response->getSheets();
 
             foreach ($sheet_lists as $sheet) {
@@ -204,7 +204,7 @@ class AutoDeliveryService
             $mail_lists = array_merge($users_mail_lists, $transport_mail_lists);
 
             $mail_text = '納入日'.$ship_date.'指示書の作成を中断しました。在庫が足りていない可能性があります。item_code[ '.$e->getMessage().' ]で不足';
-            //$inventory_error = Mail::to($mail_lists)->send( new AutoDeliverySystemNotification($mail_text) );
+            $inventory_error = Mail::to($mail_lists)->send( new AutoDeliverySystemNotification($mail_text) );
             return DB::rollback();
         }
     }

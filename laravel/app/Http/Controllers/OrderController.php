@@ -75,7 +75,7 @@ class OrderController extends Controller
         $order_info = $order_indexes->pluck('ship_date')->toArray();
 
         if (empty($order_info)) {
-            //AutoDeliveryService::NoOrderSendMail($ship_date);
+            AutoDeliveryService::NoOrderSendMail($ship_date);
             session()->flash('flash_message', 'この日の注文はありません。実行結果をメールしました。');
             return redirect('/csv_imports');
         }

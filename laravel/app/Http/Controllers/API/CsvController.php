@@ -80,6 +80,6 @@ class CsvController extends Controller
         } catch (\Exception $e) {
             Log::debug($e);
         }
-        );*/
+        )*/;
     }
 }
