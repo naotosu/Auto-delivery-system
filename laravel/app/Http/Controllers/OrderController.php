@@ -75,18 +75,18 @@ class OrderController extends Controller
         $order_info = $order_indexes->pluck('ship_date')->toArray();
 
         if (empty($order_info)) {
-             Log::error('order2');
+            /*Log::error('order2');
             AutoDeliveryService::NoOrderSendMail($ship_date);
              Log::error('order3');
-            session()->flash('flash_message', 'この日の注文はありません。実行結果をメールしました。');
-            return redirect('http://auto-delivery-system.herokuapp.com/csv_imports');
+            session()->flash('flash_message', 'この日の注文はありません。実行結果をメールしました。');*/
+            return redirect('/csv_imports');
         }
 
         Log::error('order4');
 
-        AutoDeliveryService::DeliveryExecute($ship_date, $order_indexes);
+        /*AutoDeliveryService::DeliveryExecute($ship_date, $order_indexes);
         Log::error('order5');
-        session()->flash('flash_message', '納入日'.$ship_date.'の出荷指示を手動で実行しました。実行結果をメールしました。');
-        return redirect('http://auto-delivery-system.herokuapp.com/csv_imports');
+        session()->flash('flash_message', '納入日'.$ship_date.'の出荷指示を手動で実行しました。実行結果をメールしました。');*/
+        return redirect('/csv_imports');
     }
 }

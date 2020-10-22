@@ -18,7 +18,7 @@ class CsvController extends Controller
     public function temporary_ship(Request $request)
     {
         Log::error('no1');
-        try {
+        //try {
 
         $ship_date = $request->input('ship_date');
         $order_id = $request->input('order_id');
@@ -26,7 +26,7 @@ class CsvController extends Controller
 
         //APIではフラッシュメッセージ使えない為、処理に必要なデータ不足の場合、returnで処理を中断とした
 
-        /*if(empty($order_id)){
+        if(empty($order_id)){
             return redirect('/shipment/temporaries');
         }
 
@@ -36,7 +36,7 @@ class CsvController extends Controller
 
         if(empty($item_ids)){
             return redirect('/shipment/temporaries');
-        }
+        }/*
 
         $inventories = Inventory::TemporaryShipSearchByStock($item_ids)->get();
 
