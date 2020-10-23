@@ -8,7 +8,7 @@ class GoogleSheet
     public static function InitializeClient() {
 
         Log::error('gg1');
-        $credentials_path = path('./google-credentials.json');
+        $credentials_path = path('google-credentials.json');
         Log::error('gg2');
         $client = new \Google_Client();
         Log::error('gg3');
