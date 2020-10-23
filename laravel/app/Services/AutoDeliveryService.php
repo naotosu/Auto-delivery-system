@@ -31,7 +31,9 @@ class AutoDeliveryService
 
     public static function DeliveryExecute($ship_date, $order_indexes)
     {
+        Log::error('1');
         $sheets = GoogleSheet::InitializeClient();
+        Log::error('2');
 
         $sheet_id = \Config::get('const.Constant.spread_sheet_id');
         $acceptable_range = \Config::get('const.Constant.acceptable_range');
