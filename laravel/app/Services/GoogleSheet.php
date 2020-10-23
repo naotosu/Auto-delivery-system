@@ -9,6 +9,7 @@ class GoogleSheet
 
         Log::error('gg1');
         $credentials_path = app_path('google-credentials.json');
+        Log::error($credentials_path);
         Log::error('gg2');
         $client = new \Google_Client();
         Log::error('gg3');
