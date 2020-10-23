@@ -26,7 +26,7 @@ class AutoDeliveryService
         $mail_lists = array_merge($users_mail_lists, $transport_mail_lists);
         $mail_text = '納入日'.$ship_date.'この日の新しい注文はございません。
         　※別途送付済みの指示書がある場合は、そちらを正としてご手配を進めて下さい。';
-        //Mail::to($mail_lists)->send( new AutoDeliverySystemNotification($mail_text) );
+        Mail::to($mail_lists)->send( new AutoDeliverySystemNotification($mail_text) );
     }
 
     public static function DeliveryExecute($ship_date, $order_indexes)
