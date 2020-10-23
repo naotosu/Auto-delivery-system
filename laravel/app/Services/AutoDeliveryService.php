@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use \Exception;
 use App\Mail\AutoDeliverySystemNotification;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class AutoDeliveryService
 {
