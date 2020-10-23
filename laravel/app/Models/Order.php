@@ -27,7 +27,7 @@ class Order extends Model
 
     public function transportCompany() 
     {
-        return $this->belongsTo('App\Models\transportCompany', 'transport_id', 'id');
+        return $this->belongsTo('App\Models\TransportCompany', 'transport_id', 'id');
     }
 
 }
