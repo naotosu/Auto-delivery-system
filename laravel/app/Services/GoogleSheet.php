@@ -9,7 +9,7 @@ class GoogleSheet
 
         Log::error("start InitializeClient");
         try {
-            $credentials_path = path(env('GOOGLE_APPLICATION_CREDENTIALS'));
+            $credentials_path = mix(env('GOOGLE_APPLICATION_CREDENTIALS'));
             Log::error($credentials_path);
             Log::error('gg2');
             $client = new \Google_Client();
