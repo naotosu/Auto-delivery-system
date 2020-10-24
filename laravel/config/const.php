@@ -11,7 +11,7 @@ return [
         'acceptable_range' => 500,
         'saturday' => 6,
         'sunday' => 0,
-        'nomal_pagination' => 12,
+        'normal_pagination' => 12,
         'cancel_pagination' => 10,
     ],
 ];

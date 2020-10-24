@@ -20,9 +20,9 @@ class InventoryController extends Controller
         $order_start = $request->input('order_start');
         $order_end = $request->input('order_end');
         $status = $request->input('status');
-        $nomal_pagination = \Config::get('const.Constant.nomal_pagination');
+        $normal_pagination = \Config::get('const.Constant.normal_pagination');
 
-        $inventories = Inventory::SearchByStock($item_code, $order_id, $order_start, $order_end, $status)->paginate($nomal_pagination);
+        $inventories = Inventory::SearchByStock($item_code, $order_id, $order_start, $order_end, $status)->paginate($normal_pagination);
 
         return view('inventory', compact('inventories', 'item_code', 'order_id', 'order_start', 'order_end', 'status'));
     }
@@ -30,9 +30,9 @@ class InventoryController extends Controller
     public function temporary(Request $request)
     {
         $item_code = $request->input('item_code');
-        $nomal_pagination = \Config::get('const.Constant.nomal_pagination');
+        $normal_pagination = \Config::get('const.Constant.normal_pagination');
 
-        $inventories = Inventory::TemporarySearchByStock($item_code)->paginate($nomal_pagination);
+        $inventories = Inventory::TemporarySearchByStock($item_code)->paginate($normal_pagination);
 
         return view('temporary', compact('inventories', 'item_code'));
     }    

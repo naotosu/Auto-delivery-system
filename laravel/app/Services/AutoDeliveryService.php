@@ -53,8 +53,7 @@ class AutoDeliveryService
                 $cnt = 0;
 
                 if($cntend == 0) {
-                    $lost_point = "在庫無し";
-                    throw new Exception($lost_point);
+                    throw new Exception("在庫無し");
                 }
 
                 foreach($inventories as $inventory) {

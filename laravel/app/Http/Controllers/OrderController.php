@@ -18,9 +18,9 @@ class OrderController extends Controller
         $order_id = $request->input('order_id');
         $order_start = $request->input('order_start');
         $order_end = $request->input('order_end');
-        $nomal_pagination = \Config::get('const.Constant.nomal_pagination');
+        $normal_pagination = \Config::get('const.Constant.normal_pagination');
 
-        $orders = OrderItem::SearchByOrderList($item_code, $order_id, $order_start, $order_end)->paginate($nomal_pagination);
+        $orders = OrderItem::SearchByOrderList($item_code, $order_id, $order_start, $order_end)->paginate($normal_pagination);
 
         return view('order', compact('orders', 'item_code', 'order_id', 'order_start', 'order_end'));
     }
