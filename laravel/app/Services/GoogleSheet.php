@@ -7,16 +7,21 @@ class GoogleSheet
 {
     public static function InitializeClient() {
 
-        Log::error('gg1');
-        $credentials_path = base_path('google-credentials.json');
-        Log::error($credentials_path);
-        Log::error('gg2');
-        $client = new \Google_Client();
-        Log::error('gg3');
-        $client->setScopes([\Google_Service_Sheets::SPREADSHEETS]);
-        Log::error('gg4');
-        $client->setAuthConfig($credentials_path);
-        Log::error('$client');
-        return new \Google_Service_Sheets($client);
+        Log::error("start InitializeClient");
+        try {
+            $credentials_path = storage_path(env('GOOGLE_APPLICATION_CREDENTIALS'));
+            Log::error($credentials_path);
+            Log::error('gg2');
+            $client = new \Google_Client();
+            Log::error('gg3');
+            $client->setScopes([\Google_Service_Sheets::SPREADSHEETS]);
+            Log::error('gg4');
+            $client->setAuthConfig($credentials_path);
+            Log::error($client);
+            return new \Google_Service_Sheets($client);
+        } catch (\Exception $e) {
+            Log::error("InitializeClient error");
+            Log::error($e->getMessage());
+        }
     }
 }
