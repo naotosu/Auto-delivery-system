@@ -52,6 +52,11 @@ class AutoDeliveryService
                 $cntend = count($inventories);
                 $cnt = 0;
 
+                if($cntend == 0) {
+                    $lost_point = "在庫無し";
+                    throw new Exception($lost_point);
+                }
+
                 foreach($inventories as $inventory) {
                 
                     $shipment_sum = $shipment_sum + $inventory->weight;
@@ -190,6 +195,7 @@ class AutoDeliveryService
             DB::commit();
         
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             $users = User::all();
             $users_mail_lists = $users->pluck('email')->toArray();
 

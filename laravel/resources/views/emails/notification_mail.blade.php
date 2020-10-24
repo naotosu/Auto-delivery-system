@@ -27,7 +27,7 @@
         }
     </style>
     <body>
-        <!-- <p>Auto_delivery_system</p></br> -->
+        <p>Auto_delivery_system</p></br>
         <p>{{$text}}</p>
     </body>
 </html>
