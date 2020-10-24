@@ -17,8 +17,10 @@ class GoogleSheet
             $client->setScopes([\Google_Service_Sheets::SPREADSHEETS]);
             Log::error('gg4');
             $client->setAuthConfig($credentials_path);
+            Log::error('gg5');
             Log::error($client);
             return new \Google_Service_Sheets($client);
+            Log::error('gg6');
         } catch (\Exception $e) {
             Log::error("InitializeClient error");
             Log::error($e->getMessage());
