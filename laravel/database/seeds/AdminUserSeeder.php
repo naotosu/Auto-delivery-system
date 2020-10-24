@@ -14,7 +14,7 @@ class AdminUserSeeder extends Seeder
     {
     	User::create([
 		  'name' => 'guest',
-		  'email' => 'guest@gmail.com',
+		  'email' => 'auto.delivery.system2020@gmail.com',
 		  'password' => Hash::make('password'),
  		]);
     }

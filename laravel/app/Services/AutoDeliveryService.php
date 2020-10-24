@@ -32,9 +32,7 @@ class AutoDeliveryService
 
     public static function DeliveryExecute($ship_date, $order_indexes)
     {
-        Log::error('1');
         $sheets = GoogleSheet::InitializeClient();
-        Log::error('2');
 
         $sheet_id = \Config::get('const.Constant.spread_sheet_id');
         $acceptable_range = \Config::get('const.Constant.acceptable_range');
@@ -53,6 +51,10 @@ class AutoDeliveryService
                 $inventories = Inventory::SearchByItemCodeAndStatus($order_item)->get();
                 $cntend = count($inventories);
                 $cnt = 0;
+
+                if($cntend == 0) {
+                    throw new Exception("在庫無し");
+                }
 
                 foreach($inventories as $inventory) {
                 
@@ -187,11 +189,12 @@ class AutoDeliveryService
             $mail_lists = array_merge($users_mail_lists, $transport_mail_lists);
 
             $mail_text = '納入日'.$ship_date.'分の新しい指示書が更新されました。輸送会社様はご確認をお願い致します。';
-            //Mail::to($mail_lists)->send( new AutoDeliverySystemNotification($mail_text) );
+            Mail::to($mail_lists)->send( new AutoDeliverySystemNotification($mail_text) );
 
             DB::commit();
         
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             $users = User::all();
             $users_mail_lists = $users->pluck('email')->toArray();
 
@@ -201,7 +204,7 @@ class AutoDeliveryService
             $mail_lists = array_merge($users_mail_lists, $transport_mail_lists);
 
             $mail_text = '納入日'.$ship_date.'指示書の作成を中断しました。在庫が足りていない可能性があります。item_code[ '.$e->getMessage().' ]で不足';
-            //$inventory_error = Mail::to($mail_lists)->send( new AutoDeliverySystemNotification($mail_text) );
+            Mail::to($mail_lists)->send( new AutoDeliverySystemNotification($mail_text) );
             return DB::rollback();
         }
     }
