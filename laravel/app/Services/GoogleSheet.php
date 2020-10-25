@@ -9,7 +9,8 @@ class GoogleSheet
 
         Log::error("start InitializeClient");
         try {
-            $credentials_path = storage_path('app/json/credentials.json');
+            $credentials_path = env('GOOGLE_APPLICATION_CREDENTIALS');
+            //storage_path('app/json/credentials.json'); //ローカル用
             //herokuでは　env('GOOGLE_APPLICATION_CREDENTIALS');
             $client = new \Google_Client();
             $client->setScopes([\Google_Service_Sheets::SPREADSHEETS]);
