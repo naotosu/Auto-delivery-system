@@ -14,7 +14,7 @@ class AutoDeliveryCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'command:auto_delivery {ship_date?}';    
+    protected $signature = 'command:auto_delivery {ship_date?}';
 
     /**
      * The console command description.
