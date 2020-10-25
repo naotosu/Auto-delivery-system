@@ -30,6 +30,13 @@ class Kernel extends ConsoleKernel
         $saturday = \Config::get('const.Constant.saturday');
         $sunday = \Config::get('const.Constant.sunday');
         $now = Carbon::now();
+
+        $now_week = date('w', strtotime($now));
+
+        if ($now_week == $saturday or $now_week == $sunday) {
+            return ;
+        }
+
         $ship_date = $now->addDay(2);
 
         $date_week = date('w', strtotime($ship_date));
@@ -49,8 +56,7 @@ class Kernel extends ConsoleKernel
                  })
                  ->onFailure(function () {
                      Log::error('エラー');
-                 })
-                 ;
+                 });
     }
 
     /**
