@@ -60,6 +60,8 @@
                 <li>先入先出し、ロット管理の優先順位も自動</li>
                 <li>（優先順位 チャージCode、オーダーCode、製造Code、結束No etc）</li>
                 <li>取り消しや緊急出荷は、Web上で操作可能</li>
+                <li>土日の注文は自動発注<span class="attention">しない仕様です</span></li>
+                <li>どうしても必要な場合は、手動で実行して下さい</li>
               </ul>
             </div>
         </div>
