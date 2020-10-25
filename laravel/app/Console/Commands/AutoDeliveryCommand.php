@@ -40,31 +40,39 @@ class AutoDeliveryCommand extends Command
      */
     public function handle()
     {
-        // heroku用スタート
-        $saturday = \Config::get('const.Constant.saturday');
-        $sunday = \Config::get('const.Constant.sunday');
-        $now = Carbon::now();
+        if (! env('APP_ENV')) {
+            $app_env = env('APP_ENV');
+        
+            // heroku用スタート
+            if ($app_env == 'heroku') {
+                
+                $saturday = \Config::get('const.Constant.saturday');
+                $sunday = \Config::get('const.Constant.sunday');
+                $now = Carbon::now();
 
-        $now_week = date('w', strtotime($now));
+                $now_week = date('w', strtotime($now));
 
-        if ($now_week == $saturday or $now_week == $sunday) {
-            return ;
+                if ($now_week == $saturday or $now_week == $sunday) {
+                    return ;
+                }
+
+                $ship_date = $now->addDay(2);
+
+                $date_week = date('w', strtotime($ship_date));
+                //TODO 可能であれば、祝日・長期連休の判定も入れたい
+
+                if ($date_week == $saturday or $date_week == $sunday) {
+                    $ship_date = $ship_date->addDay(2);
+                }
+
+                $ship_date = $ship_date->toDateString();
+                // heroku用終了
+            }
+
+        //ローカル用
+        } else {
+            $ship_date = $this->argument("ship_date");
         }
-
-        $ship_date = $now->addDay(2);
-
-        $date_week = date('w', strtotime($ship_date));
-        //TODO 可能であれば、祝日・長期連休の判定も入れたい
-
-        if ($date_week == $saturday or $date_week == $sunday) {
-            $ship_date = $ship_date->addDay(2);
-        }
-
-        $ship_date = $ship_date->toDateString();
-
-        // heroku用終了
-
-        //$ship_date = $this->argument("ship_date");　//ローカル用
         
         $order_indexes = OrderItem::SearchByShipDate($ship_date)->get();
 
