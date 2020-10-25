@@ -14,8 +14,9 @@ class AutoDeliveryCommand extends Command
      *
      * @var string
      */
-    /*protected $signature = 'command:auto_delivery {ship_date}';*/　//ローカル用
     protected $signature = 'command:auto_delivery';　//heroku用
+    /*protected $signature = 'command:auto_delivery {ship_date}';*/　//ローカル用
+    
 
     /**
      * The console command description.
