@@ -47,9 +47,9 @@ class AutoDeliveryCommand extends Command
 
         $now_week = date('w', strtotime($now));
 
-        if ($now_week == $saturday or $now_week == $sunday) {
-            return ;
-        }
+        /*if ($now_week == $saturday or $now_week == $sunday) {
+            return dd('注文無し');
+        }*/
 
         $ship_date = $now->addDay(2);
 
