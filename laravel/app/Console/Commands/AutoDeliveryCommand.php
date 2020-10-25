@@ -47,9 +47,9 @@ class AutoDeliveryCommand extends Command
 
         $now_week = date('w', strtotime($now));
 
-        /*if ($now_week == $saturday or $now_week == $sunday) {
-            return dd('注文無し');
-        }*/
+        if ($now_week == $saturday or $now_week == $sunday) {
+            return ;
+        }
 
         $ship_date = $now->addDay(2);
 
@@ -63,7 +63,6 @@ class AutoDeliveryCommand extends Command
         $ship_date = $ship_date->toDateString();
 
         // heroku用終了
-        
 
         //$ship_date = $this->argument("ship_date");　//ローカル用
         
