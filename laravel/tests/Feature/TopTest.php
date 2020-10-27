@@ -13,7 +13,7 @@ class TopTest extends TestCase
      *
      * @return void
      */
-    public function testExampleTopPage()
+    public function testTopPage()
     {
         $response = $this->get('/');
         $response->assertStatus(200)
@@ -21,22 +21,11 @@ class TopTest extends TestCase
 
     }
 
-    public function testExampleCsvImportsPage()
+    public function testCsvImportsPage()
     {
         $response = $this->get('/csv_imports');
         $response->assertStatus(200)
             ->assertViewIs('csv_import');
     }
 
-    public function testExampleOrderItemsCsvSampleDownlord()
-    {
-        $response = $this->get('/csv_sample/order_items_sample.csv');
-        $response->assertStatus(500);
-    }
-
-    public function testExampleInventoriesCsvSampleDownlord()
-    {
-        $response = $this->get('/csv_sample/inventories_sample.csv');
-        $response->assertStatus(500);
-    }
 }
