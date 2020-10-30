@@ -8,7 +8,6 @@ use Tests\TestCase;
 use App\Services\AutoDeliveryService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\AutoDeliverySystemNotification;
 
 class AutoDeliveryServiceTest extends TestCase
 {
