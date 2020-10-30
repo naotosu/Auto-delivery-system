@@ -8,13 +8,6 @@ use SplFileObject;
 
 class OrderItemCsvImportService
 {
-    protected $fillable = [
-        'order_id',
-        'item_code',
-        'ship_date',
-        'quantity',
-        ];
-
     public static function orderItemCsvImport($request)
     {     
         // ロケールを設定(日本語に設定)

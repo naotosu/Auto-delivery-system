@@ -20,7 +20,6 @@ class AutoDeliveryService
     {
         $users = User::all();
         $users_mail_lists = $users->pluck('email')->toArray();
-
         $transports = TransportCompany::all();
         $transport_mail_lists = $transports->pluck('email')->toArray();
               

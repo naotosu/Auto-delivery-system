@@ -40,8 +40,8 @@
 ##### 出荷をキャンセルする機能もあります。（出荷指示の取消or返品処理)
 ![cancel](https://user-images.githubusercontent.com/68208676/96367591-c77d4700-1189-11eb-98af-31493e2615e1.jpg)
 
-##### データベースモデリング
-![database_modeling](https://user-images.githubusercontent.com/68208676/96369021-702fa480-1192-11eb-9718-5102cca2d37f.jpg)
+##### E-R図
+![e-r](https://user-images.githubusercontent.com/68208676/96369021-702fa480-1192-11eb-9718-5102cca2d37f.jpg)
 
 #### 画面設計
 ![views](https://user-images.githubusercontent.com/68208676/96368519-2abda800-118f-11eb-9129-e67286cdebc1.jpg)
