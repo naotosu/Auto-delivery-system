@@ -20,14 +20,14 @@ class AutoDeliveryService
     {
         $users = User::all();
         $users_mail_lists = $users->pluck('email')->toArray();
-
         $transports = TransportCompany::all();
         $transport_mail_lists = $transports->pluck('email')->toArray();
               
         $mail_lists = array_merge($users_mail_lists, $transport_mail_lists);
         $mail_text = '納入日'.$ship_date.'この日の新しい注文はございません。
         　※別途送付済みの指示書がある場合は、そちらを正としてご手配を進めて下さい。';
-        Mail::to($mail_lists)->send( new AutoDeliverySystemNotification($mail_text) );
+        $test = Mail::to($mail_lists)->send( new AutoDeliverySystemNotification($mail_text) );
+        dd($test); //デバック用
     }
 
     public static function DeliveryExecute($ship_date, $order_indexes)
