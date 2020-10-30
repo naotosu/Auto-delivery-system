@@ -22,6 +22,7 @@ class AutoDeliveryServiceTest extends TestCase
         Mail::fake();
         $now = Carbon::now();
         $ship_date = date('y/m/d', strtotime($now));
+        AutoDeliveryService::NoOrderSendMail($ship_date);
         Mail::assertSent(AutoDeliverySystemNotification::class, 1);
     }
 }
