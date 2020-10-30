@@ -8,6 +8,7 @@ use Tests\TestCase;
 use App\Services\AutoDeliveryService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\AutoDeliverySystemNotification;
 
 class AutoDeliveryServiceTest extends TestCase
 {
@@ -21,7 +22,6 @@ class AutoDeliveryServiceTest extends TestCase
         Mail::fake();
         $now = Carbon::now();
         $ship_date = date('y/m/d', strtotime($now));
-        AutoDeliveryService::NoOrderSendMail($ship_date);
-        Mail::assertSent(Approved::class, 1);
+        Mail::assertSent(AutoDeliverySystemNotification::class, 1);
     }
 }
