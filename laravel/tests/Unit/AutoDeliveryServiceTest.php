@@ -31,46 +31,28 @@ class AutoDeliveryServiceTest extends TestCase
 
     public function testDeliveryExecute()
     {
-        DB::beginTransaction();
-
         //注文が足りないパターン
         $ship_date = "2020-11-05";
         
         $order_indexes = OrderItem::SearchByShipDate($ship_date)->get();
 
-        $order_info = $order_indexes->pluck('ship_date')->toArray();
-
         Mail::fake();
-        AutoDeliveryService::DeliveryExecute($ship_date, $order_indexes);
+        $mock1 = AutoDeliveryService::DeliveryExecute($ship_date, $order_indexes);
         Mail::assertSent(AutoDeliverySystemNotification::class, 1);
+        $this->assertSame($mock1, '在庫無し');
+
 
         //注文が足りているパターン
-        $ship_date = "2020-09-17";
+        $ship_date = "2020-09-18";
         
         $order_indexes = OrderItem::SearchByShipDate($ship_date)->get();
 
-        $order_info = $order_indexes->pluck('ship_date')->toArray();
-
         Mail::fake();
-        AutoDeliveryService::DeliveryExecute($ship_date, $order_indexes);
-        $order_tests = OrderItem::SearchByShipDate($ship_date)->get();
-        dd($order_tests);
-        //assertEquals($order_tests->pluck('done_flag'), true);
-
-        $query = null;
-        $item_code = null;
-        $order_id = null;
-        $order_start = $ship_date;
-        $order_end = $ship_date;
-        $status = \Config::get('const.Constant.ship_arranged');
-
-        $inventory_tests = Inventory::SearchByStock($query, $item_code, $order_id, $order_start, $order_end, $status)->get();
-        //dd($inventory_tests);
-        $inventory_item_code = $inventory_tests->pluck('item_code');
-        $order_tests = $order_tests->pluck('item_code');
-        assertEquals($inventory_item_code, $order_tests);
-
+        $mock2 = AutoDeliveryService::DeliveryExecute($ship_date, $order_indexes);
+        //dd($mock2); ←注文無しパターンがreturnされている
+        
+        $done_flag = $mock2->pluck('done_flag')->toArray();
         Mail::assertSent(AutoDeliverySystemNotification::class, 1);
-        DB::rollback();
+        $this->assertSame($done_flag, true);
     }
 }
