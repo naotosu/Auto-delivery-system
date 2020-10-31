@@ -13,6 +13,7 @@ class OrderItem extends Model
         'item_code',
         'ship_date',
         'weight',
+        'done_flag'
         ];
 
     public function scopeSearchByOrderList($query, $item_code, $order_id, $order_start, $order_end)

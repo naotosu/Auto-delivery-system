@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\AutoDeliverySystemNotification;
 use Illuminate\Support\Facades\DB;
+use Mockery;
 
 class AutoDeliveryServiceTest extends TestCase
 {
@@ -32,7 +33,15 @@ class AutoDeliveryServiceTest extends TestCase
     public function testDeliveryExecute()
     {
         //注文が足りないパターン
-        $ship_date = "2020-11-05";
+        $order_indexes1 = [];
+
+        $order_indexes1[] = factory(OrderItem::class, 'test_order_mock_date_1')->make()->toArray();
+
+        array_push($order_indexes1, 'done_flag');
+
+        dd($order_indexes1);
+        //$order_indexes1 = ['ship_date' => '2020-01-01'];
+        //$ship_date1 = $order_indexes1->pluck('ship_date')->toArray();
         
         $order_indexes = OrderItem::SearchByShipDate($ship_date)->get();
 
@@ -42,17 +51,21 @@ class AutoDeliveryServiceTest extends TestCase
         $this->assertSame($mock1, '在庫無し');
 
 
-        //注文が足りているパターン
-        $ship_date = "2020-09-18";
+        /*//注文が足りているパターン　TODO後から実装
+        $order_indexes2 = [];
+
+        $order_indexes2[] = factory(OrderItem::class, 'test_order_mock_date_2')->make()->toArray();
+        $ship_date = $this->AutoDeliveryService->pluck();
+
+        dd($ship_date);
         
         $order_indexes = OrderItem::SearchByShipDate($ship_date)->get();
 
         Mail::fake();
         $mock2 = AutoDeliveryService::DeliveryExecute($ship_date, $order_indexes);
-        //dd($mock2); ←注文無しパターンがreturnされている
         
         $done_flag = $mock2->pluck('done_flag')->toArray();
         Mail::assertSent(AutoDeliverySystemNotification::class, 1);
-        $this->assertSame($done_flag, true);
+        $this->assertSame($done_flag, true);*/
     }
 }

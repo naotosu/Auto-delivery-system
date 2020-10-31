@@ -189,9 +189,8 @@ class AutoDeliveryService
 
             $mail_text = '納入日'.$ship_date.'分の新しい指示書が更新されました。輸送会社様はご確認をお願い致します。';
             Mail::to($mail_lists)->send( new AutoDeliverySystemNotification($mail_text) );
-            dd($order_indexes);
+
             DB::commit();
-            return $order_indexes;
         
         } catch (\Exception $e) {
             Log::error($e->getMessage());
@@ -205,8 +204,7 @@ class AutoDeliveryService
 
             $mail_text = '納入日'.$ship_date.'指示書の作成を中断しました。在庫が足りていない可能性があります。item_code[ '.$e->getMessage().' ]で不足';
             Mail::to($mail_lists)->send( new AutoDeliverySystemNotification($mail_text) );
-            DB::rollback();
-            return '在庫無し';
+            return DB::rollback();
         }
     }
 }
