@@ -29,7 +29,7 @@ class AutoDeliveryService
         Mail::to($mail_lists)->send( new AutoDeliverySystemNotification($mail_text) );
     }
 
-    public static function DeliveryExecute($ship_date, $order_indexes)
+    public function DeliveryExecute($ship_date, $order_indexes)
     {
         $sheets = GoogleSheet::InitializeClient();
 

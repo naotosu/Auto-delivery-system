@@ -12,7 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\AutoDeliverySystemNotification;
 use Illuminate\Support\Facades\DB;
-use Mockery;
+use \Mockery;
 
 class AutoDeliveryServiceTest extends TestCase
 {
@@ -33,22 +33,51 @@ class AutoDeliveryServiceTest extends TestCase
     public function testDeliveryExecute()
     {
         //注文が足りないパターン
-        $order_indexes1 = [];
+        $order_indexes = [];
 
-        $order_indexes1[] = factory(OrderItem::class, 'test_order_mock_date_1')->make()->toArray();
+        $ship_date = '2020-01-11'; 
 
-        array_push($order_indexes1, 'done_flag');
+        $order_indexes[] = factory(OrderItem::class, 'test_order_mock_date_1')->make([
+                                'done_flag' => false,
+                                'weight' => 200000,
+                                'ship_date' => $ship_date
+                                ])->toArray();
 
-        dd($order_indexes1);
-        //$order_indexes1 = ['ship_date' => '2020-01-01'];
-        //$ship_date1 = $order_indexes1->pluck('ship_date')->toArray();
-        
-        $order_indexes = OrderItem::SearchByShipDate($ship_date)->get();
+        $target = $this->getMockBuilder(AutoDeliveryService::class)
+                        ->setMethods(['DeliveryExecute'])
+                        ->getMock();
+
+        $target->expects($this->once())
+                ->method('DeliveryExecute')
+                ->will($this->callback(function($ship_date, $order_indexes) {
+                    return is_callable($lost_point);
+                }));
 
         Mail::fake();
-        $mock1 = AutoDeliveryService::DeliveryExecute($ship_date, $order_indexes);
+
+        $target->DeliveryExecute($ship_date, $order_indexes);
+
+        $this->assertNotNull($lost_point);
+
         Mail::assertSent(AutoDeliverySystemNotification::class, 1);
-        $this->assertSame($mock1, '在庫無し');
+
+        /*作成中
+
+        $checkerMock = Mockery::mock('deliveryExecuteChecker');
+        $checkerMock
+            ->shouldReceive('checkDeliveryExecute')
+            ->with('foo')
+            ->andReturn($lost_point);
+
+        $factoryMock = Mockery::mock('overload:CheckerFactory');
+        $factoryMock ->shouldReceive('make')->andReturn($lost_point);*/
+
+        
+
+        //　動作NG $ship_date = date('y/m/d', strtotime($order_indexes[0]['ship_date']));
+
+        //dd($ship_date);
+        //$ship_date1 = $order_indexes1->pluck('ship_date')->toArray();
 
 
         /*//注文が足りているパターン　TODO後から実装
