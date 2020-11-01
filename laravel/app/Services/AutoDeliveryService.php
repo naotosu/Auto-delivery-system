@@ -22,19 +22,58 @@ class AutoDeliveryService
         $users_mail_lists = $users->pluck('email')->toArray();
         $transports = TransportCompany::all();
         $transport_mail_lists = $transports->pluck('email')->toArray();
-              
+
         $mail_lists = array_merge($users_mail_lists, $transport_mail_lists);
         $mail_text = '納入日'.$ship_date.'この日の新しい注文はございません。
         　※別途送付済みの指示書がある場合は、そちらを正としてご手配を進めて下さい。';
         Mail::to($mail_lists)->send( new AutoDeliverySystemNotification($mail_text) );
     }
 
-    public function DeliveryExecute($ship_date, $order_indexes)
+    public function pushGoogleSheet()
+    {
+        //後ほど移動予定
+    }
+
+    public static function TryOrderItemsAndInventories($order_item)
+    {
+        $inventories = Inventory::SearchByItemCodeAndStatus($order_item)->get();
+
+        if(count($inventories) == 0) {
+            throw new Exception("在庫無し");
+        }
+
+        $acceptable_range = \Config::get('const.Constant.acceptable_range');
+
+        $shipment_sum = 0;
+        $order_sum = $order_item->weight - $acceptable_range;
+
+        foreach($inventories as $inventory) {
+        
+            $shipment_sum = $shipment_sum + $inventory->weight;
+            $ship_arranged = \Config::get('const.Constant.ship_arranged');
+            $inventory->order_item_id = $order_item->id;
+            $inventory->order_id = $order_item->order_id;
+            $inventory->ship_date = $order_item->ship_date;
+            $inventory->status = $ship_arranged;
+            $inventory->save();
+
+            if ($order_sum <= $shipment_sum){
+                $order_item->done_flag = true;
+                $order_item->save();
+                return ;
+            }
+        }
+
+        $lost_point = $inventory->order_code;
+        throw new Exception($lost_point);
+        //　TODO 必要に応じ配列化し、複数のエラーを表示する可能性有り    
+    }
+
+    public static function DeliveryExecute($ship_date, $order_indexes)
     {
         $sheets = GoogleSheet::InitializeClient();
 
         $sheet_id = \Config::get('const.Constant.spread_sheet_id');
-        $acceptable_range = \Config::get('const.Constant.acceptable_range');
         $valueInputOption = "USER_ENTERED";
         $range = $ship_date.'!'.'A1';
 
@@ -44,43 +83,9 @@ class AutoDeliveryService
         try {
 
             foreach ($order_indexes as $order_item) {
-
-                $shipment_sum = 0;
-                $order_sum = $order_item->weight - $acceptable_range;
-                $inventories = Inventory::SearchByItemCodeAndStatus($order_item)->get();
-                $cntend = count($inventories);
-                $cnt = 0;
-
-                if($cntend == 0) {
-                    throw new Exception("在庫無し");
-                }
-
-                foreach($inventories as $inventory) {
-                
-                    $shipment_sum = $shipment_sum + $inventory->weight;
-                    $ship_arranged = \Config::get('const.Constant.ship_arranged');
-                    $inventory->order_item_id = $order_item->id;
-                    $inventory->order_id = $order_item->order_id;
-                    $inventory->ship_date = $order_item->ship_date;
-                    $inventory->status = $ship_arranged;
-                    $inventory->save();
-
-                    if ($order_sum <= $shipment_sum){
-                        $order_item->done_flag = true;
-                        $order_item->save();
-                        break;
-                    }
-
-                    $cnt++;
-
-                    if ($cnt == $cntend) {
-                        $lost_point = $inventory->order_code;
-                        throw new Exception($lost_point);
-                        //　TODO 必要に応じ配列化し、複数のエラーを表示する可能性有り
-                    }
-                }
+                $this->TryOrderItemsAndInventories($order_item);
             }
-        
+
             $ship_arranged_list = Inventory::SearchByShipArrangedList($ship_date)->get();
             //臨時出荷（CSV出力）終わった明細も再出力している。
 

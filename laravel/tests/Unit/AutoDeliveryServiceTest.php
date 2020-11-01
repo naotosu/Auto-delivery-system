@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\AutoDeliverySystemNotification;
 use Illuminate\Support\Facades\DB;
 use \Mockery;
+use \Exception;
 
 class AutoDeliveryServiceTest extends TestCase
 {
@@ -30,10 +31,64 @@ class AutoDeliveryServiceTest extends TestCase
         Mail::assertSent(AutoDeliverySystemNotification::class, 1);
     }
 
-    public function testDeliveryExecute()
+
+    /**
+     * @test
+     * @expectedException LogicException
+     */
+    public function testTryOrderItemsAndInventories()
     {
+        //在庫が一つも無いパターン
+        $ship_date = '2020-01-01'; 
+        $order_item[] = factory(OrderItem::class, 'test_order_mock_date_1')->make([
+                                'item_code' => 'test111',
+                                'ship_date' => $ship_date
+                                ])->toArray();
+
+        AutoDeliveryService::TryOrderItemsAndInventories($order_item);
+
+        /*$target = $this->getMockBuilder(AutoDeliveryService::class)
+                        ->setMethods(['DeliveryExecute'])
+                        ->getMock();
+
+        $target->expects($this->once())
+                ->method('DeliveryExecute')
+                ->will($this->callback($ship_date, $order_indexes));*/
+
         //注文が足りないパターン
-        $order_indexes = [];
+        /*$order_indexes = [];
+
+        $ship_date = '2020-01-01'; 
+
+        $order_indexes[] = factory(OrderItem::class, 'test_order_mock_date_1')->make([
+                                'done_flag' => false,
+                                'weight' => 200000,
+                                'ship_date' => $ship_date
+                                ])->toArray();
+
+        $target = $this->getMockBuilder(AutoDeliveryService::class)
+                        ->setMethods(['DeliveryExecute'])
+                        ->getMock();
+
+        $target->expects($this->once())
+                ->method('DeliveryExecute')
+                ->will($this->callback(function($ship_date, $order_indexes) {
+                    return is_callable($lost_point);
+                }));
+
+        Mail::fake();
+
+        $target->DeliveryExecute($ship_date, $order_indexes);
+
+        $this->assertNotNull($lost_point);
+
+        Mail::assertSent(AutoDeliverySystemNotification::class, 1);*/
+    }
+
+    /*public function testDeliveryExecute()
+    {*/
+        //注文が足りないパターン
+        /*$order_indexes = [];
 
         $ship_date = '2020-01-11'; 
 
@@ -59,7 +114,7 @@ class AutoDeliveryServiceTest extends TestCase
 
         $this->assertNotNull($lost_point);
 
-        Mail::assertSent(AutoDeliverySystemNotification::class, 1);
+        Mail::assertSent(AutoDeliverySystemNotification::class, 1);*/
 
         /*作成中
 
@@ -96,5 +151,5 @@ class AutoDeliveryServiceTest extends TestCase
         $done_flag = $mock2->pluck('done_flag')->toArray();
         Mail::assertSent(AutoDeliverySystemNotification::class, 1);
         $this->assertSame($done_flag, true);*/
-    }
+    //}
 }
