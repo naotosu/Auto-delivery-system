@@ -43,13 +43,9 @@ class AutoDeliveryServiceTest extends TestCase
         $order_item[] = factory(OrderItem::class, 'test_order_mock_date_1')->make([
                                 'item_code' => 'test111',
                                 'ship_date' => $ship_date
-                                ])->toArray();
-
-        Mail::fake();
+                                ]);
 
         AutoDeliveryService::TryOrderItemsAndInventories($order_item);
-
-        Mail::assertSent(AutoDeliverySystemNotification::class, 1);
 
         //注文が足りないパターン
 
@@ -59,13 +55,10 @@ class AutoDeliveryServiceTest extends TestCase
                                 'done_flag' => false,
                                 'weight' => 2000000,
                                 'ship_date' => $ship_date
-                                ])->toArray();
-
-        Mail::fake();
+                                ]);
 
         AutoDeliveryService::TryOrderItemsAndInventories($order_item);
 
-        Mail::assertSent(AutoDeliverySystemNotification::class, 1);
 
 
         //注文が足りているパターン　TODO後から実装
@@ -75,15 +68,13 @@ class AutoDeliveryServiceTest extends TestCase
         $order_item[0] = factory(OrderItem::class, 'test_order_mock_date_1')->make([
                                 'done_flag' => false,
                                 'ship_date' => $ship_date
-                                ])->toArray();
+                                ]);
 
         $target = $this->getMockBuilder(AutoDeliveryService::class)
                         ->setMethods(['DeliveryExecute'])
                         ->getMock();
 
-        Mail::fake();
         $order_item[0] = AutoDeliveryService::TryOrderItemsAndInventories($order_item);
-        Mail::assertSent(AutoDeliverySystemNotification::class, 1);
         $this->assertSame($order_item[0]->pluck('done_flag')->toArray(), true);
     }
 }
