@@ -32,12 +32,13 @@ class AutoDeliveryServiceTest extends TestCase
         Mail::assertSent(AutoDeliverySystemNotification::class, 1);
     }
 
+    use RefreshDatabase;
 
     /**
      * @test
-     * @expectedExceptionMessage 在庫無し
+     * @expectedExceptionMessage
      */
-    public function testTryOrderItemsAndInventories()
+    public function testTryOrderItemsAndInventoriesNoneAll()
     {
         //在庫が一つも無いパターン
         $ship_date = '2020-01-01'; 
@@ -49,24 +50,33 @@ class AutoDeliveryServiceTest extends TestCase
         $this->expectExceptionMessage("在庫無し");
 
         AutoDeliveryService::TryOrderItemsAndInventories($order_item);
+    }
 
+    /**
+     * @test
+     * @expectedExceptionMessage
+     */
+    public function testTryOrderItemsAndInventoriesALittle()
+    {
         //注文が足りないパターン
+        $this->seed();
 
-        /*$ship_date = '2020-01-01'; 
+        $ship_date = '2020-01-02'; 
 
-        $order_item = factory(OrderItem::class, 'test_order_mock_date_1')->make([
-                                'done_flag' => false,
+        $order_item = factory(OrderItem::class, 'test_order_mock_date_2')->make([
+                                'done_flag' => 0,
                                 'weight' => 2000000,
                                 'ship_date' => $ship_date
                                 ]);
 
+        $this->expectExceptionMessage();
+
         AutoDeliveryService::TryOrderItemsAndInventories($order_item);
-
-
+    }
 
         //注文が足りているパターン　TODO後から実装
 
-        $ship_date = '2020-01-01';
+        /*$ship_date = '2020-01-01';
 
         $order_item = factory(OrderItem::class, 'test_order_mock_date_1')->make([
                                 'done_flag' => false,
@@ -78,6 +88,6 @@ class AutoDeliveryServiceTest extends TestCase
                         ->getMock();
 
         $order_item = AutoDeliveryService::TryOrderItemsAndInventories($order_item);
-        $this->assertSame($order_item->pluck('done_flag')->toArray(), true);*/
-    }
+        $this->assertSame($order_item->pluck('done_flag')->toArray(), true);
+    }*/
 }
