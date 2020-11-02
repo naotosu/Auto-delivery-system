@@ -36,7 +36,6 @@ class AutoDeliveryService
 
     public static function TryOrderItemsAndInventories($order_item)
     {
-        //dd($order_item);
         $inventories = Inventory::SearchByItemCodeAndStatus($order_item)->get();
 
         if(count($inventories) == 0) {
@@ -44,6 +43,7 @@ class AutoDeliveryService
         }
 
         $acceptable_range = \Config::get('const.Constant.acceptable_range');
+        $ship_arranged = \Config::get('const.Constant.ship_arranged');
 
         $shipment_sum = 0;
         $order_sum = $order_item->weight - $acceptable_range;
@@ -51,7 +51,6 @@ class AutoDeliveryService
         foreach($inventories as $inventory) {
         
             $shipment_sum = $shipment_sum + $inventory->weight;
-            $ship_arranged = \Config::get('const.Constant.ship_arranged');
             $inventory->order_item_id = $order_item->id;
             $inventory->order_id = $order_item->order_id;
             $inventory->ship_date = $order_item->ship_date;
