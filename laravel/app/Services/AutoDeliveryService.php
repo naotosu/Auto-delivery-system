@@ -36,6 +36,7 @@ class AutoDeliveryService
 
     public static function TryOrderItemsAndInventories($order_item)
     {
+        //dd($order_item);
         $inventories = Inventory::SearchByItemCodeAndStatus($order_item)->get();
 
         if(count($inventories) == 0) {
@@ -60,7 +61,7 @@ class AutoDeliveryService
             if ($order_sum <= $shipment_sum){
                 $order_item->done_flag = true;
                 $order_item->save();
-                return ;
+                return $order_item;
             }
         }
 
@@ -82,8 +83,8 @@ class AutoDeliveryService
         DB::beginTransaction();
         try {
 
-            foreach ($order_indexes as $order_item) {
-                $this->TryOrderItemsAndInventories($order_item);
+            foreach ($order_indexes as $order_item) {                
+                AutoDeliveryService::TryOrderItemsAndInventories($order_item);
             }
 
             $ship_arranged_list = Inventory::SearchByShipArrangedList($ship_date)->get();
