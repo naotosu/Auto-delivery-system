@@ -14,6 +14,7 @@ use App\Mail\AutoDeliverySystemNotification;
 use Illuminate\Support\Facades\DB;
 use \Mockery;
 use \Exception;
+use \ErrorException;
 
 class AutoDeliveryServiceTest extends TestCase
 {
@@ -34,24 +35,28 @@ class AutoDeliveryServiceTest extends TestCase
 
     /**
      * @test
-     * @expectedException LogicException
+     * @expectedException ErrorException
+     * @expectedExceptionMessage 在庫無し
      */
     public function testTryOrderItemsAndInventories()
     {
         //在庫が一つも無いパターン
         $ship_date = '2020-01-01'; 
-        $order_item[] = factory(OrderItem::class, 'test_order_mock_date_1')->make([
+        $order_item = factory(OrderItem::class, 'test_order_mock_date_1')->make([
                                 'item_code' => 'test111',
                                 'ship_date' => $ship_date
                                 ]);
+
+        $this->expectException(ErrorException::class);
+        $this->expectExceptionMessage("在庫無し");
 
         AutoDeliveryService::TryOrderItemsAndInventories($order_item);
 
         //注文が足りないパターン
 
-        $ship_date = '2020-01-01'; 
+        /*$ship_date = '2020-01-01'; 
 
-        $order_item[0] = factory(OrderItem::class, 'test_order_mock_date_1')->make([
+        $order_item = factory(OrderItem::class, 'test_order_mock_date_1')->make([
                                 'done_flag' => false,
                                 'weight' => 2000000,
                                 'ship_date' => $ship_date
@@ -65,7 +70,7 @@ class AutoDeliveryServiceTest extends TestCase
 
         $ship_date = '2020-01-01';
 
-        $order_item[0] = factory(OrderItem::class, 'test_order_mock_date_1')->make([
+        $order_item = factory(OrderItem::class, 'test_order_mock_date_1')->make([
                                 'done_flag' => false,
                                 'ship_date' => $ship_date
                                 ]);
@@ -74,7 +79,7 @@ class AutoDeliveryServiceTest extends TestCase
                         ->setMethods(['DeliveryExecute'])
                         ->getMock();
 
-        $order_item[0] = AutoDeliveryService::TryOrderItemsAndInventories($order_item);
-        $this->assertSame($order_item[0]->pluck('done_flag')->toArray(), true);
+        $order_item = AutoDeliveryService::TryOrderItemsAndInventories($order_item);
+        $this->assertSame($order_item->pluck('done_flag')->toArray(), true);*/
     }
 }
