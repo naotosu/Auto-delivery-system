@@ -35,7 +35,6 @@ class AutoDeliveryServiceTest extends TestCase
 
     /**
      * @test
-     * @expectedException ErrorException
      * @expectedExceptionMessage 在庫無し
      */
     public function testTryOrderItemsAndInventories()
@@ -47,7 +46,6 @@ class AutoDeliveryServiceTest extends TestCase
                                 'ship_date' => $ship_date
                                 ]);
 
-        $this->expectException(ErrorException::class);
         $this->expectExceptionMessage("在庫無し");
 
         AutoDeliveryService::TryOrderItemsAndInventories($order_item);
