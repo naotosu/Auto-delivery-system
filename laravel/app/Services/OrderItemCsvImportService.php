@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\OrderItem;
+use App\Models\Item;
 use Carbon\Carbon;
 use SplFileObject;
 
@@ -24,6 +25,9 @@ class OrderItemCsvImportService
        
         $row_count = 1;
 
+        $items = item::all();
+        $item_codes = $items->pluck("item_code");
+
         //取得したオブジェクトを読み込み
         foreach ($file as $row)
         {
@@ -33,21 +37,32 @@ class OrderItemCsvImportService
             // 1行目のヘッダーは取り込まない
             if ($row_count > 1)
             {
-                // CSVの文字コードがSJISなのでUTF-8に変更
-                $order_id = mb_convert_encoding($row[0], 'UTF-8', 'SJIS');
-                $item_code = mb_convert_encoding($row[1], 'UTF-8', 'SJIS');
-                $ship_date = mb_convert_encoding($row[2], 'UTF-8', 'SJIS');
-                $quantity = mb_convert_encoding($row[3], 'UTF-8', 'SJIS');
+                //dd($item_codes);
+                if (in_array($row[1], array($item_codes), true)) {
+                    dd($row[1]);
+                        // CSVの文字コードがSJISなのでUTF-8に変更
+                        $order_id = mb_convert_encoding($row[0], 'UTF-8', 'SJIS');
+                        $item_code = mb_convert_encoding($row[1], 'UTF-8', 'SJIS');
+                        $ship_date = mb_convert_encoding($row[2], 'UTF-8', 'SJIS');
+                        $quantity = mb_convert_encoding($row[3], 'UTF-8', 'SJIS');
 
-                //1件ずつインポート
-                    OrderItem::insert(array(
-                        'order_id' => $row[0],
-                        'item_code' => $row[1],
-                        'ship_date' => $row[2],
-                        'weight' => $row[3],
-                    ));
-            }
-            $row_count++;
+                        //1件ずつインポート
+                            OrderItem::insert(array(
+                                'order_id' => $row[0],
+                                'item_code' => $row[1],
+                                'ship_date' => $row[2],
+                                'weight' => $row[3],
+                            ));
+                } else {
+                    dd('配列判定NG');
+                    session()->flash('flash_message', 'CSVのデータのアップロード中断しました　登録の無い[item_code]');
+                    return redirect('/csv_imports');
+                }
+           }
+
+           $row_count++;
+
+                
         }       
     }  
 }

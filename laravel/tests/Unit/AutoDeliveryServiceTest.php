@@ -69,7 +69,33 @@ class AutoDeliveryServiceTest extends TestCase
                                 'ship_date' => $ship_date
                                 ]);
 
-        $this->expectExceptionMessage('item_code');
+        $this->mock(Inventory::class, function ($mock) {
+            $mock->shouldReceive('SearchByItemCodeAndStatus')->once();
+        });
+
+        $inventories = Inventory::SearchByItemCodeAndStatus($query, $order_item)->get();
+        dd($inventories);
+
+        /*$mock = \Mockery::mock(Inventory::class)->makePartial();
+
+        $mock->shouldReceive('SearchByItemCodeAndStatus')
+            ->once()
+            ->withNoArgs()
+            ->andReturn('');*/
+
+
+        //$inventories = Inventory::all(); 補足　モックがうまくできなかった場合は、::allで対応
+
+        $inventories->sortByDesc('charg_code')
+                    ->sortByDesc('order_code');
+
+
+
+        
+
+
+
+        $this->expectExceptionMessage('オーダーcode');
 
         AutoDeliveryService::TryOrderItemsAndInventories($order_item);
     }

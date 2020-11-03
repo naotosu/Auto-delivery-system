@@ -65,7 +65,7 @@ class AutoDeliveryService
         }
 
         $lost_point = $inventory->order_code;
-        throw new Exception('item_code [ '.$lost_point.' ]で不足');
+        throw new Exception('オーダーcode [ '.$lost_point.' ]で不足');
         //　TODO 必要に応じ配列化し、複数のエラーを表示する可能性有り    
     }
 
