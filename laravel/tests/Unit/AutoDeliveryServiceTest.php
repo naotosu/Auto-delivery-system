@@ -69,33 +69,21 @@ class AutoDeliveryServiceTest extends TestCase
                                 'ship_date' => $ship_date
                                 ]);
 
-        $this->mock(Inventory::class, function ($mock) {
-            $mock->shouldReceive('SearchByItemCodeAndStatus')->once();
-        });
+        //　TODO 出来ればモックを使いたい
 
-        $inventories = Inventory::SearchByItemCodeAndStatus($query, $order_item)->get();
-        dd($inventories);
+        $inventories = Inventory::all();
 
-        /*$mock = \Mockery::mock(Inventory::class)->makePartial();
+        $factory_stock = \Config::get('const.Constant.factory_stock');
+        $warehouse_stock = \Config::get('const.Constant.warehouse_stock');
 
-        $mock->shouldReceive('SearchByItemCodeAndStatus')
-            ->once()
-            ->withNoArgs()
-            ->andReturn('');*/
+        $inventory = $inventories->where('item_code', $order_item->item_code)
+                    ->sortByDesc('bundle_number')
+                    ->sortByDesc('manufacturing_code')
+                    ->sortByDesc('order_code')
+                    ->sortByDesc('charge_code')
+                    ->first();
 
-
-        //$inventories = Inventory::all(); 補足　モックがうまくできなかった場合は、::allで対応
-
-        $inventories->sortByDesc('charg_code')
-                    ->sortByDesc('order_code');
-
-
-
-        
-
-
-
-        $this->expectExceptionMessage('オーダーcode');
+        $this->expectExceptionMessage('オーダーcode [ '.$inventory->order_code.' ]で不足');
 
         AutoDeliveryService::TryOrderItemsAndInventories($order_item);
     }

@@ -27,13 +27,18 @@ class OrderController extends Controller
 
     public function order_csv_import(Request $request)
     {
-        //try {   
+        try {   
             OrderItemCsvImportService::orderItemCsvImport($request);
-        /*} catch (\Exception $e) {
+        } catch (\Exception $e) {
             report($e);
-            session()->flash('flash_message', 'CSVのデータのアップロード中断しました　同じ注文がある可能性があります');
-            return redirect('/csv_imports');
-        }*/
+            if ( $e->getMessage() == '登録の無い[item_code]' ){
+                session()->flash('flash_message', 'CSVのデータのアップロード中断しました　登録の無い[item_code]が含まれています');
+                return redirect('/csv_imports');
+            } else {
+                session()->flash('flash_message', 'CSVのデータのアップロード中断しました　同じ注文がある可能性があります');
+                return redirect('/csv_imports');
+            }
+        }
         session()->flash('flash_message', 'CSVの注文データをアップロードしました');
         return redirect('/csv_imports');
     }
