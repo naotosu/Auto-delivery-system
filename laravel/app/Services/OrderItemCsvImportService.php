@@ -27,12 +27,10 @@ class OrderItemCsvImportService
         $row_count = 1;
 
         $items = item::all();
-        //$item_codes = array_column(array($items), 'item_code');
 
         $keyed = $items->mapWithKeys(function ($item) {
             return [$item['item_code'] => true];
         });
-        //dd($keyed);
 
         //取得したオブジェクトを読み込み
         foreach ($file as $row)
