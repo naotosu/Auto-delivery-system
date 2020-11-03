@@ -47,7 +47,7 @@ class AutoDeliveryServiceTest extends TestCase
                                 'ship_date' => $ship_date
                                 ]);
 
-        $this->expectExceptionMessage("在庫無し");
+        $this->expectExceptionMessage("在庫全く無し");
 
         AutoDeliveryService::TryOrderItemsAndInventories($order_item);
     }
@@ -69,7 +69,7 @@ class AutoDeliveryServiceTest extends TestCase
                                 'ship_date' => $ship_date
                                 ]);
 
-        $this->expectExceptionMessage();
+        $this->expectExceptionMessage('item_code');
 
         AutoDeliveryService::TryOrderItemsAndInventories($order_item);
     }

@@ -39,7 +39,7 @@ class AutoDeliveryService
         $inventories = Inventory::SearchByItemCodeAndStatus($order_item)->get();
 
         if(count($inventories) == 0) {
-            throw new Exception("在庫無し");
+            throw new Exception("在庫全く無し");
         }
 
         $acceptable_range = \Config::get('const.Constant.acceptable_range');
@@ -65,7 +65,7 @@ class AutoDeliveryService
         }
 
         $lost_point = $inventory->order_code;
-        throw new Exception($lost_point);
+        throw new Exception('item_code [ '.$lost_point.' ]で不足');
         //　TODO 必要に応じ配列化し、複数のエラーを表示する可能性有り    
     }
 
@@ -207,7 +207,7 @@ class AutoDeliveryService
                   
             $mail_lists = array_merge($users_mail_lists, $transport_mail_lists);
 
-            $mail_text = '納入日'.$ship_date.'指示書の作成を中断しました。在庫が足りていない可能性があります。item_code[ '.$e->getMessage().' ]で不足';
+            $mail_text = '納入日'.$ship_date.'指示書の作成を中断しました。在庫が足りていない可能性があります。'.$e->getMessage();
             Mail::to($mail_lists)->send( new AutoDeliverySystemNotification($mail_text) );
             return DB::rollback();
         }
