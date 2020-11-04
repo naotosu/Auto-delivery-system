@@ -76,6 +76,14 @@ class AutoDeliveryServiceTest extends TestCase
         $factory_stock = \Config::get('const.Constant.factory_stock');
         $warehouse_stock = \Config::get('const.Constant.warehouse_stock');
 
+        /*　この方法だとエラー
+        $inventory = $inventories->where('item_code', $order_item->item_code)
+                    ->sortBy('charge_code')
+                    ->sortBy('order_code')
+                    ->sortBy('manufacturing_code')
+                    ->sortBy('bundle_number')
+                    ->last();*/
+
         $inventory = $inventories->where('item_code', $order_item->item_code)
                     ->sortByDesc('bundle_number')
                     ->sortByDesc('manufacturing_code')
@@ -88,9 +96,12 @@ class AutoDeliveryServiceTest extends TestCase
         AutoDeliveryService::TryOrderItemsAndInventories($order_item);
     }
 
+    public function testTryOrderItemsAndInventories()
+    {
         //注文が足りているパターン　TODO後から実装
+        $this->seed();
 
-        /*$ship_date = '2020-01-01';
+        $ship_date = '2020-01-03';
 
         $order_item = factory(OrderItem::class, 'test_order_mock_date_1')->make([
                                 'done_flag' => false,
@@ -101,7 +112,25 @@ class AutoDeliveryServiceTest extends TestCase
                         ->setMethods(['DeliveryExecute'])
                         ->getMock();
 
-        $order_item = AutoDeliveryService::TryOrderItemsAndInventories($order_item);
-        $this->assertSame($order_item->pluck('done_flag')->toArray(), true);
-    }*/
+        $order_items = AutoDeliveryService::TryOrderItemsAndInventories($order_item)->get();
+
+        $order_item = $order_items->where('ship_date', '2020-01-03');
+
+        $this->assertSame($order_item->pluck('done_flag')[0], 1);
+
+
+        $acceptable_range = \Config::get('const.acceptable_range');
+
+        $inventories = Inventory::all();
+
+        $order_weight = ($order_item->pluck('weight')[0] - $acceptable_range);
+
+        $inventory = $inventories->where('ship_date', '2020-01-03')
+                                ->where('item_code', $order_item->pluck('item_code')[0]);
+
+        $inventory_sum = $inventory->sum('weight');
+
+        $this->assertGreaterThanOrEqual($order_weight, $inventory_sum);
+
+    }
 }
