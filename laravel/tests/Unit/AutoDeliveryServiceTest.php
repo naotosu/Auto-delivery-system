@@ -76,20 +76,7 @@ class AutoDeliveryServiceTest extends TestCase
         $factory_stock = \Config::get('const.Constant.factory_stock');
         $warehouse_stock = \Config::get('const.Constant.warehouse_stock');
 
-        /*　この方法だとエラー
-        $inventory = $inventories->where('item_code', $order_item->item_code)
-                    ->sortBy('charge_code')
-                    ->sortBy('order_code')
-                    ->sortBy('manufacturing_code')
-                    ->sortBy('bundle_number')
-                    ->last();*/
-
-        $inventory = $inventories->where('item_code', $order_item->item_code)
-                    ->sortByDesc('bundle_number')
-                    ->sortByDesc('manufacturing_code')
-                    ->sortByDesc('order_code')
-                    ->sortByDesc('charge_code')
-                    ->first();
+        $inventory = Inventory::SearchByItemCodeAndStatus($order_item)->get()->last();
 
         $this->expectExceptionMessage('オーダーcode [ '.$inventory->order_code.' ]で不足');
 
@@ -108,18 +95,13 @@ class AutoDeliveryServiceTest extends TestCase
                                 'ship_date' => $ship_date
                                 ]);
 
-        $target = $this->getMockBuilder(AutoDeliveryService::class)
-                        ->setMethods(['DeliveryExecute'])
-                        ->getMock();
-
         $order_items = AutoDeliveryService::TryOrderItemsAndInventories($order_item)->get();
 
         $order_item = $order_items->where('ship_date', '2020-01-03');
 
         $this->assertSame($order_item->pluck('done_flag')[0], 1);
 
-
-        $acceptable_range = \Config::get('const.acceptable_range');
+        $acceptable_range = \Config::get('const.Constant.acceptable_range');
 
         $inventories = Inventory::all();
 
