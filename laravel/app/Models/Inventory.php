@@ -142,12 +142,12 @@ class Inventory extends Model
         return $query;
     }
 
-    public function scopeSearchByItemCodeAndStatus($query, $order)
+    public function scopeSearchByItemCodeAndStatus($query, $order_item)
     {
         $factory_stock = \Config::get('const.Constant.factory_stock');
         $warehouse_stock = \Config::get('const.Constant.warehouse_stock');
 
-        $query->where('inventories.item_code', $order->item_code)
+        $query->where('inventories.item_code', $order_item->item_code)
             ->where(function($query) use ($factory_stock, $warehouse_stock){
                         $query->where('inventories.status', $factory_stock)
                             ->orwhere('inventories.status', $warehouse_stock);
