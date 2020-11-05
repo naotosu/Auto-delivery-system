@@ -71,11 +71,6 @@ class AutoDeliveryServiceTest extends TestCase
 
         //　TODO 出来ればモックを使いたい
 
-        $inventories = Inventory::all();
-
-        $factory_stock = \Config::get('const.Constant.factory_stock');
-        $warehouse_stock = \Config::get('const.Constant.warehouse_stock');
-
         $inventory = Inventory::SearchByItemCodeAndStatus($order_item)->get()->last();
 
         $this->expectExceptionMessage('オーダーcode [ '.$inventory->order_code.' ]で不足');
