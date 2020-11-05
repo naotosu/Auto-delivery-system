@@ -14,7 +14,7 @@ class OrderItemsTableSeeder extends Seeder
         DB::table('order_items')->insert([[
             'order_id' => '3',
             'item_code' => 'BB111111363',
-            'ship_date' => '2020-10-15',
+            'ship_date' => '2020-11-1',
             'weight' => '4000',
             ],
             [
@@ -24,6 +24,6 @@ class OrderItemsTableSeeder extends Seeder
             'weight' => '120000',
             ]]);
 
-        factory('App\Models\OrderItem', 20)->create();
+        factory('App\Models\OrderItem', 40)->create();
     }
 }
