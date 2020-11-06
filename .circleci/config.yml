@@ -43,7 +43,6 @@ jobs:
             - node-v1-{{ checksum "package.json" }}
             - node-v1-
       - run: yarn install
-      - run: ./vendor/phpunit/phpunit/phpunit
       - save_cache:
           key: node-v1-{{ checksum "package.json" }}
           paths:
