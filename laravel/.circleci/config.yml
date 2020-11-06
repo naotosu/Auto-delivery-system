@@ -9,6 +9,8 @@ jobs:
       # Specify the version you desire here
       - image: circleci/php:7.1-node-browsers
 
+      - run: ./vendor/phpunit/phpunit/phpunit
+
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
@@ -43,7 +45,7 @@ jobs:
       #       - node-v1-{{ checksum "package.json" }}
       #       - node-v1-
       - run: yarn install
-      - run: ./vendor/phpunit/phpunit/phpunit
+      
       - save_cache:
           key: node-v1-{{ checksum "package.json" }}
           paths:
