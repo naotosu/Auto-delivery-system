@@ -8,6 +8,14 @@ jobs:
     docker:
       # Specify the version you desire here
       - image: circleci/php:7.3.21-node-browsers
+      - image: circleci/mysql:5.7
+        environment:
+          - MYSQL_DATABASE: default
+          - MYSQL_ROOT_PASSWORD: secret
+    environment:
+      - DB_CONNECTION: mysql
+      - DB_HOST: mysql
+      - DB_PORT: 3306
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -48,14 +56,6 @@ jobs:
             - node-v1-{{ checksum "./laravel/package.json" }}
             - node-v1-
       - run: yarn install
-
-      # environment:
-      #   - DB_CONNECTION: mysql
-      #   - DB_HOST: mysql
-      #   - DB_PORT: 3306
-      #   - DB_DATABASE: default
-      #   - DB_USERNAME: default
-        
       - run:
           working_directory: /home/circleci/project/laravel
           command: php artisan migrate:fresh --seed
