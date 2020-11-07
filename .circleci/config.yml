@@ -33,7 +33,7 @@ jobs:
             - v1-dependencies-
 
       - run:
-         command: /laravel/composer install -n --prefer-dist
+         command: /home/circleci/project/laravel/composer install -n --prefer-dist
 
       - save_cache:
           key: v1-dependencies-{{ checksum "./laravel/composer.json" }}
