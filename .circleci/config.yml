@@ -23,15 +23,6 @@ jobs:
   - DB_PORT: 3306
   - DB_DATABASE: default
   - DB_USERNAME: default
-  - MAIL_DRIVER: smtp
-  - MAIL_HOST: smtp.gmail.com
-  - MAIL_PORT: 587
-  - MAIL_USERNAME: auto.delivery.system2020@gmail.com
-  - MAIL_PASSWORD: xgvuudsjkgbrelkp
-  - MAIL_ENCRYPTION: tls
-  - MAIL_FROM_ADDRESS: auto.delivery.system2020@gmail.com
-  - MAIL_FROM_NAME: Auto_delivery_system_通知メッセージ
-  - GOOGLE_CALENDAR_ID: 4hq3cmekbrg4tdi2fejs50o960@group.calendar.google.com
 
     steps:
       - checkout
@@ -60,6 +51,9 @@ jobs:
             - node-v1-{{ checksum "./laravel/package.json" }}
             - node-v1-
       - run: yarn install
+      - run:
+          working_directory: /home/circleci/project/laravel
+          command: php artisan migrate:fresh --seed
       - run: 
           working_directory: /home/circleci/project/laravel
           command: vendor/phpunit/phpunit/phpunit
