@@ -17,6 +17,21 @@ jobs:
       # - image: circleci/mysql:5.7-ram
       #
       # - image: redis:2.8.19
+  environment:
+  - DB_CONNECTION: mysql
+  - DB_HOST: mysql
+  - DB_PORT: 3306
+  - DB_DATABASE: default
+  - DB_USERNAME: default
+  - MAIL_DRIVER: smtp
+  - MAIL_HOST: smtp.gmail.com
+  - MAIL_PORT: 587
+  - MAIL_USERNAME: auto.delivery.system2020@gmail.com
+  - MAIL_PASSWORD: xgvuudsjkgbrelkp
+  - MAIL_ENCRYPTION: tls
+  - MAIL_FROM_ADDRESS: auto.delivery.system2020@gmail.com
+  - MAIL_FROM_NAME: Auto_delivery_system_通知メッセージ
+  - GOOGLE_CALENDAR_ID: 4hq3cmekbrg4tdi2fejs50o960@group.calendar.google.com
 
     steps:
       - checkout
@@ -61,10 +76,3 @@ jobs:
       #- run: ./vendor/bin/phpunit
       - run: ./vendor/bin/codecept build
       - run: ./vendor/bin/codecept run
-
-environment:
-  - DB_CONNECTION: mysql
-  - DB_HOST: mysql
-  - DB_PORT: 3306
-  - DB_DATABASE: default
-  - DB_USERNAME: default
