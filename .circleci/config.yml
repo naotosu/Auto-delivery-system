@@ -17,18 +17,15 @@ jobs:
       # - image: circleci/mysql:5.7-ram
       #
       # - image: redis:2.8.19
-        environment:
-        - DB_CONNECTION: mysql
-        - DB_HOST: mysql
-        - DB_PORT: 3306
-        - DB_DATABASE: default
-        - DB_USERNAME: default
 
         steps:
           - checkout
 
       - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
       - run: sudo docker-php-ext-install zip
+      - run: sudo apt update
+      - run: sudo docker-php-ext-install zip pdo_mysql
+      - run: sudo composer self-update
 
       # Download and cache dependencies
       - restore_cache:
@@ -51,6 +48,14 @@ jobs:
             - node-v1-{{ checksum "./laravel/package.json" }}
             - node-v1-
       - run: yarn install
+
+      environment:
+        - DB_CONNECTION: mysql
+        - DB_HOST: mysql
+        - DB_PORT: 3306
+        - DB_DATABASE: default
+        - DB_USERNAME: default
+        
       - run:
           working_directory: /home/circleci/project/laravel
           command: php artisan migrate:fresh --seed
