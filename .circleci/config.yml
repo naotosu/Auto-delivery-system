@@ -33,10 +33,10 @@ jobs:
             - v1-dependencies-
 
       - run:
-         command: ./laravel/composer install -n --prefer-dist
+         command: /laravel/composer install -n --prefer-dist
 
       - save_cache:
-          key: v1-dependencies-{{ checksum "/laravel/composer.json" }}
+          key: v1-dependencies-{{ checksum "./laravel/composer.json" }}
           paths:
             - ./vendor
       - restore_cache:
