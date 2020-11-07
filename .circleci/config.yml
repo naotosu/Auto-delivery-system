@@ -45,6 +45,7 @@ jobs:
             - node-v1-{{ checksum "./laravel/package.json" }}
             - node-v1-
       - run: yarn install
+      - run: yum install --enablerepo=remi,remi-php70 php php-devel php-mbstring php-pdo php-gd
       - run: 
           working_directory: /home/circleci/project/laravel
           command: vendor/phpunit/phpunit/phpunit
