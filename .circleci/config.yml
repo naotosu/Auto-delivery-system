@@ -12,10 +12,6 @@ jobs:
         environment:
           - MYSQL_DATABASE: default
           - MYSQL_ROOT_PASSWORD: secret
-    environment:
-      - DB_CONNECTION: mysql
-      - DB_HOST: mysql
-      - DB_PORT: 3306
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
