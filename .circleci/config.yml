@@ -20,6 +20,8 @@ jobs:
         environment:
           - MYSQL_DATABASE: default
           - MYSQL_ALLOW_EMPTY_PASSWORD: true
+          - MYSQL_USER: root
+          - MYSQL_ROOT_PASSWORD: root
 
     steps:
       - checkout
