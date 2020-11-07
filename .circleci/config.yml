@@ -61,7 +61,10 @@ jobs:
       - run: yarn install
       - run:
           working_directory: /home/circleci/project/laravel
-          command: php artisan migrate:fresh --seed
+          command: php artisan migrate
+      - run:
+          working_directory: /home/circleci/project/laravel
+          command: php artisan db:seed
       - run: 
           working_directory: /home/circleci/project/laravel
           command: vendor/phpunit/phpunit/phpunit
