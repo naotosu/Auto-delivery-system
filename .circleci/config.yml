@@ -21,9 +21,9 @@ jobs:
       - image: circleci/mysql:8.0.21
         command: [--default-authentication-plugin=mysql_native_password]
         environment:
+          - MYSQL_ALLOW_EMPTY_PASSWORD: true
           - MYSQL_DATABASE: default
           - MYSQL_USER: root
-          - MYSQL_ROOT_PASSWORD: root
 
     steps:
       - checkout
@@ -33,6 +33,10 @@ jobs:
       - run: sudo apt update
       - run: sudo docker-php-ext-install zip pdo_mysql
       - run: sudo composer self-update
+
+      - run:
+          name: Wait for MySQL to be ready
+          command: dockerize -wait tcp://localhost:3306 -timeout 1m
 
       # Download and cache dependencies
       - restore_cache:
