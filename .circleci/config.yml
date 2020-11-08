@@ -21,9 +21,9 @@ jobs:
       - image: circleci/mysql:8.0.21
         command: [--default-authentication-plugin=mysql_native_password]
         environment:
-          - MYSQL_ALLOW_EMPTY_PASSWORD: true
           - MYSQL_DATABASE: default
           - MYSQL_USER: root
+          - MYSQL_ROOT_PASSWORD: root
 
     steps:
       - checkout
