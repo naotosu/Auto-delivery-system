@@ -9,7 +9,7 @@ jobs:
       # Specify the version you desire here
       - image: circleci/php:7.3.21-node-browsers
         environment:
-          - APP_DEBUG: true
+          - APP_DEBUG: false
           - APP_ENV: testing
           - DB_HOST: 127.0.0.1
           - DB_CONNECTION: mysql
