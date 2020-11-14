@@ -67,8 +67,8 @@ class AutoDeliveryCommand extends Command
             $ship_date = $ship_date->toDateString();
             // heroku用終了
 
-        //ローカル用
-        } elseif ($app_env == 'local') {
+        //ローカル用　aws用
+        } elseif ($app_env == 'local' || $app_env == 'production') {
             $ship_date = $this->argument("ship_date");
         }
         
