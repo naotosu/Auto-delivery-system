@@ -16,7 +16,7 @@ class GoogleSheet
                 $credentials_path = env('GOOGLE_APPLICATION_CREDENTIALS');
 
             //ローカル用 or aws用
-            } elseif ($app_env == 'local' || $app_env == 'aws') {
+            } elseif ($app_env == 'local' || $app_env == 'production') {
                 $credentials_path = storage_path('app/json/credentials.json');
 
             $client = new \Google_Client();
